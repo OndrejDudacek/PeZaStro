@@ -1,4 +1,4 @@
-import Source from "../sourceTemplate";
+import Source from "../../utils/sourceTemplate";
 
 class Contract extends Source {
 	totalCost: number;

@@ -1,4 +1,4 @@
-import Source from "../sourceTemplate";
+import Source from "../../utils/sourceTemplate";
 
 class Customer extends Source {
 	name: string;

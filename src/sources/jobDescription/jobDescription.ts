@@ -1,4 +1,4 @@
-import Source from "../sourceTemplate";
+import Source from "../../utils/sourceTemplate";
 
 enum Period {
 	month,
