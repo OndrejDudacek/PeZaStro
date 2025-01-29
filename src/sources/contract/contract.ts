@@ -1,7 +1,5 @@
 import Source from "../../utils/sourceTemplate";
 
-interface ContractData extends Omit<Contract, keyof Source> {}
-
 class Contract extends Source {
 	totalCost: number;
 	dateOfSigning: string;
@@ -32,7 +30,7 @@ class Contract extends Source {
 		};
 	}
 
-	update(data: Partial<ContractData>) {
+	update(data: Partial<Omit<Contract, keyof Source>>) {
 		if (data.totalCost !== undefined) this.totalCost = data.totalCost;
 		if (data.dateOfSigning !== undefined)
 			this.dateOfSigning = data.dateOfSigning;

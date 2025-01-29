@@ -1,7 +1,5 @@
 import Source from "../../utils/sourceTemplate";
 
-interface UserData extends Omit<User, keyof Source> {}
-
 class User extends Source {
 	username: string;
 	password: string;
@@ -22,7 +20,7 @@ class User extends Source {
 		};
 	}
 
-	update(data: Partial<UserData>) {
+	update(data: Partial<Omit<User, keyof Source>>) {
 		if (data.username !== undefined) this.username = data.username;
 		if (data.password !== undefined) this.password = data.password;
 	}

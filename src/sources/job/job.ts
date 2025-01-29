@@ -1,7 +1,5 @@
 import Source from "../../utils/sourceTemplate";
 
-interface JobData extends Omit<Job, keyof Source> {}
-
 class Job extends Source {
 	date: string;
 	note: string;
@@ -25,7 +23,7 @@ class Job extends Source {
 		};
 	}
 
-	update(data: Partial<JobData>) {
+	update(data: Partial<Omit<Job, keyof Source>>) {
 		if (data.date !== undefined) this.date = data.date;
 		if (data.note !== undefined) this.note = data.note;
 		if (data.contractId !== undefined) this.contractId = data.contractId;

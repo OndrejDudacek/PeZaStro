@@ -26,7 +26,7 @@ class Customer extends Source {
 		};
 	}
 
-	update(data: Partial<CustomerData>) {
+	update(data: Partial<Omit<Customer, keyof Source>>) {
 		if (data.name !== undefined) this.name = data.name;
 		if (data.note !== undefined) this.note = data.note;
 	}

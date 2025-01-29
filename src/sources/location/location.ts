@@ -1,7 +1,5 @@
 import Source from "../../utils/sourceTemplate";
 
-interface LocaionData extends Omit<Location, keyof Source> {}
-
 interface Address {
 	streetAndNumber: string;
 	city: string;
@@ -30,7 +28,7 @@ class Location extends Source {
 		};
 	}
 
-	update(data: Partial<LocaionData>) {
+	update(data: Partial<Omit<Location, keyof Source>>) {
 		if (data.address !== undefined) this.address = data.address;
 		if (data.customerId !== undefined) this.customerId = data.customerId;
 		if (data.note !== undefined) this.note = data.note;

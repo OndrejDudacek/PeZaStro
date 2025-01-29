@@ -1,7 +1,5 @@
 import Source from "../../utils/sourceTemplate";
 
-interface ContactData extends Omit<Contact, keyof Source> {}
-
 class Contact extends Source {
 	name: string;
 	phone: number;
@@ -32,7 +30,7 @@ class Contact extends Source {
 		};
 	}
 
-	update(data: Partial<ContactData>) {
+	update(data: Partial<Omit<Contact, keyof Source>>) {
 		if (data.name !== undefined) this.name = data.name;
 		if (data.phone !== undefined) this.phone = data.phone;
 		if (data.email !== undefined) this.email = data.email;

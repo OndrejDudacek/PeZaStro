@@ -1,7 +1,5 @@
 import Source from "../../utils/sourceTemplate";
 
-interface JobDescriptionData extends Omit<JobDescription, keyof Source> {}
-
 enum Period {
 	month,
 	year,
@@ -42,7 +40,7 @@ class JobDescription extends Source {
 		};
 	}
 
-	update(data: Partial<JobDescriptionData>) {
+	update(data: Partial<Omit<JobDescription, keyof Source>>) {
 		if (data.name !== undefined) this.name = data.name;
 		if (data.contractId !== undefined) this.contractId = data.contractId;
 		if (data.cost !== undefined) this.cost = data.cost;
