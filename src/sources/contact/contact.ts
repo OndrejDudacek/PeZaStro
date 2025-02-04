@@ -1,4 +1,5 @@
 import Source from "../../utils/sourceTemplate";
+import { contacts } from "../../utils/db";
 
 class Contact extends Source {
 	name: string;
@@ -13,10 +14,13 @@ class Contact extends Source {
 		customerId: string
 	) {
 		super();
+
 		this.name = name;
 		this.phone = phone;
 		this.email = email;
 		this.customerId = customerId;
+
+		contacts.push(this);
 	}
 
 	read() {
@@ -35,6 +39,10 @@ class Contact extends Source {
 		if (data.phone !== undefined) this.phone = data.phone;
 		if (data.email !== undefined) this.email = data.email;
 		if (data.customerId !== undefined) this.customerId = data.customerId;
+	}
+
+	delete() {
+		contacts.splice(contacts.indexOf(this), 1);
 	}
 }
 

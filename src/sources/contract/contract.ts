@@ -1,4 +1,5 @@
 import Source from "../../utils/sourceTemplate";
+import { contracts } from "../../utils/db";
 
 class Contract extends Source {
 	totalCost: number;
@@ -13,10 +14,13 @@ class Contract extends Source {
 		note: string | null
 	) {
 		super();
+
 		this.totalCost = totalCost;
 		this.dateOfSigning = dateOfSigning;
 		this.locationId = locationId;
 		this.note = note;
+
+		contracts.push(this);
 	}
 
 	read() {
@@ -36,6 +40,10 @@ class Contract extends Source {
 			this.dateOfSigning = data.dateOfSigning;
 		if (data.locationId !== undefined) this.locationId = data.locationId;
 		if (data.note !== undefined) this.note = data.note;
+	}
+
+	delete() {
+		contracts.splice(contracts.indexOf(this), 1);
 	}
 }
 

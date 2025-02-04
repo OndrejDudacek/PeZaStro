@@ -1,4 +1,5 @@
 import Source from "../../utils/sourceTemplate";
+import { locations } from "../../utils/db";
 
 interface Address {
 	streetAndNumber: string;
@@ -32,6 +33,10 @@ class Location extends Source {
 		if (data.address !== undefined) this.address = data.address;
 		if (data.customerId !== undefined) this.customerId = data.customerId;
 		if (data.note !== undefined) this.note = data.note;
+	}
+
+	delete() {
+		locations.splice(locations.indexOf(this), 1);
 	}
 }
 

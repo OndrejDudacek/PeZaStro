@@ -1,4 +1,5 @@
 import Source from "../../utils/sourceTemplate";
+import { jobDescriptions } from "../../utils/db";
 
 enum Period {
 	month,
@@ -26,6 +27,8 @@ class JobDescription extends Source {
 		this.cost = cost;
 		this.frequency = frequency;
 		this.period = period;
+
+		jobDescriptions.push(this);
 	}
 
 	read() {
@@ -46,6 +49,10 @@ class JobDescription extends Source {
 		if (data.cost !== undefined) this.cost = data.cost;
 		if (data.frequency !== undefined) this.frequency = data.frequency;
 		if (data.period !== undefined) this.period = data.period;
+	}
+
+	delete() {
+		jobDescriptions.splice(jobDescriptions.indexOf(this), 1);
 	}
 }
 

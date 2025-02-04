@@ -1,4 +1,5 @@
 import Source from "../../utils/sourceTemplate";
+import { customers } from "../../utils/db";
 
 interface CustomerData extends Omit<Customer, keyof Source> {}
 
@@ -8,8 +9,11 @@ class Customer extends Source {
 
 	constructor(name: string, note: string | null) {
 		super();
+
 		this.name = name;
 		this.note = note;
+
+		customers.push(this);
 	}
 
 	read(): {
@@ -29,6 +33,10 @@ class Customer extends Source {
 	update(data: Partial<Omit<Customer, keyof Source>>) {
 		if (data.name !== undefined) this.name = data.name;
 		if (data.note !== undefined) this.note = data.note;
+	}
+
+	delete() {
+		customers.splice(customers.indexOf(this), 1);
 	}
 }
 

@@ -1,4 +1,5 @@
 import Source from "../../utils/sourceTemplate";
+import { jobs } from "../../utils/db";
 
 class Job extends Source {
 	date: string;
@@ -11,6 +12,8 @@ class Job extends Source {
 		this.date = date;
 		this.note = note;
 		this.contractId = contractId;
+
+		jobs.push(this);
 	}
 
 	read() {
@@ -27,6 +30,10 @@ class Job extends Source {
 		if (data.date !== undefined) this.date = data.date;
 		if (data.note !== undefined) this.note = data.note;
 		if (data.contractId !== undefined) this.contractId = data.contractId;
+	}
+
+	delete() {
+		jobs.splice(jobs.indexOf(this), 1);
 	}
 }
 

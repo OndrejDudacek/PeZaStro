@@ -1,4 +1,5 @@
 import Source from "../../utils/sourceTemplate";
+import { users } from "../../utils/db";
 
 class User extends Source {
 	username: string;
@@ -9,6 +10,8 @@ class User extends Source {
 
 		this.username = username;
 		this.password = password;
+
+		users.push(this);
 	}
 
 	read() {
@@ -23,6 +26,10 @@ class User extends Source {
 	update(data: Partial<Omit<User, keyof Source>>) {
 		if (data.username !== undefined) this.username = data.username;
 		if (data.password !== undefined) this.password = data.password;
+	}
+
+	delete() {
+		users.splice(users.indexOf(this), 1);
 	}
 }
 
