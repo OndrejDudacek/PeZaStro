@@ -1,215 +1,385 @@
-openapi: 3.1.0
 info:
-  title: Api-fiddle Bookstore Example
+  title: Pezastro API
   version: 1.0.0
-  description: A basic example API for managing a bookstore's book collection.
-paths:
-  /books:
-    get:
-      tags:
-      - books
-      summary: Get book list
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/BookSummary'
-                title: GetBookListOk
-          description: A JSON array containing book objects.
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '500':
-          $ref: '#/components/responses/InternalServerErrror'
-      parameters:
-      - $ref: '#/components/parameters/title'
-      - $ref: '#/components/parameters/author_id'
-      description: |
-        Fetches a comprehensive list of all books available in the bookstore. Each book object includes essential details such as the book's ID, name, and publication date.
-
-        This endpoint is paginated using the 'page' syntax.
-      operationId: getBookList
-    post:
-      tags:
-      - books
-      summary: Create book
-      responses:
-        '201':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Book'
-          description: The request was successful, and a new resource was created. The URI of the newly created resource can be found in the response's Location header.
-        '400':
-          $ref: '#/components/responses/BadRequest'
-      parameters: []
-      description: |
-        Creates a new book entry in the bookstore. The request must include the book's name and can optionally include the publication date.
-      operationId: createBook
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/BookCreate'
-        required: true
-        description: Details of the book to be created.
-  /books/{book_id}:
-    get:
-      tags:
-      - books
-      summary: Get book
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Book'
-          description: A JSON object containing the book details.
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/InternalServerErrror'
-      parameters:
-      - $ref: '#/components/parameters/book_id'
-      description: |
-        Fetches details of a specific book by its unique identifier. The response includes the book's name and publication date.
-      operationId: getBook
-    delete:
-      tags:
-      - books
-      summary: Delete book
-      responses:
-        '204':
-          content:
-            application/json:
-              schema:
-                type: 'null'
-                title: DeleteBookNoContent
-          description: The request was successful, but there is no content to return in the response.
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '409':
-          $ref: '#/components/responses/Conflict'
-        '500':
-          $ref: '#/components/responses/InternalServerErrror'
-      parameters:
-      - $ref: '#/components/parameters/book_id'
-      description: |
-        Deletes a specific book from the bookstore using its unique identifier. The operation confirms successful deletion.
-      operationId: deleteBook
+  description:
+    API for Pezastro company. Pezastro is a company that provides services
+    for gardening and tree care.
+tags: []
+paths: {}
+openapi: 3.1.0
 components:
   schemas:
-    Book:
+    Customer:
       type: object
       required:
-      - id
-      - title
-      - fullText
-      - author
+        - name
+        - id
       properties:
-        id:
-          type: integer
-          examples:
-          - 12
-          - 14
-        title:
-          type: string
-          examples:
-          - Pride and Prejudice
-          - Moby-Dick
-        author:
-          $ref: '#/components/schemas/Author'
-        fullText:
-          type: string
-          examples:
-          - Lorem ipsum
-    Author:
-      type: object
-      required:
-      - id
-      - name
-      - address
-      - city
-      - numberOfBooksPublished
-      properties:
-        id:
-          type: integer
-          examples:
-          - 1
-          - 2
-          - 3
-        city:
-          type: string
-          examples:
-          - New York
-          - Boston
         name:
           type: string
           examples:
-          - J.K. Rowling
-          - Henry Miller
-        address:
+            - Pepa Vokurka
+        note:
           type: string
           examples:
-          - Lorem ipsum
-        numberOfBooksPublished:
+            - A nice fella
+        id:
           type: string
           examples:
-          - '1'
-          - '3'
-          - '10'
-      description: Creator of books.
-    BookCreate:
+            - sd23mkm23kkmm4
+      description: Customer with name and node
+    Contact:
       type: object
       required:
-      - fullText
-      - authorId
-      - title
-      properties:
-        title:
-          type: string
-          examples:
-          - Lorem ipsum
-        authorId:
-          type: integer
-          examples:
-          - 1
-          - 2
-          - 3
-        fullText:
-          type: string
-          examples:
-          - Lorem ipsum
-      description: Data transfer object for creating a new Book.
-      x-fiddle-dto-info:
-        baseSchemaName: Book
-    BookSummary:
-      type: object
-      required:
-      - id
-      - author
-      - title
+        - id
+        - name
+        - customerId
       properties:
         id:
-          type: number
-          examples:
-          - 1
-          - 2
-          - 3
-        title:
           type: string
           examples:
-          - Lorem ipsum
-        author:
-          $ref: '#/components/schemas/Author'
+            - sd23mkm23kkmm4
+        name:
+          type: string
+          examples:
+            - J.K. Rowling
+            - Henry Miller
+        phone:
+          type: integer
+        examples:
+          - 78232399
+        email:
+          type: string
+        customerId:
+          type: string
+      description: Contact options for a customer.
+    Location:
+      type: object
+      properties:
+        id:
+          type: string
+        address:
+          type: object
+          properties:
+            streetAndNumber:
+              type: string
+            city:
+              type: string
+          required:
+            - streetAndNumber
+            - city
+        note:
+          type: string
+        customerId:
+          type: string
+      required:
+        - id
+        - address
+        - customerId
+      description: Location owned/managed by the owner. Place, where the work is done.
+    LocationPartialUpdate:
+      type: object
+      properties:
+        address:
+          type: object
+          properties:
+            streetAndNumber:
+              type: string
+            city:
+              type: string
+          required: []
+        note:
+          type: string
+        customerId:
+          type: string
+      required: []
+      description:
+        Data transfer object for partially updating an existing Location
+        (PATCH operation).
       x-fiddle-dto-info:
-        baseSchemaName: Book
+        baseSchemaName: Location
+    LocationCreate:
+      type: object
+      properties:
+        address:
+          type: object
+          properties:
+            streetAndNumber:
+              type: string
+            city:
+              type: string
+          required:
+            - streetAndNumber
+            - city
+        note:
+          type: string
+        customerId:
+          type: string
+      required:
+        - address
+        - customerId
+      description: Data transfer object for creating a new Location.
+      x-fiddle-dto-info:
+        baseSchemaName: Location
+    ContactPartialUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        phone:
+          type: integer
+        email:
+          type: string
+        customerId:
+          type: string
+      required: []
+      description:
+        Data transfer object for partially updating an existing Contact
+        (PATCH operation).
+      x-fiddle-dto-info:
+        baseSchemaName: Contact
+    ContactCreate:
+      type: object
+      properties:
+        name:
+          type: string
+        phone:
+          type: integer
+        email:
+          type: string
+        customerId:
+          type: string
+      required:
+        - name
+        - customerId
+      description: Data transfer object for creating a new Contact.
+      x-fiddle-dto-info:
+        baseSchemaName: Contact
+    CustomerCreate:
+      type: object
+      properties:
+        name:
+          type: string
+        note:
+          type: string
+      required:
+        - name
+      description: Data transfer object for creating a new Customer.
+      x-fiddle-dto-info:
+        baseSchemaName: Customer
+    CustomerPartialUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        note:
+          type: string
+      required: []
+      description:
+        Data transfer object for partially updating an existing Customer
+        (PATCH operation).
+      x-fiddle-dto-info:
+        baseSchemaName: Customer
+    Contract:
+      type: object
+      properties:
+        id:
+          type: string
+        totalCost:
+          type: integer
+        dateOfSigning:
+          type: string
+        note:
+          type: string
+        locationId:
+          type: string
+      required:
+        - id
+        - totalCost
+        - locationId
+      description: Contract on a specific location.
+    ContractCreate:
+      type: object
+      properties:
+        totalCost:
+          type: integer
+        dateOfSigning:
+          type: string
+        note:
+          type: string
+        locationId:
+          type: string
+      required:
+        - totalCost
+        - locationId
+      description: Data transfer object for creating a new Contract.
+      x-fiddle-dto-info:
+        baseSchemaName: Contract
+    ContractPartialUpdate:
+      type: object
+      properties:
+        totalCost:
+          type: integer
+        dateOfSigning:
+          type: string
+        note:
+          type: string
+        locationId:
+          type: string
+      required: []
+      description:
+        Data transfer object for partially updating an existing Contract
+        (PATCH operation).
+      x-fiddle-dto-info:
+        baseSchemaName: Contract
+    JobDescription:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        cost:
+          type: string
+        frequency:
+          type: integer
+        period:
+          type: string
+          enum:
+            - month
+            - year
+        contractId:
+          type: string
+      required:
+        - id
+        - name
+        - contractId
+      description: Describes, what needs to be done. Part of the contract.
+    JobDescriptionCreate:
+      type: object
+      properties:
+        name:
+          type: string
+        cost:
+          type: string
+        frequency:
+          type: integer
+        period:
+          type: string
+        contractId:
+          type: string
+      required:
+        - name
+        - contractId
+      description: Data transfer object for creating a new JobDescription.
+      x-fiddle-dto-info:
+        baseSchemaName: JobDescription
+    JobDescriptionPartialUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        cost:
+          type: string
+        frequency:
+          type: integer
+        period:
+          type: string
+        contractId:
+          type: string
+      required: []
+      description: Data transfer object for partially updating an existing
+        JobDescription (PATCH operation).
+      x-fiddle-dto-info:
+        baseSchemaName: JobDescription
+    Job:
+      type: object
+      properties:
+        id:
+          type: string
+        date:
+          type: string
+        note:
+          type: string
+        contratctId:
+          type: string
+      required:
+        - id
+        - date
+        - note
+        - contratctId
+      description: Every job done.
+    JobCreate:
+      type: object
+      properties:
+        date:
+          type: string
+        note:
+          type: string
+        contratctId:
+          type: string
+      required:
+        - date
+        - note
+        - contratctId
+      description: Data transfer object for creating a new Job.
+      x-fiddle-dto-info:
+        baseSchemaName: Job
+    JobPartialUpdate:
+      type: object
+      properties:
+        date:
+          type: string
+        note:
+          type: string
+        contratctId:
+          type: string
+      required: []
+      description:
+        Data transfer object for partially updating an existing Job (PATCH
+        operation).
+      x-fiddle-dto-info:
+        baseSchemaName: Job
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        password:
+          type: string
+      required:
+        - id
+        - username
+        - password
+      description: ""
+    UserCreate:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+      required:
+        - username
+        - password
+      description: Data transfer object for creating a new User.
+      x-fiddle-dto-info:
+        baseSchemaName: User
+    UserPartialUpdate:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+      required: []
+      description:
+        Data transfer object for partially updating an existing User (PATCH
+        operation).
+      x-fiddle-dto-info:
+        baseSchemaName: User
   responses:
     Conflict:
       content:
@@ -217,93 +387,58 @@ components:
           schema:
             type: object
             required:
-            - message
+              - message
             properties:
               message:
                 type: string
                 examples:
-                - Lorem ipsum
-      description: The request could not be completed due to a conflict with the current state of the resource. Resolve the conflict and try again.
+                  - Lorem ipsum
+      description: The request could not be completed due to a conflict with the
+        current state of the resource. Resolve the conflict and try again.
     NotFound:
       content:
         application/json:
           schema:
             type: object
             required:
-            - message
+              - message
             properties:
               message:
                 type: string
                 examples:
-                - Lorem ipsum
-      description: The server cannot find the requested resource. The endpoint may be invalid or the resource may no longer exist.
+                  - Lorem ipsum
+      description:
+        The server cannot find the requested resource. The endpoint may be
+        invalid or the resource may no longer exist.
     BadRequest:
       content:
         application/json:
           schema:
             type: object
             required:
-            - message
+              - message
             properties:
               message:
                 type: string
                 examples:
-                - Lorem ipsum
-      description: The server could not understand the request due to invalid syntax. The client should modify the request and try again.
+                  - Lorem ipsum
+      description:
+        The server could not understand the request due to invalid syntax.
+        The client should modify the request and try again.
     InternalServerErrror:
       content:
         application/json:
           schema:
             type: object
             required:
-            - message
+              - message
             properties:
               message:
                 type: string
                 examples:
-                - Lorem ipsum
-      description: The server encountered an unexpected condition that prevented it from fulfilling the request. Report the issue to the support team if it persists.
-  parameters:
-    title:
-      in: query
-      name: title
-      style: form
-      schema:
-        type: string
-        examples:
-        - Pride and Prejudice
-        - Moby-Dick
-      explode: false
-      required: false
-      description: Filter the list of books according to the title.
-    book_id:
-      in: path
-      name: book_id
-      style: simple
-      schema:
-        type: integer
-        examples:
-        - 1
-        - 2
-        - 3
-      explode: false
-      description: Path parameter to retrieve books by.
-      allowReserved: false
-      allowEmptyValue: true
-    author_id:
-      in: query
-      name: author_id
-      style: form
-      schema:
-        type: integer
-        examples:
-        - 1
-        - 2
-        - 23
-      explode: false
-      description: Filter the list of books accodring to the `author_id`.
-      allowReserved: false
-      allowEmptyValue: false
-tags:
-- name: books
-  description: Endpoints dealing with book entities.
+                  - Lorem ipsum
+      description:
+        The server encountered an unexpected condition that prevented it
+        from fulfilling the request. Report the issue to the support team if it
+        persists.
+  parameters: {}
