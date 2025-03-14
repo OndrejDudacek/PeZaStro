@@ -3,22 +3,22 @@ import { contacts } from "../../utils/db";
 
 class Contact extends Source {
 	name: string;
-	phone: number;
-	email: string;
 	customerId: string;
+	phone?: number;
+	email?: string;
 
 	constructor(
 		name: string,
-		phone: number,
-		email: string,
-		customerId: string
+		customerId: string,
+		phone?: number,
+		email?: string
 	) {
 		super();
 
 		this.name = name;
+		this.customerId = customerId;
 		this.phone = phone;
 		this.email = email;
-		this.customerId = customerId;
 
 		contacts.push(this);
 	}
