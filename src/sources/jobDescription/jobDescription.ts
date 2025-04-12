@@ -1,24 +1,24 @@
 import Source from "../../utils/sourceTemplate";
 import { jobDescriptions } from "../../utils/db";
 
-enum Period {
-	month,
-	year,
+enum Frequency {
+	month = "month",
+	year = "year",
 }
 
 class JobDescription extends Source {
 	name: string;
 	contractId: string;
-	cost: number | null;
-	frequency: number | null;
-	period: Period | null;
+	cost?: number;
+	frequency?: Frequency;
+	period?: number;
 
 	constructor(
 		name: string,
 		contractId: string,
-		cost: number | null,
-		frequency: number | null,
-		period: Period | null
+		cost?: number,
+		frequency?: Frequency,
+		period?: number
 	) {
 		super();
 

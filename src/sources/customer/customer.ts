@@ -5,9 +5,9 @@ interface CustomerData extends Omit<Customer, keyof Source> {}
 
 class Customer extends Source {
 	name: string;
-	note: string | null;
+	note?: string;
 
-	constructor(name: string, note: string | null) {
+	constructor(name: string, note?: string) {
 		super();
 
 		this.name = name;
@@ -16,12 +16,7 @@ class Customer extends Source {
 		customers.push(this);
 	}
 
-	read(): {
-		id: string;
-		createdAt: string;
-		name: string;
-		note: string | null;
-	} {
+	read() {
 		return {
 			id: this.id,
 			createdAt: this.createdAt,

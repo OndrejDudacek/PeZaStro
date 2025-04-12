@@ -7,7 +7,7 @@ class Source {
 	constructor() {
 		this.id = uuidv4();
 		const date = new Date();
-		this.createdAt = date.toUTCString();
+		this.createdAt = date.toISOString();
 	}
 }
 

@@ -2,16 +2,18 @@ import Source from "../../utils/sourceTemplate";
 import { locations } from "../../utils/db";
 
 interface Address {
-	streetAndNumber: string;
+	street: string;
+	houseNumber: number;
+	postalCode: string;
 	city: string;
 }
 
 class Location extends Source {
 	address: Address;
 	customerId: string;
-	note: string | null;
+	note?: string;
 
-	constructor(address: Address, customerId: string, note: string | null) {
+	constructor(address: Address, customerId: string, note?: string) {
 		super();
 
 		this.address = address;

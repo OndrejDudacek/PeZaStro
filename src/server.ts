@@ -1,5 +1,6 @@
 import express, { json } from "express";
 import cors from "cors";
+import errorHandler from "./middlewares/errorHandler";
 import contactRouter from "./sources/contact/contactRouter";
 import contractRouter from "./sources/contract/contractRouter";
 import customerRouter from "./sources/customer/customerRouter";
@@ -21,6 +22,8 @@ app.use(apiPath + "customer", customerRouter);
 app.use(apiPath + "job", jobRouter);
 app.use(apiPath + "jobDescription", jobDescriptionRouter);
 app.use(apiPath + "location", locationRouter);
+
+app.use(errorHandler);
 
 app.listen(PORT, () => {
 	console.log(`Server is running on http://localhost:${PORT}`);
