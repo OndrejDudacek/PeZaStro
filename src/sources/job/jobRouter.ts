@@ -1,6 +1,6 @@
 import express from "express";
 import Job from "./job";
-import { jobs } from "../../utils/db";
+import { jobs } from "../../utils/inMemoryDB";
 
 const jobRouter: express.Router = express.Router();
 

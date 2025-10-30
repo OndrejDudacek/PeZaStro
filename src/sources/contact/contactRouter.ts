@@ -1,6 +1,6 @@
 import express, { NextFunction } from "express";
 import Contact from "./contact";
-import { contacts } from "../../utils/db";
+import { contacts } from "../../utils/inMemoryDB";
 import { BadRequestError, NotFoundError } from "../../utils/errors";
 import { UpdateContactSchema, CreateContactSchema } from "./contactSchemas";
 import findById from "../../middlewares/findById";

@@ -1,5 +1,5 @@
 import Source from "../../utils/sourceTemplate";
-import { jobDescriptions } from "../../utils/db";
+import { jobDescriptions } from "../../utils/inMemoryDB";
 
 enum Frequency {
 	month = "month",

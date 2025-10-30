@@ -1,7 +1,5 @@
 import Source from "../../utils/sourceTemplate";
-import { customers } from "../../utils/db";
-
-interface CustomerData extends Omit<Customer, keyof Source> {}
+import { customers } from "../../utils/inMemoryDB";
 
 class Customer extends Source {
 	name: string;

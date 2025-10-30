@@ -3,7 +3,7 @@ import Contract from "./contract";
 import { BadRequestError, NotFoundError } from "../../utils/errors";
 import { UpdateContractSchema, CreateContractSchema } from "./contractSchemas";
 import findById from "../../middlewares/findById";
-import { contracts } from "../../utils/db";
+import { contracts } from "../../utils/inMemoryDB";
 
 const contractRouter: express.Router = express.Router();
 

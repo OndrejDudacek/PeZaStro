@@ -1,5 +1,5 @@
 import Source from "../../utils/sourceTemplate";
-import { contracts } from "../../utils/db";
+import { contracts } from "../../utils/inMemoryDB";
 
 class Contract extends Source {
 	totalCost: number;

@@ -1,5 +1,5 @@
 import Source from "../../utils/sourceTemplate";
-import { locations } from "../../utils/db";
+import { locations } from "../../utils/inMemoryDB";
 
 interface Address {
 	street: string;
