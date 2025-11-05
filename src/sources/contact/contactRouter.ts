@@ -1,80 +1,87 @@
 import express, { NextFunction } from "express";
-import Contact from "./contact";
-import { contacts } from "../../utils/inMemoryDB";
-import { BadRequestError, NotFoundError } from "../../utils/errors";
+import { BadRequestError, NotFoundError } from "../../customErrors";
 import { UpdateContactSchema, CreateContactSchema } from "./contactSchemas";
-import findById from "../../middlewares/findById";
+import { idSchema } from "../../utils/idSchema";
+import { container } from "../../db/diDbContainer";
+import { ContactService } from "./contactService";
 
 const contactRouter: express.Router = express.Router();
 
+const service = new ContactService(container.contactRepository);
+
 contactRouter.get(
 	"/",
-	(req: express.Request, res: express.Response, next: NextFunction) => {
-		res.json(contacts);
-	}
+	async (req: express.Request, res: express.Response, next: NextFunction) => {
+		const all = await service.getAll();
+		res.json(all);
+	},
 );
 
 contactRouter.get(
 	"/:id",
-	(req: express.Request, res: express.Response, next: NextFunction) => {
-		const contact = findById(contacts, req.params.id);
-		if ("error" in contact) {
-			next(new NotFoundError(contact.error));
+	async (req: express.Request, res: express.Response, next: NextFunction) => {
+		const { error: idError } = idSchema.validate(req.params.id);
+		if (idError) {
+			next(new BadRequestError(idError.message));
 			return;
 		}
+
+		const contact = await service.getById(req.params.id);
+		if (contact === null) {
+			next(new NotFoundError("Contact not found"));
+			return;
+		}
+
 		res.json(contact);
-	}
+	},
 );
 
 contactRouter.post(
 	"/",
-	(req: express.Request, res: express.Response, next: NextFunction) => {
-		const { error } = CreateContactSchema.validate(req.body);
-		if (error) {
-			next(new BadRequestError(error.message));
-			return;
-		}
-		const contact = new Contact(
-			req.body.name,
-			req.body.customerId,
-			req.body.phone,
-			req.body.email
-		);
+	async (req: express.Request, res: express.Response, next: NextFunction) => {
+		const contact = await service.create(req.body);
 		res.json(contact);
-	}
+	},
 );
 
 contactRouter.patch(
 	"/:id",
-	(req: express.Request, res: express.Response, next: NextFunction) => {
-		const contact = findById(contacts, req.params.id);
-		if ("error" in contact) {
-			next(new NotFoundError(contact.error));
+	async (req: express.Request, res: express.Response, next: NextFunction) => {
+		const { error: idError } = idSchema.validate(req.params.id);
+		if (idError) {
+			next(new BadRequestError(idError.message));
 			return;
 		}
 
-		const { error } = UpdateContactSchema.validate(req.body);
-		if (error) {
-			next(new BadRequestError(error.message));
+		const { error: updateContactError } = UpdateContactSchema.validate(req.body);
+		if (updateContactError) {
+			next(new BadRequestError(updateContactError.message));
 			return;
 		}
 
-		contact.update(req.body);
+		const contact = await service.update(req.params.id, req.body);
 		res.json(contact);
-	}
+	},
 );
 
 contactRouter.delete(
 	"/:id",
-	(req: express.Request, res: express.Response, next: NextFunction) => {
-		const contact = contacts.find((contact) => contact.id === req.params.id);
-		if (!contact) {
+	async (req: express.Request, res: express.Response, next: NextFunction) => {
+		const { error: idError } = idSchema.validate(req.params.id);
+		if (idError) {
+			next(new BadRequestError(idError.message));
+			return;
+		}
+
+		const deleted = await service.delete(req.params.id);
+
+		if (!deleted) {
 			next(new NotFoundError("Contact not found"));
 			return;
 		}
-		contact.delete();
+
 		res.json({ message: "Contact deleted" });
-	}
+	},
 );
 
 export default contactRouter;

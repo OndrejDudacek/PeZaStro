@@ -1,4 +1,4 @@
-import Contact from "../sources/contact/contact";
+import { Contact } from "../sources/contact/contactEntity";
 export const contacts: Contact[] = [];
 
 import Contract from "../sources/contract/contract";
