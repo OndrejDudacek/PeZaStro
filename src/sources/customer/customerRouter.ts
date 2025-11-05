@@ -1,6 +1,6 @@
 import express from "express";
 import Customer from "./customer";
-import { customers } from "../../utils/inMemoryDB";
+import { customers } from "../../db/inMemoryDB";
 
 const customerRouter: express.Router = express.Router();
 

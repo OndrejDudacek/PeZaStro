@@ -1,5 +1,5 @@
 import Source from "../../utils/sourceTemplate";
-import { customers } from "../../utils/inMemoryDB";
+import { customers } from "../../db/inMemoryDB";
 
 class Customer extends Source {
 	name: string;

@@ -1,10 +1,7 @@
 import express from "express";
 import { idSchema } from "../utils/idSchema";
 
-const findById = <T extends { id: string }>(
-	array: T[],
-	id: string
-): T | { error: string } => {
+const findById = <T extends { id: string }>(array: T[], id: string): T | { error: string } => {
 	const { error } = idSchema.validate(id);
 	if (error) {
 		return { error: error.message };

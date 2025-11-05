@@ -1,5 +1,5 @@
 import Source from "../../utils/sourceTemplate";
-import { jobDescriptions } from "../../utils/inMemoryDB";
+import { jobDescriptions } from "../../db/inMemoryDB";
 
 enum Frequency {
 	month = "month",
@@ -18,7 +18,7 @@ class JobDescription extends Source {
 		contractId: string,
 		cost?: number,
 		frequency?: Frequency,
-		period?: number
+		period?: number,
 	) {
 		super();
 

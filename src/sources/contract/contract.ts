@@ -1,5 +1,5 @@
 import Source from "../../utils/sourceTemplate";
-import { contracts } from "../../utils/inMemoryDB";
+import { contracts } from "../../db/inMemoryDB";
 
 class Contract extends Source {
 	totalCost: number;
@@ -11,7 +11,7 @@ class Contract extends Source {
 		totalCost: number,
 		dateOfSigning: string,
 		locationId: string,
-		note: string | null
+		note: string | null,
 	) {
 		super();
 
@@ -36,8 +36,7 @@ class Contract extends Source {
 
 	update(data: Partial<Omit<Contract, keyof Source>>) {
 		if (data.totalCost !== undefined) this.totalCost = data.totalCost;
-		if (data.dateOfSigning !== undefined)
-			this.dateOfSigning = data.dateOfSigning;
+		if (data.dateOfSigning !== undefined) this.dateOfSigning = data.dateOfSigning;
 		if (data.locationId !== undefined) this.locationId = data.locationId;
 		if (data.note !== undefined) this.note = data.note;
 	}

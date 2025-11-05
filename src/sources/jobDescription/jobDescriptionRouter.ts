@@ -1,6 +1,6 @@
 import express from "express";
 import JobDescription from "./jobDescription";
-import { jobDescriptions } from "../../utils/inMemoryDB";
+import { jobDescriptions } from "../../db/inMemoryDB";
 
 const jobDescriptionRouter: express.Router = express.Router();
 

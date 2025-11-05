@@ -1,5 +1,5 @@
 import Source from "../../utils/sourceTemplate";
-import { jobs } from "../../utils/inMemoryDB";
+import { jobs } from "../../db/inMemoryDB";
 
 class Job extends Source {
 	date: string;

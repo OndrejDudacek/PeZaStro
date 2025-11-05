@@ -1,9 +1,9 @@
 import express from "express";
 import Contract from "./contract";
-import { BadRequestError, NotFoundError } from "../../utils/errors";
+import { BadRequestError, NotFoundError } from "../../customErrors";
 import { UpdateContractSchema, CreateContractSchema } from "./contractSchemas";
 import findById from "../../middlewares/findById";
-import { contracts } from "../../utils/inMemoryDB";
+import { contracts } from "../../db/inMemoryDB";
 
 const contractRouter: express.Router = express.Router();
 
@@ -20,7 +20,7 @@ contractRouter.get(
 			return;
 		}
 		res.json(contract);
-	}
+	},
 );
 
 contractRouter.post(
@@ -36,10 +36,10 @@ contractRouter.post(
 			req.body.totalCost,
 			req.body.dateOfSigning,
 			req.body.locationId,
-			req.body.note
+			req.body.note,
 		);
 		res.json(contract);
-	}
+	},
 );
 
 contractRouter.patch(
@@ -59,7 +59,7 @@ contractRouter.patch(
 
 		contract.update(req.body);
 		res.json(contract);
-	}
+	},
 );
 
 contractRouter.delete(
@@ -73,7 +73,7 @@ contractRouter.delete(
 
 		contract.delete();
 		res.json({ message: "Contract deleted successfully" });
-	}
+	},
 );
 
 export default contractRouter;
