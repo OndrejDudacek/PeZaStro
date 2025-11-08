@@ -39,6 +39,12 @@ contractRouter.get(
 contractRouter.post(
 	"/",
 	async (req: express.Request, res: express.Response, next: NextFunction) => {
+		const { error: createContractError } = CreateContractSchema.validate(req.body);
+		if (createContractError) {
+			next(new BadRequestError(createContractError.message));
+			return;
+		}
+
 		const contract = await service.create(req.body);
 		res.json(contract);
 	},

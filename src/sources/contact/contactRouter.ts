@@ -39,6 +39,12 @@ contactRouter.get(
 contactRouter.post(
 	"/",
 	async (req: express.Request, res: express.Response, next: NextFunction) => {
+		const { error: createContactError } = CreateContactSchema.validate(req.body);
+		if (createContactError) {
+			next(new BadRequestError(createContactError.message));
+			return;
+		}
+
 		const contact = await service.create(req.body);
 		res.json(contact);
 	},
