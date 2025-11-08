@@ -13,7 +13,7 @@ export const jobs: Job[] = [];
 import { JobDescription } from "../sources/jobDescription/jobDescriptionEntity";
 export const jobDescriptions: JobDescription[] = [];
 
-import Location from "../sources/location/location";
+import { Location } from "../sources/location/locationEntity";
 export const locations: Location[] = [];
 
 import User from "../sources/user/user";

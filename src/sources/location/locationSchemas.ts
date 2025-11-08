@@ -1,7 +1,7 @@
 import Joi, { not } from "joi";
 import { idSchema } from "../../utils/idSchema.js";
 
-export const CreateJobSchema = Joi.object({
+export const CreateLocationSchema = Joi.object({
 	address: Joi.object({
 		street: Joi.string().min(3).max(50).required(),
 		houseNumber: Joi.number().required(),
@@ -14,7 +14,7 @@ export const CreateJobSchema = Joi.object({
 	note: Joi.string().max(1500).optional(),
 });
 
-export const UpdateJobSchema = Joi.object({
+export const UpdateLocationSchema = Joi.object({
 	address: Joi.object({
 		street: Joi.string().min(3).max(50).optional(),
 		houseNumber: Joi.number().optional(),

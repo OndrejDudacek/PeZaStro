@@ -23,6 +23,11 @@ import { IJobDescriptionRepository } from "../sources/jobDescription/jobDescript
 import { InMemoryJobDescriptionRepository } from "../sources/jobDescription/jobDescriptionRepository.memory";
 import { PgJobDescriptionRepository } from "../sources/jobDescription/jobDescriptionRepository.pg";
 
+import { Location } from "../sources/location/locationEntity";
+import { ILocationRepository } from "../sources/location/locationRepository";
+import { InMemoryLocationRepository } from "../sources/location/locationRepository.memory";
+import { PgLocationRepository } from "../sources/location/locationRepository.pg";
+
 import { AppDataSource } from "./TypeOrmDataSource";
 
 class Container {
@@ -31,6 +36,7 @@ class Container {
 	customerRepository!: ICustomerRepository;
 	jobRepository!: IJobRepository;
 	jobDescriptionRepository!: IJobDescriptionRepository;
+	locationRepository!: ILocationRepository;
 
 	async init() {
 		const dbType = process.env.DB_TYPE ?? "memory";
@@ -51,6 +57,9 @@ class Container {
 			this.jobDescriptionRepository = new PgJobDescriptionRepository(
 				AppDataSource.getRepository(JobDescription),
 			);
+			this.locationRepository = new PgLocationRepository(
+				AppDataSource.getRepository(Location),
+			);
 
 			return;
 		} else {
@@ -59,6 +68,7 @@ class Container {
 			this.customerRepository = new InMemoryCustomerRepository();
 			this.jobRepository = new InMemoryJobRepository();
 			this.jobDescriptionRepository = new InMemoryJobDescriptionRepository();
+			this.locationRepository = new InMemoryLocationRepository();
 
 			return;
 		}
