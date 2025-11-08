@@ -3,10 +3,16 @@ import { IContactRepository } from "../sources/contact/contactRepository";
 import { InMemoryContactRepository } from "../sources/contact/contactRepository.memory";
 import { PgContactRepository } from "../sources/contact/contactRepository.pg";
 
+import { Contract } from "../sources/contract/contractEntity";
+import { IContractRepository } from "../sources/contract/contractRepository";
+import { InMemoryContractRepository } from "../sources/contract/contractRepository.memory";
+import { PgContractRepository } from "../sources/contract/contractRepository.pg";
+
 import { AppDataSource } from "./TypeOrmDataSource";
 
 class Container {
 	contactRepository!: IContactRepository;
+	contractRepository!: IContractRepository;
 
 	async init() {
 		const dbType = process.env.DB_TYPE ?? "memory";
@@ -17,10 +23,14 @@ class Container {
 			this.contactRepository = new PgContactRepository(
 				AppDataSource.getRepository(Contact),
 			);
+			this.contractRepository = new PgContractRepository(
+				AppDataSource.getRepository(Contract),
+			);
 
 			return;
 		} else {
 			this.contactRepository = new InMemoryContactRepository();
+			this.contractRepository = new InMemoryContractRepository();
 
 			return;
 		}

@@ -1,6 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
 import { Entity, PrimaryColumn, Column, BeforeInsert } from "typeorm";
-import { date, not } from "joi";
 
 @Entity()
 export class Contract {
@@ -35,7 +34,7 @@ export class Contract {
 		totalCost?: number,
 		dateOfSigning?: Date,
 		locationId?: string,
-		note?: string,
+		note?: string | null,
 	) {
 		if (id) this.id = id;
 		if (createdAt) this.createdAt = createdAt;
@@ -49,7 +48,12 @@ export class Contract {
 		}
 	}
 
-	static create(totalCost: number, dateOfSigning: Date, locationId: string, note?: string) {
+	static create(
+		totalCost: number,
+		dateOfSigning: Date,
+		locationId: string,
+		note?: string | null,
+	) {
 		const newId = uuidv4();
 		const newDate = new Date();
 		const newContract = new Contract(

@@ -1,7 +1,7 @@
 import { Contact } from "../sources/contact/contactEntity";
 export const contacts: Contact[] = [];
 
-import Contract from "../sources/contract/contract";
+import { Contract } from "../sources/contract/contractEntity";
 export const contracts: Contract[] = [];
 
 import User from "../sources/user/user";

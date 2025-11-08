@@ -1,78 +1,86 @@
-import express from "express";
-import Contract from "./contract";
+import express, { NextFunction } from "express";
 import { BadRequestError, NotFoundError } from "../../customErrors";
 import { UpdateContractSchema, CreateContractSchema } from "./contractSchemas";
-import findById from "../../middlewares/findById";
-import { contracts } from "../../db/inMemoryDB";
+import { idSchema } from "../../utils/idSchema";
+import { container } from "../../db/diDbContainer";
+import { ContractService } from "./contractService";
 
 const contractRouter: express.Router = express.Router();
 
-contractRouter.get("/", (req: express.Request, res: express.Response) => {
-	res.json(contracts);
-});
+const service = new ContractService(container.contractRepository);
+
+contractRouter.get(
+	"/",
+	async (req: express.Request, res: express.Response, next: NextFunction) => {
+		const all = await service.getAll();
+		res.json(all);
+	},
+);
 
 contractRouter.get(
 	"/:id",
-	(req: express.Request, res: express.Response, next: express.NextFunction) => {
-		const contract = findById(contracts, req.params.id);
-		if ("error" in contract) {
-			next(new NotFoundError(contract.error));
+	async (req: express.Request, res: express.Response, next: NextFunction) => {
+		const { error: idError } = idSchema.validate(req.params.id);
+		if (idError) {
+			next(new BadRequestError(idError.message));
 			return;
 		}
+
+		const contract = await service.getById(req.params.id);
+		if (contract === null) {
+			next(new NotFoundError("Contract not found"));
+			return;
+		}
+
 		res.json(contract);
 	},
 );
 
 contractRouter.post(
 	"/",
-	(req: express.Request, res: express.Response, next: express.NextFunction) => {
-		const { error } = CreateContractSchema.validate(req.body);
-		if (error) {
-			next(new BadRequestError(error.message));
-			return;
-		}
-
-		const contract = new Contract(
-			req.body.totalCost,
-			req.body.dateOfSigning,
-			req.body.locationId,
-			req.body.note,
-		);
+	async (req: express.Request, res: express.Response, next: NextFunction) => {
+		const contract = await service.create(req.body);
 		res.json(contract);
 	},
 );
 
 contractRouter.patch(
 	"/:id",
-	(req: express.Request, res: express.Response, next: express.NextFunction) => {
-		const contract = findById(contracts, req.params.id);
-		if ("error" in contract) {
-			next(new NotFoundError(contract.error));
+	async (req: express.Request, res: express.Response, next: NextFunction) => {
+		const { error: idError } = idSchema.validate(req.params.id);
+		if (idError) {
+			next(new BadRequestError(idError.message));
 			return;
 		}
 
-		const { error } = UpdateContractSchema.validate(req.body);
-		if (error) {
-			next(new BadRequestError(error.message));
+		const { error: updateContractError } = UpdateContractSchema.validate(req.body);
+		if (updateContractError) {
+			next(new BadRequestError(updateContractError.message));
 			return;
 		}
 
-		contract.update(req.body);
+		const contract = await service.update(req.params.id, req.body);
 		res.json(contract);
 	},
 );
 
 contractRouter.delete(
 	"/:id",
-	(req: express.Request, res: express.Response, next: express.NextFunction) => {
-		const contract = findById(contracts, req.params.id);
-		if ("error" in contract) {
-			next(new NotFoundError(contract.error));
+	async (req: express.Request, res: express.Response, next: NextFunction) => {
+		const { error: idError } = idSchema.validate(req.params.id);
+		if (idError) {
+			next(new BadRequestError(idError.message));
 			return;
 		}
 
-		contract.delete();
-		res.json({ message: "Contract deleted successfully" });
+		const deleted = await service.delete(req.params.id);
+
+		if (!deleted) {
+			next(new NotFoundError("Contract not found"));
+			return;
+		}
+
+		res.json({ message: "Contract deleted" });
 	},
 );
 
