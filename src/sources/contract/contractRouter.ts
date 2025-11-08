@@ -66,6 +66,10 @@ contractRouter.patch(
 		}
 
 		const contract = await service.update(req.params.id, req.body);
+		if (contract === null) {
+			next(new NotFoundError("Contract not found"));
+		}
+
 		res.json(contract);
 	},
 );

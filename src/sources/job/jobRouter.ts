@@ -63,6 +63,10 @@ jobRouter.patch(
 		}
 
 		const job = await service.update(req.params.id, req.body);
+		if (job === null) {
+			next(new NotFoundError("Job not found"));
+		}
+
 		res.json(job);
 	},
 );
