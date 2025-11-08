@@ -10,7 +10,7 @@ export const customers: Customer[] = [];
 import { Job } from "../sources/job/jobEntity";
 export const jobs: Job[] = [];
 
-import JobDescription from "../sources/jobDescription/jobDescription";
+import { JobDescription } from "../sources/jobDescription/jobDescriptionEntity";
 export const jobDescriptions: JobDescription[] = [];
 
 import Location from "../sources/location/location";

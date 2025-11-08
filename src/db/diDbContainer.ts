@@ -18,6 +18,11 @@ import { IJobRepository } from "../sources/job/jobRepository";
 import { InMemoryJobRepository } from "../sources/job/jobRepository.memory";
 import { PgJobRepository } from "../sources/job/jobRepository.pg";
 
+import { JobDescription } from "../sources/jobDescription/jobDescriptionEntity";
+import { IJobDescriptionRepository } from "../sources/jobDescription/jobDescriptionRepository";
+import { InMemoryJobDescriptionRepository } from "../sources/jobDescription/jobDescriptionRepository.memory";
+import { PgJobDescriptionRepository } from "../sources/jobDescription/jobDescriptionRepository.pg";
+
 import { AppDataSource } from "./TypeOrmDataSource";
 
 class Container {
@@ -25,6 +30,7 @@ class Container {
 	contractRepository!: IContractRepository;
 	customerRepository!: ICustomerRepository;
 	jobRepository!: IJobRepository;
+	jobDescriptionRepository!: IJobDescriptionRepository;
 
 	async init() {
 		const dbType = process.env.DB_TYPE ?? "memory";
@@ -41,12 +47,18 @@ class Container {
 			this.customerRepository = new PgCustomerRepository(
 				AppDataSource.getRepository(Customer),
 			);
+			this.jobRepository = new PgJobRepository(AppDataSource.getRepository(Job));
+			this.jobDescriptionRepository = new PgJobDescriptionRepository(
+				AppDataSource.getRepository(JobDescription),
+			);
 
 			return;
 		} else {
 			this.contactRepository = new InMemoryContactRepository();
 			this.contractRepository = new InMemoryContractRepository();
 			this.customerRepository = new InMemoryCustomerRepository();
+			this.jobRepository = new InMemoryJobRepository();
+			this.jobDescriptionRepository = new InMemoryJobDescriptionRepository();
 
 			return;
 		}
