@@ -68,6 +68,7 @@ locationRouter.patch(
 		const location = await service.update(req.params.id, req.body);
 		if (location === null) {
 			next(new NotFoundError("Location not found"));
+			return;
 		}
 
 		res.json(location);

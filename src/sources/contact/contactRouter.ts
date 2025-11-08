@@ -68,6 +68,7 @@ contactRouter.patch(
 		const contact = await service.update(req.params.id, req.body);
 		if (contact === null) {
 			next(new NotFoundError("Contact not found"));
+			return;
 		}
 
 		res.json(contact);

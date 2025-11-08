@@ -75,6 +75,7 @@ jobdescriptionRouter.patch(
 		const jobdescription = await service.update(req.params.id, req.body);
 		if (jobdescription === null) {
 			next(new NotFoundError("JobDescription not found"));
+			return;
 		}
 		res.json(jobdescription);
 	},

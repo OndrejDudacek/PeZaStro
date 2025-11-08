@@ -68,6 +68,7 @@ customerRouter.patch(
 		const customer = await service.update(req.params.id, req.body);
 		if (customer === null) {
 			next(new NotFoundError("Customer not found"));
+			return;
 		}
 
 		res.json(customer);
