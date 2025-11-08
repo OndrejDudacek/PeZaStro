@@ -1,7 +1,11 @@
 - [x] Container
 - [ ] Vytvořit pg db a pripojit se k ni
-- [ ] Contact
+- [x] Contact
     - [x] Entity - staticka trida pro vytvareni, instance se tvori v repository pak se vraci do service a pokud s tim service neco udela vraci se zpatky do repo a uklada se
     - [x] Service
     - [x] Router
-    - [ ] Proc mi to nevraci id
+    - [x] Proc mi to nevraci id
+- [x] Nova struktura pro vsechny zdroje
+- [ ] ? relace v entities
+- [ ] napsat zpravu k prvnimu vystupu
+- [ ] test endpointu

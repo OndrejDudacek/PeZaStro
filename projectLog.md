@@ -3,4 +3,9 @@
 - změna struktury, aby se dala implementovat DI a typeorm
     - entity, routery, services
 - predelani modelu na entities pro type orm a reseni problemu s pouzitim jedne entity pro inmemory i typerom
-- vytvoreni repositories pro zdroje por inmemory a pg
+- vytvoreni repositories pro zdroje pro inmemory a pg
+- vytvoreni services na buissnes logiku
+- DiDbContainer na rozhodovani co za repo se inicializuje
+- App Data source
+- upraveni endopintu
+- testy endpointu
