@@ -7,7 +7,7 @@ export const contracts: Contract[] = [];
 import { Customer } from "../sources/customer/customerEntity";
 export const customers: Customer[] = [];
 
-import Job from "../sources/job/job";
+import { Job } from "../sources/job/jobEntity";
 export const jobs: Job[] = [];
 
 import JobDescription from "../sources/jobDescription/jobDescription";

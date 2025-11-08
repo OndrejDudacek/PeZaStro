@@ -13,12 +13,18 @@ import { ICustomerRepository } from "../sources/customer/customerRepository";
 import { InMemoryCustomerRepository } from "../sources/customer/customerRepository.memory";
 import { PgCustomerRepository } from "../sources/customer/customerRepository.pg";
 
+import { Job } from "../sources/job/jobEntity";
+import { IJobRepository } from "../sources/job/jobRepository";
+import { InMemoryJobRepository } from "../sources/job/jobRepository.memory";
+import { PgJobRepository } from "../sources/job/jobRepository.pg";
+
 import { AppDataSource } from "./TypeOrmDataSource";
 
 class Container {
 	contactRepository!: IContactRepository;
 	contractRepository!: IContractRepository;
 	customerRepository!: ICustomerRepository;
+	jobRepository!: IJobRepository;
 
 	async init() {
 		const dbType = process.env.DB_TYPE ?? "memory";
