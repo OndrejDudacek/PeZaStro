@@ -1,6 +1,6 @@
 import { Repository } from "typeorm";
 import { Contact } from "./contactEntity";
-import { IContactRepository } from "./contactRepository";
+import { ContactData, IContactRepository } from "./contactRepository";
 
 export class PgContactRepository implements IContactRepository {
 	constructor(private repo: Repository<Contact>) {}
@@ -26,7 +26,7 @@ export class PgContactRepository implements IContactRepository {
 			: null;
 	}
 
-	async create(data: Omit<Contact, "id" | "createdAt">): Promise<Contact> {
+	async create(data: ContactData): Promise<Contact> {
 		const entity = this.repo.create(data);
 		await this.repo.save(entity);
 		return entity;

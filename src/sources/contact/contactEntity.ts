@@ -16,15 +16,17 @@ export class Contact {
 	customerId!: string;
 
 	@Column({ nullable: true })
-	phone?: number;
+	phone?: number | null;
 
 	@Column({ nullable: true })
-	email?: string;
+	email?: string | null;
 
 	@BeforeInsert()
 	private setDefaults() {
 		if (!this.id) this.id = uuidv4();
 		if (!this.createdAt) this.createdAt = new Date();
+		if (this.phone === undefined) this.phone = null;
+		if (this.email === undefined) this.email = null;
 	}
 
 	constructor(
@@ -32,18 +34,31 @@ export class Contact {
 		createdAt?: Date,
 		name?: string,
 		customerId?: string,
-		phone?: number,
-		email?: string,
+		phone?: number | null,
+		email?: string | null,
 	) {
 		if (id) this.id = id;
 		if (createdAt) this.createdAt = createdAt;
 		if (name) this.name = name;
 		if (customerId) this.customerId = customerId;
-		if (phone) this.phone = phone;
-		if (email) this.email = email;
+		if (phone) {
+			this.phone = phone;
+		} else {
+			this.phone = null;
+		}
+		if (email) {
+			this.email = email;
+		} else {
+			this.email = null;
+		}
 	}
 
-	static create(name: string, customerId: string, phone?: number, email?: string): Contact {
+	static create(
+		name: string,
+		customerId: string,
+		phone?: number | null,
+		email?: string | null,
+	): Contact {
 		const newId = uuidv4();
 		const newDate = new Date();
 		const newContact = new Contact(newId, newDate, name, customerId, phone, email);

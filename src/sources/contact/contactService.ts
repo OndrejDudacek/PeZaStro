@@ -1,4 +1,4 @@
-import { IContactRepository } from "./contactRepository";
+import { IContactRepository, ContactData } from "./contactRepository";
 import { Contact } from "./contactEntity";
 import { error } from "console";
 
@@ -15,7 +15,7 @@ export class ContactService {
 		return contact;
 	}
 
-	async create(data: Omit<Contact, "id" | "createdAt">) {
+	async create(data: ContactData) {
 		const created = await this.repo.create(data);
 		return created;
 	}
