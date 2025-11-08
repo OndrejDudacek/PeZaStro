@@ -1,4 +1,4 @@
-import { IContactRepository } from "./contactRepository";
+import { IContactRepository, ContactData } from "./contactRepository";
 import { Contact } from "./contactEntity";
 import { contacts } from "../../db/inMemoryDB";
 
@@ -11,7 +11,7 @@ export class InMemoryContactRepository implements IContactRepository {
 		return contacts.find((c) => c.id === id) ?? null;
 	}
 
-	async create(data: Omit<Contact, "id" | "createdAt">): Promise<Contact> {
+	async create(data: ContactData): Promise<Contact> {
 		const contact = Contact.create(data.name, data.customerId, data.phone, data.email);
 		contacts.push(contact);
 		return contact;

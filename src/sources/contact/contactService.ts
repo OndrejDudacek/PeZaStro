@@ -1,6 +1,5 @@
 import { IContactRepository, ContactData } from "./contactRepository";
 import { Contact } from "./contactEntity";
-import { error } from "console";
 
 export class ContactService {
 	constructor(private repo: IContactRepository) {}
