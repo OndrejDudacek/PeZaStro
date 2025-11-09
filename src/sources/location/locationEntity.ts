@@ -10,19 +10,19 @@ export interface Address {
 
 @Entity()
 export class Location {
-	@PrimaryColumn()
+	@PrimaryColumn({ type: "uuid" })
 	id!: string;
 
 	@Column()
 	createdAt!: Date;
 
-	@Column({ type: "simple-json" })
+	@Column({ type: "json" })
 	address!: Address;
 
 	@Column()
 	customerId!: string;
 
-	@Column({ nullable: true })
+	@Column({ type: "text", nullable: true })
 	note?: string | null;
 
 	@BeforeInsert()

@@ -3,7 +3,7 @@ import { Entity, PrimaryColumn, Column, BeforeInsert } from "typeorm";
 
 @Entity()
 export class Contract {
-	@PrimaryColumn()
+	@PrimaryColumn({ type: "uuid" })
 	id!: string;
 
 	@Column()
@@ -18,7 +18,7 @@ export class Contract {
 	@Column()
 	locationId!: string;
 
-	@Column({ nullable: true })
+	@Column({ type: "text", nullable: true })
 	note?: string | null;
 
 	@BeforeInsert()

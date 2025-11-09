@@ -16,6 +16,8 @@
 		"format:check": "prettier --check \"**/*.{ts,js,json,md,css,html}\""
 	},
 	"dependencies": {
+		"cors": "^2.8.5",
+		"dotenv": "^17.2.3",
 		"express": "^4.21.2",
 		"express-async-errors": "^3.1.1",
 		"joi": "^17.13.3",
@@ -31,6 +33,7 @@
 		"@types/uniqid": "^5.3.4",
 		"concurrently": "^9.1.2",
 		"nodemon": "^3.1.9",
+		"prettier": "^3.6.2",
 		"ts-node": "^10.9.2",
 		"typescript": "^5.7.3"
 	}

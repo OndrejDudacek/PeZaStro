@@ -61,6 +61,8 @@ class Container {
 				AppDataSource.getRepository(Location),
 			);
 
+			console.log(this);
+
 			return;
 		} else {
 			this.contactRepository = new InMemoryContactRepository();
@@ -69,6 +71,8 @@ class Container {
 			this.jobRepository = new InMemoryJobRepository();
 			this.jobDescriptionRepository = new InMemoryJobDescriptionRepository();
 			this.locationRepository = new InMemoryLocationRepository();
+
+			console.log("memory");
 
 			return;
 		}

@@ -1,7 +1,11 @@
 import express, { json } from "express";
 import cors from "cors";
+import dotenv from "dotenv";
+dotenv.config();
+
 import "reflect-metadata";
 import "express-async-errors";
+
 import { container } from "./db/diDbContainer";
 import errorHandler from "./middlewares/errorHandler";
 

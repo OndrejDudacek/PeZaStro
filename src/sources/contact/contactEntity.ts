@@ -3,7 +3,7 @@ import { Entity, PrimaryColumn, Column, BeforeInsert } from "typeorm";
 
 @Entity()
 export class Contact {
-	@PrimaryColumn()
+	@PrimaryColumn({ type: "uuid" })
 	id!: string;
 
 	@Column()
@@ -15,10 +15,10 @@ export class Contact {
 	@Column()
 	customerId!: string;
 
-	@Column({ nullable: true })
+	@Column({ type: "integer", nullable: true })
 	phone?: number | null;
 
-	@Column({ nullable: true })
+	@Column({ type: "text", nullable: true })
 	email?: string | null;
 
 	@BeforeInsert()

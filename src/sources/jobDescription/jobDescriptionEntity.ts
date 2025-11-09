@@ -8,7 +8,7 @@ export enum Frequency {
 
 @Entity()
 export class JobDescription {
-	@PrimaryColumn()
+	@PrimaryColumn({ type: "uuid" })
 	id!: string;
 
 	@Column()
@@ -20,13 +20,13 @@ export class JobDescription {
 	@Column()
 	contractId!: string;
 
-	@Column({ nullable: true })
+	@Column({ type: "integer", nullable: true })
 	cost?: number | null;
 
-	@Column({ nullable: true, type: "enum", enum: Frequency })
+	@Column({ type: "enum", enum: Frequency, nullable: true })
 	frequency?: Frequency | null;
 
-	@Column({ nullable: true })
+	@Column({ type: "integer", nullable: true })
 	period?: number | null;
 
 	@BeforeInsert()
