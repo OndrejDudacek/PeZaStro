@@ -46,7 +46,7 @@ contactRouter.post(
 		}
 
 		const contact = await service.create(req.body);
-		res.json(contact);
+		res.status(201).json(contact);
 	},
 );
 

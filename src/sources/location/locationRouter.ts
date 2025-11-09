@@ -46,7 +46,7 @@ locationRouter.post(
 		}
 
 		const location = await service.create(req.body);
-		res.json(location);
+		res.status(201).json(location);
 	},
 );
 

@@ -46,7 +46,7 @@ customerRouter.post(
 		}
 
 		const customer = await service.create(req.body);
-		res.json(customer);
+		res.status(201).json(customer);
 	},
 );
 

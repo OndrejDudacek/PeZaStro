@@ -46,7 +46,7 @@ contractRouter.post(
 		}
 
 		const contract = await service.create(req.body);
-		res.json(contract);
+		res.status(201).json(contract);
 	},
 );
 

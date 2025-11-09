@@ -43,7 +43,7 @@ jobRouter.post(
 		}
 
 		const job = await service.create(req.body);
-		res.json(job);
+		res.status(201).json(job);
 	},
 );
 

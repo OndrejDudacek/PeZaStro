@@ -51,7 +51,7 @@ jobdescriptionRouter.post(
 		}
 
 		const jobdescription = await service.create(req.body);
-		res.json(jobdescription);
+		res.status(201).json(jobdescription);
 	},
 );
 
