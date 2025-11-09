@@ -8,4 +8,4 @@
 - DiDbContainer na rozhodovani co za repo se inicializuje
 - App Data source
 - upraveni endopintu
-- testy endpointu
+- vytvoření lokální testovací pg databáze
