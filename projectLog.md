@@ -9,3 +9,10 @@
 - App Data source
 - upraveni endopintu
 - vytvoření lokální testovací pg databáze
+
+# Výstup č.2
+
+- findByUsername
+- login middleware
+- auth middleware
+- unikatnost usernamů

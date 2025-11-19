@@ -7,5 +7,11 @@
     - [x] Proc mi to nevraci id
 - [x] Nova struktura pro vsechny zdroje
 - [ ] ? relace v entities
-- [ ] napsat zpravu k prvnimu vystupu
+- [x] napsat zpravu k prvnimu vystupu
 - [ ] napsat testy endpointu
+
+- [ ] login middleware
+- [ ] auth middleware
+- [ ] vytvořit findByUsername v repositařich
+- [ ] zajištění unikátnosti usernamů
+- [ ] sifrovani hesel
