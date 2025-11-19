@@ -24,3 +24,9 @@ export class UnauthorizedError extends customError {
 		super(message, 401);
 	}
 }
+
+export class EntityAlreadyExistsErrorr extends customError {
+	constructor(message: string) {
+		super(message, 422);
+	}
+}
