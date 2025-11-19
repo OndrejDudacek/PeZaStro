@@ -15,6 +15,11 @@ export class PgUserRepository implements IUserRepository {
 		return row ? new User(row.id, row.createdAt, row.username, row.password) : null;
 	}
 
+	async findByUsername(username: string): Promise<User | null> {
+		const row = await this.repo.findOneBy({ username });
+		return row ? new User(row.id, row.createdAt, row.username, row.password) : null;
+	}
+
 	async create(data: UserData): Promise<User> {
 		const entity = this.repo.create(data);
 		await this.repo.save(entity);
