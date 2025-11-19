@@ -12,7 +12,7 @@
 
 # Výstup č.2
 
-- findByUsername
+- vytvoření findByUsername kvuli autentifikaci
 - login middleware
 - auth middleware
 - unikatnost usernamů

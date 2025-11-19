@@ -12,6 +12,6 @@
 
 - [ ] login middleware
 - [ ] auth middleware
-- [ ] vytvořit findByUsername v repositařich
+- [x] vytvořit findByUsername v repositařich
 - [ ] zajištění unikátnosti usernamů
 - [ ] sifrovani hesel
