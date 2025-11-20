@@ -15,7 +15,10 @@ export class InMemoryUserRepository implements IUserRepository {
 		return users.find((c) => c.username === username) ?? null;
 	}
 
-	async create(data: UserData): Promise<User> {
+	async create(data: UserData): Promise<User | null> {
+		const existingUser = await this.findByUsername(data.username);
+		if (existingUser) return null;
+
 		const user = User.create(data.username, data.password);
 		users.push(user);
 		return user;

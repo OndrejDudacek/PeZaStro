@@ -20,10 +20,15 @@ export class PgUserRepository implements IUserRepository {
 		return row ? new User(row.id, row.createdAt, row.username, row.password) : null;
 	}
 
-	async create(data: UserData): Promise<User> {
-		const entity = this.repo.create(data);
-		await this.repo.save(entity);
-		return entity;
+	async create(data: UserData): Promise<User | null> {
+		try {
+			const entity = this.repo.create(data);
+			await this.repo.save(entity);
+			return entity;
+		} catch (err) {
+			console.error(err);
+			return null;
+		}
 	}
 
 	async update(id: string, data: Partial<User>): Promise<User | null> {

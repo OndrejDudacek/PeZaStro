@@ -1,5 +1,6 @@
 import { IUserRepository, UserData } from "./userRepository";
 import { User } from "./userEntity";
+import { EntityAlreadyExistsErrorr } from "../../customErrors";
 
 export class UserService {
 	constructor(private repo: IUserRepository) {}
@@ -15,7 +16,15 @@ export class UserService {
 	}
 
 	async create(data: UserData) {
+		const existingUser = await this.repo.findByUsername(data.username);
+		if (existingUser)
+			throw new EntityAlreadyExistsErrorr(
+				`User with this (${data.username}) username already exists`,
+			);
+
 		const created = await this.repo.create(data);
+		if (!created) throw new Error("Error when creating a user");
+
 		return created;
 	}
 

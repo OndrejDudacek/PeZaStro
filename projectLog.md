@@ -16,3 +16,5 @@
 - login middleware
 - auth middleware
 - unikatnost usernamů
+    - unigue na tabulce a check v repozitarich
+    - check v service

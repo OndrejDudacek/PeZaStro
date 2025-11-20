@@ -9,7 +9,7 @@ export class User {
 	@Column()
 	createdAt!: Date;
 
-	@Column()
+	@Column({ unique: true })
 	username!: string;
 
 	@Column()

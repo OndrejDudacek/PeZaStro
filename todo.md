@@ -13,5 +13,8 @@
 - [ ] login middleware
 - [ ] auth middleware
 - [x] vytvořit findByUsername v repositařich
-- [ ] zajištění unikátnosti usernamů
+- [x] zajištění unikátnosti usernamů v User
+    - [x] v servicu
+    - [x] v pg (unique a check)
 - [ ] sifrovani hesel
+- [ ] catchovani erroru v routerech
