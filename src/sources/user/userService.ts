@@ -15,6 +15,11 @@ export class UserService {
 		return user;
 	}
 
+	async getByUsername(username: string) {
+		const user = await this.repo.findByUsername(username);
+		return user;
+	}
+
 	async create(data: UserData) {
 		const existingUser = await this.repo.findByUsername(data.username);
 		if (existingUser)
