@@ -11,10 +11,16 @@
 - [ ] napsat testy endpointu
 
 - [ ] login middleware
+    - [ ] kam mizí usernmae
+- [x] login endpoint
+- [x] userSchema a validace
 - [ ] auth middleware
 - [x] vytvořit findByUsername v repositařich
 - [x] zajištění unikátnosti usernamů v User
-    - [x] v servicu
+    - [x] v service
     - [x] v pg (unique a check)
-- [ ] sifrovani hesel
+- [ ] hashovani hesel
 - [ ] catchovani erroru v routerech
+- [ ] https enforce
+- [ ] helmet a rate limit
+- [ ] cli na vytvaření userů

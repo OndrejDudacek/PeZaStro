@@ -40,6 +40,9 @@ const bootstrap = async () => {
 	const locationRouter = (await import("./sources/location/locationRouter")).default;
 	app.use(apiPath + "location", locationRouter);
 
+	const userRouter = (await import("./sources/user/userRouter")).default;
+	app.use(apiPath + "user", userRouter);
+
 	app.use(errorHandler);
 
 	app.listen(PORT, () => {
