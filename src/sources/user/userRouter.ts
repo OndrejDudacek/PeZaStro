@@ -16,6 +16,7 @@ userRouter.post(
 		if (userDataError) return next(new BadRequestError(userDataError.message));
 
 		const { username, password } = req.body;
+
 		await login(username, password, service, req, res, next);
 	},
 );

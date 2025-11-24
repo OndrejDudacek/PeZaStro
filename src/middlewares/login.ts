@@ -17,8 +17,6 @@ export const login = async (
 		return next(new BadRequestError("Wrong username or password"));
 	}
 
-	console.log(user, user.username);
-
 	const token = jwt.sign(
 		{ userId: user.id, username: user.username },
 		process.env.JWT_SECRET ?? "DeFaUlT_SeCr3t",

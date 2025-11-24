@@ -21,10 +21,10 @@ export class User {
 		if (!this.createdAt) this.createdAt = new Date();
 	}
 
-	constructor(id?: string, createdAt?: Date, name?: string, password?: string) {
+	constructor(id?: string, createdAt?: Date, username?: string, password?: string) {
 		if (id) this.id = id;
 		if (createdAt) this.createdAt = createdAt;
-		if (this.username) this.username = this.username;
+		if (username) this.username = username;
 		if (password) this.password = password;
 	}
 
