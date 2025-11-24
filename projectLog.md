@@ -14,6 +14,7 @@
 
 - vytvoření findByUsername kvuli autentifikaci
 - login middleware
+    - nedostaval jsem username, chyba v konstruktoru
 - auth middleware
 - unikatnost usernamů
     - unigue na tabulce a check v repozitarich

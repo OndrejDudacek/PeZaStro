@@ -4,6 +4,7 @@ import { UpdateCustomerSchema, CreateCustomerSchema } from "./customerSchemas";
 import { idSchema } from "../../utils/idSchema";
 import { container } from "../../db/diDbContainer";
 import { CustomerService } from "./customerService";
+import { authorize } from "../../middlewares/authorize";
 
 const customerRouter: express.Router = express.Router();
 
@@ -11,6 +12,7 @@ const service = new CustomerService(container.customerRepository);
 
 customerRouter.get(
 	"/",
+	authorize,
 	async (req: express.Request, res: express.Response, next: NextFunction) => {
 		const all = await service.getAll();
 		res.json(all);
@@ -19,6 +21,7 @@ customerRouter.get(
 
 customerRouter.get(
 	"/:id",
+	authorize,
 	async (req: express.Request, res: express.Response, next: NextFunction) => {
 		const { error: idError } = idSchema.validate(req.params.id);
 		if (idError) {
@@ -38,6 +41,7 @@ customerRouter.get(
 
 customerRouter.post(
 	"/",
+	authorize,
 	async (req: express.Request, res: express.Response, next: NextFunction) => {
 		const { error: createCustomerError } = CreateCustomerSchema.validate(req.body);
 		if (createCustomerError) {
@@ -52,6 +56,7 @@ customerRouter.post(
 
 customerRouter.patch(
 	"/:id",
+	authorize,
 	async (req: express.Request, res: express.Response, next: NextFunction) => {
 		const { error: idError } = idSchema.validate(req.params.id);
 		if (idError) {
@@ -77,6 +82,7 @@ customerRouter.patch(
 
 customerRouter.delete(
 	"/:id",
+	authorize,
 	async (req: express.Request, res: express.Response, next: NextFunction) => {
 		const { error: idError } = idSchema.validate(req.params.id);
 		if (idError) {

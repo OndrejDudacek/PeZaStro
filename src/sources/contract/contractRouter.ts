@@ -4,6 +4,7 @@ import { UpdateContractSchema, CreateContractSchema } from "./contractSchemas";
 import { idSchema } from "../../utils/idSchema";
 import { container } from "../../db/diDbContainer";
 import { ContractService } from "./contractService";
+import { authorize } from "../../middlewares/authorize";
 
 const contractRouter: express.Router = express.Router();
 
@@ -11,6 +12,7 @@ const service = new ContractService(container.contractRepository);
 
 contractRouter.get(
 	"/",
+	authorize,
 	async (req: express.Request, res: express.Response, next: NextFunction) => {
 		const all = await service.getAll();
 		res.json(all);
@@ -19,6 +21,7 @@ contractRouter.get(
 
 contractRouter.get(
 	"/:id",
+	authorize,
 	async (req: express.Request, res: express.Response, next: NextFunction) => {
 		const { error: idError } = idSchema.validate(req.params.id);
 		if (idError) {
@@ -38,6 +41,7 @@ contractRouter.get(
 
 contractRouter.post(
 	"/",
+	authorize,
 	async (req: express.Request, res: express.Response, next: NextFunction) => {
 		const { error: createContractError } = CreateContractSchema.validate(req.body);
 		if (createContractError) {
@@ -52,6 +56,7 @@ contractRouter.post(
 
 contractRouter.patch(
 	"/:id",
+	authorize,
 	async (req: express.Request, res: express.Response, next: NextFunction) => {
 		const { error: idError } = idSchema.validate(req.params.id);
 		if (idError) {
@@ -77,6 +82,7 @@ contractRouter.patch(
 
 contractRouter.delete(
 	"/:id",
+	authorize,
 	async (req: express.Request, res: express.Response, next: NextFunction) => {
 		const { error: idError } = idSchema.validate(req.params.id);
 		if (idError) {

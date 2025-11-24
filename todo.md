@@ -10,11 +10,11 @@
 - [x] napsat zpravu k prvnimu vystupu
 - [ ] napsat testy endpointu
 
-- [ ] login middleware
-    - [ ] kam mizí usernmae
+- [x] login middleware
+    - [x] kam mizí usernmae
 - [x] login endpoint
 - [x] userSchema a validace
-- [ ] auth middleware
+- [x] auth middleware
 - [x] vytvořit findByUsername v repositařich
 - [x] zajištění unikátnosti usernamů v User
     - [x] v service

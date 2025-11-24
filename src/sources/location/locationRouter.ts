@@ -4,6 +4,7 @@ import { UpdateLocationSchema, CreateLocationSchema } from "./locationSchemas";
 import { idSchema } from "../../utils/idSchema";
 import { container } from "../../db/diDbContainer";
 import { LocationService } from "./locationService";
+import { authorize } from "../../middlewares/authorize";
 
 const locationRouter: express.Router = express.Router();
 
@@ -11,6 +12,7 @@ const service = new LocationService(container.locationRepository);
 
 locationRouter.get(
 	"/",
+	authorize,
 	async (req: express.Request, res: express.Response, next: NextFunction) => {
 		const all = await service.getAll();
 		res.json(all);
@@ -19,6 +21,7 @@ locationRouter.get(
 
 locationRouter.get(
 	"/:id",
+	authorize,
 	async (req: express.Request, res: express.Response, next: NextFunction) => {
 		const { error: idError } = idSchema.validate(req.params.id);
 		if (idError) {
@@ -38,6 +41,7 @@ locationRouter.get(
 
 locationRouter.post(
 	"/",
+	authorize,
 	async (req: express.Request, res: express.Response, next: NextFunction) => {
 		const { error: createLocationError } = CreateLocationSchema.validate(req.body);
 		if (createLocationError) {
@@ -52,6 +56,7 @@ locationRouter.post(
 
 locationRouter.patch(
 	"/:id",
+	authorize,
 	async (req: express.Request, res: express.Response, next: NextFunction) => {
 		const { error: idError } = idSchema.validate(req.params.id);
 		if (idError) {
@@ -77,6 +82,7 @@ locationRouter.patch(
 
 locationRouter.delete(
 	"/:id",
+	authorize,
 	async (req: express.Request, res: express.Response, next: NextFunction) => {
 		const { error: idError } = idSchema.validate(req.params.id);
 		if (idError) {

@@ -4,6 +4,7 @@ import { UpdateContactSchema, CreateContactSchema } from "./contactSchemas";
 import { idSchema } from "../../utils/idSchema";
 import { container } from "../../db/diDbContainer";
 import { ContactService } from "./contactService";
+import { authorize } from "../../middlewares/authorize";
 
 const contactRouter: express.Router = express.Router();
 
@@ -11,6 +12,7 @@ const service = new ContactService(container.contactRepository);
 
 contactRouter.get(
 	"/",
+	authorize,
 	async (req: express.Request, res: express.Response, next: NextFunction) => {
 		const all = await service.getAll();
 		res.json(all);
@@ -19,6 +21,7 @@ contactRouter.get(
 
 contactRouter.get(
 	"/:id",
+	authorize,
 	async (req: express.Request, res: express.Response, next: NextFunction) => {
 		const { error: idError } = idSchema.validate(req.params.id);
 		if (idError) {
@@ -38,6 +41,7 @@ contactRouter.get(
 
 contactRouter.post(
 	"/",
+	authorize,
 	async (req: express.Request, res: express.Response, next: NextFunction) => {
 		const { error: createContactError } = CreateContactSchema.validate(req.body);
 		if (createContactError) {
@@ -52,6 +56,7 @@ contactRouter.post(
 
 contactRouter.patch(
 	"/:id",
+	authorize,
 	async (req: express.Request, res: express.Response, next: NextFunction) => {
 		const { error: idError } = idSchema.validate(req.params.id);
 		if (idError) {
@@ -77,6 +82,7 @@ contactRouter.patch(
 
 contactRouter.delete(
 	"/:id",
+	authorize,
 	async (req: express.Request, res: express.Response, next: NextFunction) => {
 		const { error: idError } = idSchema.validate(req.params.id);
 		if (idError) {

@@ -7,6 +7,7 @@ import {
 import { idSchema } from "../../utils/idSchema";
 import { container } from "../../db/diDbContainer";
 import { JobDescriptionService } from "./jobDescriptionService";
+import { authorize } from "../../middlewares/authorize";
 
 const jobdescriptionRouter: express.Router = express.Router();
 
@@ -14,6 +15,7 @@ const service = new JobDescriptionService(container.jobDescriptionRepository);
 
 jobdescriptionRouter.get(
 	"/",
+	authorize,
 	async (req: express.Request, res: express.Response, next: NextFunction) => {
 		const all = await service.getAll();
 		res.json(all);
@@ -22,6 +24,7 @@ jobdescriptionRouter.get(
 
 jobdescriptionRouter.get(
 	"/:id",
+	authorize,
 	async (req: express.Request, res: express.Response, next: NextFunction) => {
 		const { error: idError } = idSchema.validate(req.params.id);
 		if (idError) {
@@ -41,6 +44,7 @@ jobdescriptionRouter.get(
 
 jobdescriptionRouter.post(
 	"/",
+	authorize,
 	async (req: express.Request, res: express.Response, next: NextFunction) => {
 		const { error: createJobDescriptionError } = CreateJobDescriptionSchema.validate(
 			req.body,
@@ -57,6 +61,7 @@ jobdescriptionRouter.post(
 
 jobdescriptionRouter.patch(
 	"/:id",
+	authorize,
 	async (req: express.Request, res: express.Response, next: NextFunction) => {
 		const { error: idError } = idSchema.validate(req.params.id);
 		if (idError) {
@@ -83,6 +88,7 @@ jobdescriptionRouter.patch(
 
 jobdescriptionRouter.delete(
 	"/:id",
+	authorize,
 	async (req: express.Request, res: express.Response, next: NextFunction) => {
 		const { error: idError } = idSchema.validate(req.params.id);
 		if (idError) {
