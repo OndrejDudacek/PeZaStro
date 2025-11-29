@@ -17,8 +17,12 @@ jobdescriptionRouter.get(
 	"/",
 	authorize,
 	async (req: express.Request, res: express.Response, next: NextFunction) => {
-		const all = await service.getAll();
-		res.json(all);
+		try {
+			const all = await service.getAll();
+			res.json(all);
+		} catch (error) {
+			next(error);
+		}
 	},
 );
 
@@ -26,19 +30,23 @@ jobdescriptionRouter.get(
 	"/:id",
 	authorize,
 	async (req: express.Request, res: express.Response, next: NextFunction) => {
-		const { error: idError } = idSchema.validate(req.params.id);
-		if (idError) {
-			next(new BadRequestError(idError.message));
-			return;
-		}
+		try {
+			const { error: idError } = idSchema.validate(req.params.id);
+			if (idError) {
+				next(new BadRequestError(idError.message));
+				return;
+			}
 
-		const jobdescription = await service.getById(req.params.id);
-		if (jobdescription === null) {
-			next(new NotFoundError("JobDescription not found"));
-			return;
-		}
+			const jobdescription = await service.getById(req.params.id);
+			if (jobdescription === null) {
+				next(new NotFoundError("JobDescription not found"));
+				return;
+			}
 
-		res.json(jobdescription);
+			res.json(jobdescription);
+		} catch (error) {
+			next(error);
+		}
 	},
 );
 
@@ -46,16 +54,20 @@ jobdescriptionRouter.post(
 	"/",
 	authorize,
 	async (req: express.Request, res: express.Response, next: NextFunction) => {
-		const { error: createJobDescriptionError } = CreateJobDescriptionSchema.validate(
-			req.body,
-		);
-		if (createJobDescriptionError) {
-			next(new BadRequestError(createJobDescriptionError.message));
-			return;
-		}
+		try {
+			const { error: createJobDescriptionError } = CreateJobDescriptionSchema.validate(
+				req.body,
+			);
+			if (createJobDescriptionError) {
+				next(new BadRequestError(createJobDescriptionError.message));
+				return;
+			}
 
-		const jobdescription = await service.create(req.body);
-		res.status(201).json(jobdescription);
+			const jobdescription = await service.create(req.body);
+			res.status(201).json(jobdescription);
+		} catch (error) {
+			next(error);
+		}
 	},
 );
 
@@ -63,26 +75,30 @@ jobdescriptionRouter.patch(
 	"/:id",
 	authorize,
 	async (req: express.Request, res: express.Response, next: NextFunction) => {
-		const { error: idError } = idSchema.validate(req.params.id);
-		if (idError) {
-			next(new BadRequestError(idError.message));
-			return;
-		}
+		try {
+			const { error: idError } = idSchema.validate(req.params.id);
+			if (idError) {
+				next(new BadRequestError(idError.message));
+				return;
+			}
 
-		const { error: updateJobDescriptionError } = UpdateJobDescriptionSchema.validate(
-			req.body,
-		);
-		if (updateJobDescriptionError) {
-			next(new BadRequestError(updateJobDescriptionError.message));
-			return;
-		}
+			const { error: updateJobDescriptionError } = UpdateJobDescriptionSchema.validate(
+				req.body,
+			);
+			if (updateJobDescriptionError) {
+				next(new BadRequestError(updateJobDescriptionError.message));
+				return;
+			}
 
-		const jobdescription = await service.update(req.params.id, req.body);
-		if (jobdescription === null) {
-			next(new NotFoundError("JobDescription not found"));
-			return;
+			const jobdescription = await service.update(req.params.id, req.body);
+			if (jobdescription === null) {
+				next(new NotFoundError("JobDescription not found"));
+				return;
+			}
+			res.json(jobdescription);
+		} catch (error) {
+			next(error);
 		}
-		res.json(jobdescription);
 	},
 );
 
@@ -90,20 +106,24 @@ jobdescriptionRouter.delete(
 	"/:id",
 	authorize,
 	async (req: express.Request, res: express.Response, next: NextFunction) => {
-		const { error: idError } = idSchema.validate(req.params.id);
-		if (idError) {
-			next(new BadRequestError(idError.message));
-			return;
+		try {
+			const { error: idError } = idSchema.validate(req.params.id);
+			if (idError) {
+				next(new BadRequestError(idError.message));
+				return;
+			}
+
+			const deleted = await service.delete(req.params.id);
+
+			if (!deleted) {
+				next(new NotFoundError("JobDescription not found"));
+				return;
+			}
+
+			res.json({ message: "JobDescription deleted" });
+		} catch (error) {
+			next(error);
 		}
-
-		const deleted = await service.delete(req.params.id);
-
-		if (!deleted) {
-			next(new NotFoundError("JobDescription not found"));
-			return;
-		}
-
-		res.json({ message: "JobDescription deleted" });
 	},
 );
 

@@ -19,3 +19,5 @@
 - unikatnost usernamů
     - unigue na tabulce a check v repozitarich
     - check v service
+- hoppscotch - variables, auth header
+- pridani try catch do routeru

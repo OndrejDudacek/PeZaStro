@@ -20,7 +20,7 @@
     - [x] v service
     - [x] v pg (unique a check)
 - [ ] hashovani hesel
-- [ ] catchovani erroru v routerech
+- [x] catchovani erroru v routerech
 - [ ] https enforce
 - [ ] helmet a rate limit
 - [ ] cli na vytvaření userů
