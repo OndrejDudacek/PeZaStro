@@ -33,7 +33,7 @@ const dialogue = async (service: UserService, intro: string) => {
 
 	try {
 		const newUser = await service.create({ username, password });
-		clack.log.success("This is the crated user: " + newUser);
+		clack.log.success("This is the crated user:\n" + JSON.stringify(newUser, null, 2));
 	} catch (error) {
 		clack.log.error(String(error));
 	}

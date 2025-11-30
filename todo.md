@@ -24,3 +24,4 @@
 - [ ] https enforce
 - [ ] helmet a rate limit
 - [x] cli na vytvaření userů
+- [ ] cli na delete useru
