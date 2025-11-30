@@ -19,8 +19,8 @@
 - [x] zajištění unikátnosti usernamů v User
     - [x] v service
     - [x] v pg (unique a check)
-- [ ] hashovani hesel
+- [x] hashovani hesel
 - [x] catchovani erroru v routerech
 - [ ] https enforce
 - [ ] helmet a rate limit
-- [ ] cli na vytvaření userů
+- [x] cli na vytvaření userů

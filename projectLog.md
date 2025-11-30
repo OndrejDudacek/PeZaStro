@@ -21,3 +21,5 @@
     - check v service
 - hoppscotch - variables, auth header
 - pridani try catch do routeru
+- hashovaní hesel s použitím bcryptu
+- cli na vytváření nových userů
