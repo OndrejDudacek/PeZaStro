@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import { UserService } from "../sources/user/userService";
 import express, { NextFunction } from "express";
 import { BadRequestError } from "../customErrors";
+import bcrypt from "bcrypt";
 
 export const login = async (
 	username: string,
@@ -12,7 +13,7 @@ export const login = async (
 	next: NextFunction,
 ) => {
 	const user = await service.getByUsername(username);
-	if (!user || user.password !== password) {
+	if (!user || !bcrypt.compareSync(password, user.password)) {
 		console.error("Wrong username or password");
 		return next(new BadRequestError("Wrong username or password"));
 	}

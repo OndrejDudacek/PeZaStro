@@ -1,6 +1,7 @@
 import { IUserRepository, UserData } from "./userRepository";
 import { User } from "./userEntity";
 import { EntityAlreadyExistsErrorr } from "../../customErrors";
+import bcrypt from "bcrypt";
 
 export class UserService {
 	constructor(private repo: IUserRepository) {}
@@ -27,7 +28,12 @@ export class UserService {
 				`User with this (${data.username}) username already exists`,
 			);
 
-		const created = await this.repo.create(data);
+		const userCreateData: UserData = {
+			username: data.username,
+			password: await bcrypt.hash(data.password, 13),
+		};
+
+		const created = await this.repo.create(userCreateData);
 		if (!created) throw new Error("Error when creating a user");
 
 		return created;
