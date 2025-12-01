@@ -23,3 +23,4 @@
 - pridani try catch do routeru
 - hashovaní hesel s použitím bcryptu
 - cli na vytváření nových userů
+- helmet, rateLimiter
