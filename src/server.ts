@@ -1,5 +1,5 @@
 import express, { json } from "express";
-import cors from "cors";
+import cors, { CorsOptions } from "cors";
 import "dotenv/config";
 
 import "reflect-metadata";
@@ -17,11 +17,17 @@ const bootstrap = async () => {
 	const PORT = 4321;
 	const apiPath = "/api/v1/";
 
-	app.use(json());
-	app.use(cors());
+	const corsOptions: CorsOptions = {
+		origin: ["https://pezastro.dudacek.eu", "http://localhost:4321"],
+		credentials: true,
+	};
+
+	app.use(cors(corsOptions));
 	app.use(express.json());
 	app.use(limiter);
 	app.use(helmet());
+
+	app.options("*", cors(corsOptions));
 
 	const contactRouter = (await import("./sources/contact/contactRouter")).default;
 	app.use(apiPath + "contact", contactRouter);

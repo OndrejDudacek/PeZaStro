@@ -22,6 +22,6 @@
 - [x] hashovani hesel
 - [x] catchovani erroru v routerech
 - [ ] https enforce
-- [ ] helmet a rate limit
-- [ ] corse
+- [x] helmet a rate limit
+- [x] cors
 - [x] cli na vytvaření userů
