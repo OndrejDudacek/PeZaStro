@@ -14,7 +14,6 @@ export const login = async (
 ) => {
 	const user = await service.getByUsername(username);
 	if (!user || !bcrypt.compareSync(password, user.password)) {
-		console.error("Wrong username or password");
 		return next(new BadRequestError("Wrong username or password"));
 	}
 
