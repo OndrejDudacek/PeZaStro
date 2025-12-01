@@ -23,5 +23,5 @@
 - [x] catchovani erroru v routerech
 - [ ] https enforce
 - [ ] helmet a rate limit
+- [ ] corse
 - [x] cli na vytvaření userů
-- [ ] cli na delete useru

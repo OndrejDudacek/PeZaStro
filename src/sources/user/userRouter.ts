@@ -4,6 +4,7 @@ import { UserService } from "./userService";
 import { ValidateUserSchema } from "./userSchema";
 import { BadRequestError } from "../../customErrors";
 import { login } from "../../middlewares/login";
+import { loginLimiter } from "../../middlewares/rateLimits";
 
 const userRouter: express.Router = express.Router();
 
@@ -11,6 +12,7 @@ const service = new UserService(container.userRepository);
 
 userRouter.post(
 	"/login",
+	loginLimiter,
 	async (req: express.Request, res: express.Response, next: NextFunction) => {
 		try {
 			const { error: userDataError } = ValidateUserSchema.validate(req.body);

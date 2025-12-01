@@ -25,8 +25,14 @@ export class UnauthorizedError extends customError {
 	}
 }
 
-export class EntityAlreadyExistsErrorr extends customError {
+export class EntityAlreadyExistsError extends customError {
 	constructor(message: string) {
 		super(message, 422);
+	}
+}
+
+export class ToManyRequestError extends customError {
+	constructor(message: string) {
+		super(message, 429);
 	}
 }

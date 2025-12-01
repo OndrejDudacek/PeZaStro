@@ -1,6 +1,6 @@
 import { IUserRepository, UserData } from "./userRepository";
 import { User } from "./userEntity";
-import { EntityAlreadyExistsErrorr } from "../../customErrors";
+import { EntityAlreadyExistsError } from "../../customErrors";
 import bcrypt from "bcrypt";
 
 export class UserService {
@@ -24,7 +24,7 @@ export class UserService {
 	async create(data: UserData) {
 		const existingUser = await this.repo.findByUsername(data.username);
 		if (existingUser)
-			throw new EntityAlreadyExistsErrorr(
+			throw new EntityAlreadyExistsError(
 				`User with this (${data.username}) username already exists`,
 			);
 

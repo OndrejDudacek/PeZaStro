@@ -4,6 +4,8 @@ import "dotenv/config";
 
 import "reflect-metadata";
 import "express-async-errors";
+import helmet from "helmet";
+import { limiter } from "./middlewares/rateLimits";
 
 import { container } from "./db/diDbContainer";
 import errorHandler from "./middlewares/errorHandler";
@@ -18,6 +20,8 @@ const bootstrap = async () => {
 	app.use(json());
 	app.use(cors());
 	app.use(express.json());
+	app.use(limiter);
+	app.use(helmet());
 
 	const contactRouter = (await import("./sources/contact/contactRouter")).default;
 	app.use(apiPath + "contact", contactRouter);
