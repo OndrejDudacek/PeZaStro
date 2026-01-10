@@ -30,3 +30,4 @@
 - rozdeleni na server-client
 - inicializace vue
 - icon comonenta s material desing vecma
+- add reset for consistency acres browsers

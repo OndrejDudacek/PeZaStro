@@ -33,6 +33,8 @@
 # Výstup č. 3
 
 - [ ] tabulky jednotlivych veci - stranky
+- [ ] css variables
+- [x] reset
 - [ ] komponenty
   - [ ] tlacitka
   - [ ] texty
