@@ -2,6 +2,7 @@
 https://serp.co/tools/css-reset/
 <link rel="stylesheet" href="https://css.serp.co/css-reset/reset.css/">
 */
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
 html,
 body,
@@ -92,6 +93,7 @@ video,
 	font: inherit;
 	vertical-align: baseline;
 	box-sizing: border-box;
+	font-family: "Inter", sans-serif;
 }
 /* HTML5 display-role reset for older browsers */
 article,
