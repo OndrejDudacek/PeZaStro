@@ -36,7 +36,7 @@
 - [ ] css variables
 - [x] reset
 - [ ] komponenty
-  - [ ] tlacitka
+  - [x] tlacitka
   - [ ] texty
   - [ ] text area
   - [ ] detaily jednotlivych veci
