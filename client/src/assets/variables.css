@@ -12,6 +12,8 @@
 	--spacing-xl: 2rem;
 
 	--border-width: 1px;
+	--border-width-hover: 2px;
+	--border-width-active: 2.5px;
 	--border-radius: 10px;
 
 	--transition-time: 0.14s;

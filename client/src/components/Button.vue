@@ -28,16 +28,16 @@ button {
 	background-color: var(--color-background);
 	cursor: pointer;
 	padding: var(--spacing-s);
-	border: var(--border-width) solid var(--color-border);
+	outline: var(--border-width) solid var(--color-border);
 	border-radius: var(--border-radius);
 	transition: scale var(--transition-time);
 }
 
 button:hover {
-	scale: 1.05;
+	outline: var(--border-width-hover) solid var(--color-border);
 }
 
 button:active {
-	scale: 0.98;
+	outline: var(--border-width-active) solid var(--color-border);
 }
 </style>
