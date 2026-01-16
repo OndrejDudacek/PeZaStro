@@ -1,6 +1,6 @@
 <template>
 	<section>
-		<label v-if="label" :for="inputName">{{ label }}</label>
+		<label v-if="label" :for="inputName" @click="focusInput">{{ label }}</label>
 		<div @click="focusInput">
 			<Icon :icon-name="iconName"></Icon>
 			<input
@@ -10,6 +10,7 @@
 				:placeholder="placeholder"
 				:value="modelValue"
 				@input="emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+				:id="inputName"
 			/>
 		</div>
 	</section>
@@ -47,6 +48,16 @@ const focusInput = () => {
 </script>
 
 <style scoped lang="scss">
+section {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-xs);
+
+	label {
+		cursor: text;
+	}
+}
+
 div {
 	display: flex;
 	justify-content: left;
