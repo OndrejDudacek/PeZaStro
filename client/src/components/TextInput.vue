@@ -1,6 +1,6 @@
 <template>
 	<section>
-		<label :for="inputName"></label>
+		<label v-if="label" :for="inputName">{{ label }}</label>
 		<div @click="focusInput">
 			<Icon :icon-name="iconName"></Icon>
 			<input
@@ -30,6 +30,9 @@ const props = defineProps({
 		type: String,
 	},
 	modelValue: {
+		type: String,
+	},
+	label: {
 		type: String,
 	},
 });
