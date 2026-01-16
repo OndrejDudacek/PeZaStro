@@ -50,7 +50,7 @@ div {
 	align-items: center;
 	gap: var(--spacing-xs);
 	background-color: var(--color-background);
-	cursor: pointer;
+	cursor: text;
 	padding: var(--spacing-s);
 	outline: var(--border-width) solid var(--color-border);
 	border-radius: var(--border-radius);
