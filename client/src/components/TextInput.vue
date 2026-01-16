@@ -1,14 +1,17 @@
 <template>
-	<section @click="focusInput">
-		<Icon :icon-name="iconName"></Icon>
-		<input
-			ref="inputRef"
-			type="text"
-			:name="inputName"
-			:placeholder="placeholder"
-			:value="modelValue"
-			@input="emit('update:modelValue', ($event.target as HTMLInputElement).value)"
-		/>
+	<section>
+		<label :for="inputName"></label>
+		<div @click="focusInput">
+			<Icon :icon-name="iconName"></Icon>
+			<input
+				ref="inputRef"
+				type="text"
+				:name="inputName"
+				:placeholder="placeholder"
+				:value="modelValue"
+				@input="emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+			/>
+		</div>
 	</section>
 </template>
 
@@ -41,7 +44,7 @@ const focusInput = () => {
 </script>
 
 <style scoped lang="scss">
-section {
+div {
 	display: flex;
 	justify-content: left;
 	align-items: center;
@@ -61,12 +64,12 @@ section {
 	}
 }
 
-section:hover {
+div:hover {
 	outline: var(--border-width-hover) solid var(--color-border);
 }
 
-section:active,
-section:has(input:focus) {
+div:active,
+div:has(input:focus) {
 	outline: var(--border-width-active) solid var(--color-border);
 }
 </style>
