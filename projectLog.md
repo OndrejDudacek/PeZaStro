@@ -32,3 +32,8 @@
 - icon comonenta s material desing vecma
 - add reset for consistency acres browsers
 - tlacitko s iconami
+- text input
+- number intput
+- textarea
+- zprovoznen router
+- header, main, aside, nav, linky v app

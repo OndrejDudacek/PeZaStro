@@ -1,0 +1,26 @@
+div#app {
+	width: 100vw;
+	height: 100vh;
+}
+
+* {
+	font-family: "Inter", sans-serif;
+}
+
+h1 {
+	font-weight: 800;
+	font-size: larger;
+}
+h2 {
+	font-weight: 700;
+	font-size: large;
+}
+h3 {
+	font-weight: 600;
+}
+p,
+a {
+	color: var(--color-text);
+	font-weight: 400;
+	text-decoration: none;
+}

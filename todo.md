@@ -35,10 +35,11 @@
 - [ ] tabulky jednotlivych veci - stranky
 - [ ] css variables
 - [x] reset
+- [x] basic app elements - header, aside, main, nav
 - [ ] komponenty
   - [x] tlacitka
-  - [ ] texty
-  - [ ] text area
+  - [x] texty
+  - [x] text area
   - [ ] detaily jednotlivych veci
   - [x] icony
 
