@@ -11,13 +11,14 @@
 				:value="modelValue"
 				@input="emit('update:modelValue', ($event.target as HTMLInputElement).value)"
 				:id="inputName"
+				v-bind="attrs"
 			/>
 		</div>
 	</section>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, useAttrs } from "vue";
 import Icon from "./Icon.vue";
 
 const props = defineProps({
@@ -37,6 +38,8 @@ const props = defineProps({
 		type: String,
 	},
 });
+
+const attrs = useAttrs();
 
 const emit = defineEmits(["update:modelValue"]);
 
