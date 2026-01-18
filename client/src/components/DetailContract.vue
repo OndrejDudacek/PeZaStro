@@ -96,24 +96,6 @@ const props = defineProps<{
 </script>
 
 <style scoped lang="scss">
-article {
-	display: flex;
-	flex-direction: column;
-	gap: var(--spacing-l);
-}
-
-ul {
-	display: flex;
-	flex-direction: column;
-	gap: var(--spacing-m);
-}
-
-li {
-	padding-left: var(--spacing-m);
-}
-
-div.dateInputs {
-	display: flex;
-	gap: var(--spacing-m);
-}
+@use "../assets/mixins" as *;
+@include detailStyling;
 </style>
