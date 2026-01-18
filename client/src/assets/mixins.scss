@@ -1,0 +1,45 @@
+@mixin table {
+	table {
+		width: 100%;
+		border-collapse: separate;
+		border-spacing: 0;
+		background-color: var(--color-background);
+		border-radius: var(--border-radius);
+		overflow: hidden;
+
+		th {
+			background-color: var(--color-container);
+			padding: var(--spacing-m);
+			text-align: left;
+			font-weight: 600;
+			border-bottom: var(--border-width) solid var(--color-border);
+		}
+
+		td {
+			padding: var(--spacing-m);
+			border-bottom: var(--border-width) solid var(--color-border);
+		}
+
+		tr:last-child td {
+			border-bottom: none;
+		}
+
+		tr:hover td {
+			background-color: var(--color-container);
+			cursor: pointer;
+		}
+	}
+}
+
+@mixin tableAndDetail {
+	#tableAndDetailWrapper {
+		display: flex;
+		gap: var(--spacing-m);
+
+		article {
+			flex: 1;
+		}
+
+		@include table;
+	}
+}
