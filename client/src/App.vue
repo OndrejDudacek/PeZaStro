@@ -14,10 +14,10 @@
 						<RouterLink id="linkCustomer" to="/customer">Zákazníci</RouterLink>
 					</li>
 					<li>
-						<RouterLink id="linkContract" to="/contract">Zakázky</RouterLink>
+						<RouterLink id="linkLocation" to="/location">Lokace</RouterLink>
 					</li>
 					<li>
-						<RouterLink id="linkLocation" to="/location">Lokace</RouterLink>
+						<RouterLink id="linkContract" to="/contract">Zakázky</RouterLink>
 					</li>
 				</ul>
 			</nav>
@@ -45,7 +45,7 @@ header {
 .wrapper {
 	display: flex;
 	flex-direction: row;
-	height: 100%;
+	height: calc(100vh - calc(calc(2 * var(--spacing-m)) + 1rem));
 	width: 100%;
 
 	aside {
@@ -89,6 +89,9 @@ header {
 
 	main {
 		padding: var(--spacing-xl);
+		width: 100%;
+		max-width: 100%;
+		overflow-y: auto;
 	}
 }
 </style>
