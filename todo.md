@@ -33,10 +33,10 @@
 # Výstup č. 3
 
 - [x] tabulky jednotlivych veci - stranky
-- [ ] css variables
+- [x] css variables
 - [x] reset
 - [x] basic app elements - header, aside, main, nav
-- [ ] komponenty
+- [x] komponenty
   - [x] tlacitka
   - [x] texty
   - [x] text area
