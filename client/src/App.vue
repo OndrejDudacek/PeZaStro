@@ -19,6 +19,9 @@
 					<li>
 						<RouterLink id="linkContract" to="/contract">Zakázky</RouterLink>
 					</li>
+					<li>
+						<RouterLink id="jobContract" to="/job">Práce</RouterLink>
+					</li>
 				</ul>
 			</nav>
 		</aside>
