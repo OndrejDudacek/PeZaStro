@@ -38,3 +38,5 @@
 - textarea
 - zprovoznen router
 - header, main, aside, nav, linky v app
+- detaily zakazniku, lokaci, zakazek, praci
+- tabulky zakazniku, lokaci, zakazek, praci

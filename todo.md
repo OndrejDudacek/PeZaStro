@@ -32,7 +32,7 @@
 
 # Výstup č. 3
 
-- [ ] tabulky jednotlivych veci - stranky
+- [x] tabulky jednotlivych veci - stranky
 - [ ] css variables
 - [x] reset
 - [x] basic app elements - header, aside, main, nav
@@ -40,7 +40,7 @@
   - [x] tlacitka
   - [x] texty
   - [x] text area
-  - [ ] detaily jednotlivych veci
+  - [x] detaily jednotlivych veci
   - [x] icony
   - [x] select input
 
