@@ -14,9 +14,9 @@
 			<li>
 				<p>Datum podepsání:</p>
 				<div class="dateInputs">
-					<NumberInput label="Den:" />
-					<NumberInput label="Měsíc:" />
-					<NumberInput label="Rok:" />
+					<GenericInput type="number" label="Den:" />
+					<GenericInput type="number" label="Měsíc:" />
+					<GenericInput type="number" label="Rok:" />
 				</div>
 			</li>
 			<li>
@@ -35,7 +35,7 @@
 						<p>Datum vytvoření: {{}}</p>
 					</li>
 					<li>
-						<TextInput label="Jméno:" placeholder="Sekání trávy" />
+						<GenericInput type="text" label="Jméno:" placeholder="Sekání trávy" />
 					</li>
 					<li>
 						<p>Cena: {{}}</p>
@@ -51,7 +51,7 @@
 						/>
 					</li>
 					<li>
-						<NumberInput label="Perioda:" />
+						<GenericInput type="number" label="Perioda:" />
 					</li>
 				</ul>
 			</li>
@@ -67,9 +67,9 @@
 					<li>
 						<p>Datum práce:</p>
 						<div class="dateInputs">
-							<NumberInput label="Den:" />
-							<NumberInput label="Měsíc:" />
-							<NumberInput label="Rok:" />
+							<GenericInput type="number" label="Den:" />
+							<GenericInput type="number" label="Měsíc:" />
+							<GenericInput type="number" label="Rok:" />
 						</div>
 					</li>
 					<li>
@@ -85,8 +85,7 @@
 
 <script setup lang="ts">
 import Button from "./Button.vue";
-import NumberInput from "./NumberInput.vue";
-import TextInput from "./TextInput.vue";
+import GenericInput from "./GenericInput.vue";
 import TextArea from "./TextArea.vue";
 import SelectInput from "./SelectInput.vue";
 

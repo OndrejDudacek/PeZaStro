@@ -11,9 +11,9 @@
 			<li>
 				<p>Datum provedení:</p>
 				<div class="dateInputs">
-					<NumberInput label="Den:" />
-					<NumberInput label="Měsíc:" />
-					<NumberInput label="Rok:" />
+					<GenericInput type="number" label="Den:" />
+					<GenericInput type="number" label="Měsíc:" />
+					<GenericInput type="number" label="Rok:" />
 				</div>
 			</li>
 			<li>
@@ -29,7 +29,7 @@
 
 <script setup lang="ts">
 import Button from "./Button.vue";
-import NumberInput from "./NumberInput.vue";
+import GenericInput from "./GenericInput.vue";
 import TextArea from "./TextArea.vue";
 
 const props = defineProps<{

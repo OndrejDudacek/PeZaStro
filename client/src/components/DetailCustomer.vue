@@ -9,7 +9,7 @@
 				<p>Datum vytvoření: {{}}</p>
 			</li>
 			<li>
-				<TextInput label="Jméno:" placeholder="Jan Nezdar" />
+				<GenericInput type="text" label="Jméno:" placeholder="Jan Nezdar" />
 			</li>
 			<li>
 				<TextArea label="Poznámky:" />
@@ -27,13 +27,21 @@
 						<p>Datum vytvoření: {{}}</p>
 					</li>
 					<li>
-						<TextInput label="Jméno:" placeholder="Josefína Nezdarová" />
+						<GenericInput
+							type="text"
+							label="Jméno:"
+							placeholder="Josefína Nezdarová"
+						/>
 					</li>
 					<li>
-						<NumberInput label="Telefon:" placeholder="777666111" />
+						<GenericInput type="number" label="Telefon:" placeholder="777666111" />
 					</li>
 					<li>
-						<TextInput label="Email:" placeholder="josefina.nezdarova@gmail.com" />
+						<GenericInput
+							type="text"
+							label="Email:"
+							placeholder="josefina.nezdarova@gmail.com"
+						/>
 					</li>
 				</ul>
 			</li>
@@ -45,8 +53,7 @@
 
 <script setup lang="ts">
 import Button from "./Button.vue";
-import NumberInput from "./NumberInput.vue";
-import TextInput from "./TextInput.vue";
+import GenericInput from "./GenericInput.vue";
 import TextArea from "./TextArea.vue";
 
 const props = defineProps<{

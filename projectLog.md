@@ -40,3 +40,4 @@
 - header, main, aside, nav, linky v app
 - detaily zakazniku, lokaci, zakazek, praci
 - tabulky zakazniku, lokaci, zakazek, praci
+- zmena number inputu a text inputu na generic input s nastavitelnym typem

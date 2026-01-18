@@ -5,11 +5,11 @@
 			<Icon v-if="iconName" :icon-name="iconName"></Icon>
 			<input
 				ref="inputRef"
-				type="number"
+				:type="type || 'text'"
 				:name="inputName"
 				:placeholder="placeholder"
 				:value="modelValue"
-				@input="emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+				@input="handleInput"
 				:id="inputName"
 				v-bind="attrs"
 			/>
@@ -21,32 +21,31 @@
 import { ref, useAttrs } from "vue";
 import Icon from "./Icon.vue";
 
-const props = defineProps({
-	iconName: {
-		type: String,
-	},
-	inputName: {
-		type: String,
-	},
-	placeholder: {
-		type: String,
-	},
-	modelValue: {
-		type: Number,
-	},
-	label: {
-		type: String,
-	},
-});
+const props = defineProps<{
+	iconName?: string;
+	inputName?: string;
+	placeholder?: string;
+	modelValue?: string | number;
+	label?: string;
+	type?: "text" | "number" | "email" | "password" | "tel" | "url";
+}>();
 
 const attrs = useAttrs();
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits<{
+	"update:modelValue": [value: string | number];
+}>();
 
 const inputRef = ref<HTMLInputElement | null>(null);
 
 const focusInput = () => {
 	inputRef.value?.focus();
+};
+
+const handleInput = (event: Event) => {
+	const target = event.target as HTMLInputElement;
+	const value = props.type === "number" ? Number(target.value) : target.value;
+	emit("update:modelValue", value);
 };
 </script>
 
