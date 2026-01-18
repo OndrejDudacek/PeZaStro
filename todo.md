@@ -42,6 +42,7 @@
   - [x] text area
   - [ ] detaily jednotlivych veci
   - [x] icony
+  - [x] select input
 
 # Výstup č. 4
 

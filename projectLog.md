@@ -34,6 +34,7 @@
 - tlacitko s iconami
 - text input
 - number intput
+- select input
 - textarea
 - zprovoznen router
 - header, main, aside, nav, linky v app
