@@ -6,7 +6,6 @@
 const props = defineProps({
 	iconName: {
 		type: String,
-		default: "hide_source",
 	},
 });
 </script>

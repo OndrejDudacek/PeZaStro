@@ -2,7 +2,7 @@
 	<section>
 		<label v-if="label" :for="inputName" @click="focusInput">{{ label }}</label>
 		<div @click="focusInput">
-			<Icon :icon-name="iconName"></Icon>
+			<Icon v-if="iconName" :icon-name="iconName"></Icon>
 			<input
 				ref="inputRef"
 				type="number"
