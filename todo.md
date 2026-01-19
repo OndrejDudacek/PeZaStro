@@ -46,7 +46,9 @@
 
 # Výstup č. 4
 
-- [ ] po kliknuti na policko v db se presuneme na stranku source/id a zobrazi se detailnejsi info
-  - [ ] tahani relaci (mam v child id na rodice ne opacne)
+- [ ] tahani relaci (mam v child id na rodice ne opacne)
 - [ ] vytvareni novych veci
   - [ ] vyresit jak vytvaret jen neco
+- [ ] api service nebo neco takovyho¨
+- [ ] typy a DTO
+- [ ] responsivita
