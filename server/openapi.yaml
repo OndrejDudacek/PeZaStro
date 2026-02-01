@@ -1,444 +1,988 @@
+openapi: 3.0.3
 info:
-  title: Pezastro API
-  version: 1.0.0
-  description:
-    API for Pezastro company. Pezastro is a company that provides services
-    for gardening and tree care.
-tags: []
-paths: {}
-openapi: 3.1.0
+    title: Pezastro API
+    description: API pro správu zahradnických služeb Pezastro.
+    version: 1.0.0
+servers:
+    - url: http://localhost:4321/api/v1
+      description: Lokální vývojový server
+
 components:
-  schemas:
-    Customer:
-      type: object
-      required:
-        - name
-        - id
-      properties:
-        name:
-          type: string
-          examples:
-            - Pepa Vokurka
-        note:
-          type: string
-          examples:
-            - A nice fella
-        id:
-          type: string
-          examples:
-            - sd23mkm23kkmm4
-      description: Customer with name and node
-    Contact:
-      type: object
-      required:
-        - id
-        - name
-        - customerId
-      properties:
-        id:
-          type: string
-          examples:
-            - sd23mkm23kkmm4
-        name:
-          type: string
-          examples:
-            - J.K. Rowling
-            - Henry Miller
-        phone:
-          type: integer
-        examples:
-          - 78232399
-        email:
-          type: string
-        customerId:
-          type: string
-      description: Contact options for a customer.
-    Location:
-      type: object
-      properties:
-        id:
-          type: string
-        address:
-          type: object
-          properties:
-            streetAndNumber:
-              type: string
-            city:
-              type: string
-          required:
-            - streetAndNumber
-            - city
-        note:
-          type: string
-        customerId:
-          type: string
-      required:
-        - id
-        - address
-        - customerId
-      description: Location owned/managed by the owner. Place, where the work is done.
-    LocationPartialUpdate:
-      type: object
-      properties:
-        address:
-          type: object
-          properties:
-            streetAndNumber:
-              type: string
-            city:
-              type: string
-          required: []
-        note:
-          type: string
-        customerId:
-          type: string
-      required: []
-      description:
-        Data transfer object for partially updating an existing Location
-        (PATCH operation).
-      x-fiddle-dto-info:
-        baseSchemaName: Location
-    LocationCreate:
-      type: object
-      properties:
-        address:
-          type: object
-          properties:
-            streetAndNumber:
-              type: string
-            city:
-              type: string
-          required:
-            - streetAndNumber
-            - city
-        note:
-          type: string
-        customerId:
-          type: string
-      required:
-        - address
-        - customerId
-      description: Data transfer object for creating a new Location.
-      x-fiddle-dto-info:
-        baseSchemaName: Location
-    ContactPartialUpdate:
-      type: object
-      properties:
-        name:
-          type: string
-        phone:
-          type: integer
-        email:
-          type: string
-        customerId:
-          type: string
-      required: []
-      description:
-        Data transfer object for partially updating an existing Contact
-        (PATCH operation).
-      x-fiddle-dto-info:
-        baseSchemaName: Contact
-    ContactCreate:
-      type: object
-      properties:
-        name:
-          type: string
-        phone:
-          type: integer
-        email:
-          type: string
-        customerId:
-          type: string
-      required:
-        - name
-        - customerId
-      description: Data transfer object for creating a new Contact.
-      x-fiddle-dto-info:
-        baseSchemaName: Contact
-    CustomerCreate:
-      type: object
-      properties:
-        name:
-          type: string
-        note:
-          type: string
-      required:
-        - name
-      description: Data transfer object for creating a new Customer.
-      x-fiddle-dto-info:
-        baseSchemaName: Customer
-    CustomerPartialUpdate:
-      type: object
-      properties:
-        name:
-          type: string
-        note:
-          type: string
-      required: []
-      description:
-        Data transfer object for partially updating an existing Customer
-        (PATCH operation).
-      x-fiddle-dto-info:
-        baseSchemaName: Customer
-    Contract:
-      type: object
-      properties:
-        id:
-          type: string
-        totalCost:
-          type: integer
-        dateOfSigning:
-          type: string
-        note:
-          type: string
-        locationId:
-          type: string
-      required:
-        - id
-        - totalCost
-        - locationId
-      description: Contract on a specific location.
-    ContractCreate:
-      type: object
-      properties:
-        totalCost:
-          type: integer
-        dateOfSigning:
-          type: string
-        note:
-          type: string
-        locationId:
-          type: string
-      required:
-        - totalCost
-        - locationId
-      description: Data transfer object for creating a new Contract.
-      x-fiddle-dto-info:
-        baseSchemaName: Contract
-    ContractPartialUpdate:
-      type: object
-      properties:
-        totalCost:
-          type: integer
-        dateOfSigning:
-          type: string
-        note:
-          type: string
-        locationId:
-          type: string
-      required: []
-      description:
-        Data transfer object for partially updating an existing Contract
-        (PATCH operation).
-      x-fiddle-dto-info:
-        baseSchemaName: Contract
-    JobDescription:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        cost:
-          type: string
-        frequency:
-          type: integer
-        period:
-          type: string
-          enum:
-            - month
-            - year
-        contractId:
-          type: string
-      required:
-        - id
-        - name
-        - contractId
-      description: Describes, what needs to be done. Part of the contract.
-    JobDescriptionCreate:
-      type: object
-      properties:
-        name:
-          type: string
-        cost:
-          type: string
-        frequency:
-          type: integer
-        period:
-          type: string
-        contractId:
-          type: string
-      required:
-        - name
-        - contractId
-      description: Data transfer object for creating a new JobDescription.
-      x-fiddle-dto-info:
-        baseSchemaName: JobDescription
-    JobDescriptionPartialUpdate:
-      type: object
-      properties:
-        name:
-          type: string
-        cost:
-          type: string
-        frequency:
-          type: integer
-        period:
-          type: string
-        contractId:
-          type: string
-      required: []
-      description: Data transfer object for partially updating an existing
-        JobDescription (PATCH operation).
-      x-fiddle-dto-info:
-        baseSchemaName: JobDescription
-    Job:
-      type: object
-      properties:
-        id:
-          type: string
-        date:
-          type: string
-        note:
-          type: string
-        contratctId:
-          type: string
-      required:
-        - id
-        - date
-        - note
-        - contratctId
-      description: Every job done.
-    JobCreate:
-      type: object
-      properties:
-        date:
-          type: string
-        note:
-          type: string
-        contratctId:
-          type: string
-      required:
-        - date
-        - note
-        - contratctId
-      description: Data transfer object for creating a new Job.
-      x-fiddle-dto-info:
-        baseSchemaName: Job
-    JobPartialUpdate:
-      type: object
-      properties:
-        date:
-          type: string
-        note:
-          type: string
-        contratctId:
-          type: string
-      required: []
-      description:
-        Data transfer object for partially updating an existing Job (PATCH
-        operation).
-      x-fiddle-dto-info:
-        baseSchemaName: Job
-    User:
-      type: object
-      properties:
-        id:
-          type: string
-        username:
-          type: string
-        password:
-          type: string
-      required:
-        - id
-        - username
-        - password
-      description: ""
-    UserCreate:
-      type: object
-      properties:
-        username:
-          type: string
-        password:
-          type: string
-      required:
-        - username
-        - password
-      description: Data transfer object for creating a new User.
-      x-fiddle-dto-info:
-        baseSchemaName: User
-    UserPartialUpdate:
-      type: object
-      properties:
-        username:
-          type: string
-        password:
-          type: string
-      required: []
-      description:
-        Data transfer object for partially updating an existing User (PATCH
-        operation).
-      x-fiddle-dto-info:
-        baseSchemaName: User
-  responses:
-    Conflict:
-      content:
-        application/json:
-          schema:
+    securitySchemes:
+        bearerAuth:
+            type: http
+            scheme: bearer
+            bearerFormat: JWT
+            description: >-
+                Pro autentizaci použijte hlavičku 'Authorization' s hodnotou 'Bearer <vas_token>'.
+
+    schemas:
+        # --- Shared / Utilities ---
+        Error:
             type: object
-            required:
-              - message
             properties:
-              message:
-                type: string
-                examples:
-                  - Lorem ipsum
-      description: The request could not be completed due to a conflict with the
-        current state of the resource. Resolve the conflict and try again.
-    NotFound:
-      content:
-        application/json:
-          schema:
+                message:
+                    type: string
+                    example: "Neplatná data požadavku"
+
+        Id:
+            type: string
+            format: uuid
+            example: "550e8400-e29b-41d4-a716-446655440000"
+
+        Date:
+            type: string
+            format: date-time
+            example: "2026-02-01T10:02:59.495Z"
+
+        Address:
             type: object
-            required:
-              - message
             properties:
-              message:
-                type: string
-                examples:
-                  - Lorem ipsum
-      description:
-        The server cannot find the requested resource. The endpoint may be
-        invalid or the resource may no longer exist.
-    BadRequest:
-      content:
-        application/json:
-          schema:
+                street:
+                    type: string
+                    example: "Lipová"
+                houseNumber:
+                    type: number
+                    example: 42
+                postalCode:
+                    type: string
+                    pattern: '^\d{5}\s\(\d{3}\s\d{2}\)$'
+                    example: "123 00"
+                city:
+                    type: string
+                    example: "Praha"
+            required:
+                - street
+                - houseNumber
+                - postalCode
+                - city
+
+        AddressUpdate:
             type: object
-            required:
-              - message
             properties:
-              message:
-                type: string
-                examples:
-                  - Lorem ipsum
-      description:
-        The server could not understand the request due to invalid syntax.
-        The client should modify the request and try again.
-    InternalServerErrror:
-      content:
-        application/json:
-          schema:
+                street:
+                    type: string
+                    example: "Lipová"
+                houseNumber:
+                    type: number
+                    example: 42
+                postalCode:
+                    type: string
+                    pattern: '^\d{5}\s\(\d{3}\s\d{2}\)$'
+                    example: "123 00"
+                city:
+                    type: string
+                    example: "Praha"
+
+        # --- Customer ---
+        Customer:
             type: object
-            required:
-              - message
             properties:
-              message:
-                type: string
-                examples:
-                  - Lorem ipsum
-      description:
-        The server encountered an unexpected condition that prevented it
-        from fulfilling the request. Report the issue to the support team if it
-        persists.
-  parameters: {}
+                id:
+                    $ref: "#/components/schemas/Id"
+                createdAt:
+                    $ref: "#/components/schemas/Date"
+                name:
+                    type: string
+                    example: "Jan Novák"
+                note:
+                    type: string
+                    example: "Preferuje komunikaci emailem."
+            required:
+                - id
+                - createdAt
+                - name
+
+        CustomerCreate:
+            type: object
+            properties:
+                name:
+                    type: string
+                    minLength: 3
+                    maxLength: 50
+                    example: "Jan Novák"
+                note:
+                    type: string
+                    maxLength: 1500
+                    example: "Nový zákazník, zahrada u lesa."
+            required:
+                - name
+
+        CustomerUpdate:
+            type: object
+            properties:
+                name:
+                    type: string
+                    minLength: 3
+                    maxLength: 50
+                    example: "Jan Novák ml."
+                note:
+                    type: string
+                    maxLength: 1500
+                    example: "Aktualizace poznámky."
+
+        # --- Location ---
+        Location:
+            type: object
+            properties:
+                id:
+                    $ref: "#/components/schemas/Id"
+                createdAt:
+                    $ref: "#/components/schemas/Date"
+                address:
+                    $ref: "#/components/schemas/Address"
+                customerId:
+                    $ref: "#/components/schemas/Id"
+                note:
+                    type: string
+                    example: "Vstup přes zadní branku."
+            required:
+                - id
+                - createdAt
+                - address
+                - customerId
+
+        LocationCreate:
+            type: object
+            properties:
+                address:
+                    $ref: "#/components/schemas/Address"
+                customerId:
+                    $ref: "#/components/schemas/Id"
+                note:
+                    type: string
+                    maxLength: 1500
+                    example: "Klíče jsou u sousedů."
+            required:
+                - address
+                - customerId
+
+        LocationUpdate:
+            type: object
+            properties:
+                address:
+                    $ref: "#/components/schemas/AddressUpdate"
+                customerId:
+                    $ref: "#/components/schemas/Id"
+                note:
+                    type: string
+                    maxLength: 1500
+
+        # --- Contact ---
+        Contact:
+            type: object
+            properties:
+                id:
+                    $ref: "#/components/schemas/Id"
+                createdAt:
+                    $ref: "#/components/schemas/Date"
+                name:
+                    type: string
+                    example: "Marie Nováková"
+                customerId:
+                    $ref: "#/components/schemas/Id"
+                phone:
+                    type: number
+                    example: 777123456
+                email:
+                    type: string
+                    format: email
+                    example: "marie@example.com"
+            required:
+                - id
+                - createdAt
+                - name
+                - customerId
+
+        ContactCreate:
+            type: object
+            properties:
+                name:
+                    type: string
+                    minLength: 3
+                    maxLength: 50
+                    example: "Marie Nováková"
+                customerId:
+                    $ref: "#/components/schemas/Id"
+                phone:
+                    type: number
+                    example: 777123456
+                email:
+                    type: string
+                    format: email
+                    example: "marie@example.com"
+            required:
+                - name
+                - customerId
+
+        ContactUpdate:
+            type: object
+            properties:
+                name:
+                    type: string
+                    minLength: 3
+                    maxLength: 50
+                customerId:
+                    $ref: "#/components/schemas/Id"
+                phone:
+                    type: number
+                email:
+                    type: string
+                    format: email
+
+        # --- Contract ---
+        Contract:
+            type: object
+            properties:
+                id:
+                    $ref: "#/components/schemas/Id"
+                createdAt:
+                    $ref: "#/components/schemas/Date"
+                totalCost:
+                    type: number
+                    example: 15000
+                dateOfSigning:
+                    $ref: "#/components/schemas/Date"
+                locationId:
+                    $ref: "#/components/schemas/Id"
+                note:
+                    type: string
+                    example: "Smlouva na sezónu 2023"
+            required:
+                - id
+                - createdAt
+                - totalCost
+                - dateOfSigning
+                - locationId
+
+        ContractCreate:
+            type: object
+            properties:
+                totalCost:
+                    type: number
+                    minimum: 0
+                    example: 15000
+                dateOfSigning:
+                    $ref: "#/components/schemas/Date"
+                locationId:
+                    $ref: "#/components/schemas/Id"
+                note:
+                    type: string
+                    maxLength: 1500
+            required:
+                - totalCost
+                - dateOfSigning
+
+        ContractUpdate:
+            type: object
+            properties:
+                totalCost:
+                    type: number
+                    minimum: 0
+                dateOfSigning:
+                    $ref: "#/components/schemas/Date"
+                locationId:
+                    $ref: "#/components/schemas/Id"
+                note:
+                    type: string
+                    maxLength: 1500
+
+        # --- Job ---
+        Job:
+            type: object
+            properties:
+                id:
+                    $ref: "#/components/schemas/Id"
+                createdAt:
+                    $ref: "#/components/schemas/Date"
+                date:
+                    $ref: "#/components/schemas/Date"
+                contractId:
+                    $ref: "#/components/schemas/Id"
+                note:
+                    type: string
+                    example: "Sekání trávy a úprava živého plotu."
+            required:
+                - id
+                - createdAt
+                - date
+                - contractId
+                - note
+
+        JobCreate:
+            type: object
+            properties:
+                date:
+                    $ref: "#/components/schemas/Date"
+                note:
+                    type: string
+                    maxLength: 1500
+                    example: "Pravidelná údržba."
+                contractId:
+                    $ref: "#/components/schemas/Id"
+            required:
+                - date
+                - contractId
+                - note
+
+        JobUpdate:
+            type: object
+            properties:
+                date:
+                    $ref: "#/components/schemas/Date"
+                note:
+                    type: string
+                    maxLength: 1500
+                contractId:
+                    $ref: "#/components/schemas/Id"
+
+        # --- JobDescription ---
+        JobDescription:
+            type: object
+            properties:
+                id:
+                    $ref: "#/components/schemas/Id"
+                createdAt:
+                    $ref: "#/components/schemas/Date"
+                name:
+                    type: string
+                    example: "Sekání trávy"
+                contractId:
+                    $ref: "#/components/schemas/Id"
+                cost:
+                    type: number
+                    example: 500
+                frequency:
+                    type: string
+                    enum: [month, year]
+                    example: "month"
+                period:
+                    type: number
+                    example: 1
+            required:
+                - id
+                - createdAt
+                - name
+                - contractId
+                - cost
+
+        JobDescriptionCreate:
+            type: object
+            properties:
+                name:
+                    type: string
+                    minLength: 3
+                    maxLength: 50
+                    example: "Sekání trávy"
+                contractId:
+                    $ref: "#/components/schemas/Id"
+                cost:
+                    type: number
+                    minimum: 0
+                    example: 500
+                frequency:
+                    type: string
+                    enum: [month, year]
+                    example: "month"
+                period:
+                    type: number
+                    minimum: 1
+                    example: 2
+            required:
+                - name
+                - contractId
+                - cost
+
+        JobDescriptionUpdate:
+            type: object
+            properties:
+                name:
+                    type: string
+                contractId:
+                    $ref: "#/components/schemas/Id"
+                cost:
+                    type: number
+                frequency:
+                    type: string
+                    enum: [month, year]
+                period:
+                    type: number
+
+        # --- User ---
+        UserLogin:
+            type: object
+            properties:
+                username:
+                    type: string
+                    example: "admin"
+                password:
+                    type: string
+                    format: password
+                    example: "tajneheslo"
+            required:
+                - username
+                - password
+
+        UserLoginResponse:
+            type: object
+            properties:
+                token:
+                    type: string
+                    description: JWT token pro autentizaci
+                id:
+                    $ref: "#/components/schemas/Id"
+                username:
+                    type: string
+            required:
+                - token
+                - id
+                - username
+
+security:
+    - bearerAuth: []
+
+paths:
+    # --- User Paths ---
+    /user/login:
+        post:
+            tags: [User]
+            summary: Přihlášení uživatele
+            security: [] # Veřejný endpoint
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/UserLogin"
+            responses:
+                "200":
+                    description: Úspěšné přihlášení
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/UserLoginResponse"
+                "400":
+                    description: Neplatné údaje
+
+    # --- Customer Paths ---
+    /customer:
+        get:
+            tags: [Customer]
+            summary: Získat všechny zákazníky
+            responses:
+                "200":
+                    description: Seznam zákazníků
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "#/components/schemas/Customer"
+        post:
+            tags: [Customer]
+            summary: Vytvořit nového zákazníka
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/CustomerCreate"
+            responses:
+                "201":
+                    description: Zákazník vytvořen
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Customer"
+                "400":
+                    description: Chyba validace
+
+    /customer/{id}:
+        get:
+            tags: [Customer]
+            summary: Získat zákazníka podle ID
+            parameters:
+                - in: path
+                  name: id
+                  schema:
+                      type: string
+                      format: uuid
+                  required: true
+                  description: ID zákazníka
+            responses:
+                "200":
+                    description: Detail zákazníka
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Customer"
+                "404":
+                    description: Zákazník nenalezen
+        patch:
+            tags: [Customer]
+            summary: Upravit zákazníka
+            parameters:
+                - in: path
+                  name: id
+                  schema:
+                      type: string
+                      format: uuid
+                  required: true
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/CustomerUpdate"
+            responses:
+                "200":
+                    description: Zákazník upraven
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Customer"
+        delete:
+            tags: [Customer]
+            summary: Smazat zákazníka
+            parameters:
+                - in: path
+                  name: id
+                  schema:
+                      type: string
+                      format: uuid
+                  required: true
+            responses:
+                "200":
+                    description: Zákazník smazán
+                "404":
+                    description: Zákazník nenalezen
+
+    # --- Location Paths ---
+    /location:
+        get:
+            tags: [Location]
+            summary: Získat všechny lokace
+            responses:
+                "200":
+                    description: Seznam lokací
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "#/components/schemas/Location"
+        post:
+            tags: [Location]
+            summary: Vytvořit novou lokaci
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/LocationCreate"
+            responses:
+                "201":
+                    description: Lokace vytvořena
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Location"
+
+    /location/{id}:
+        get:
+            tags: [Location]
+            summary: Získat lokaci podle ID
+            parameters:
+                - in: path
+                  name: id
+                  schema:
+                      type: string
+                      format: uuid
+                  required: true
+            responses:
+                "200":
+                    description: Detail lokace
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Location"
+        patch:
+            tags: [Location]
+            summary: Upravit lokaci
+            parameters:
+                - in: path
+                  name: id
+                  schema:
+                      type: string
+                      format: uuid
+                  required: true
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/LocationUpdate"
+            responses:
+                "200":
+                    description: Lokace upravena
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Location"
+        delete:
+            tags: [Location]
+            summary: Smazat lokaci
+            parameters:
+                - in: path
+                  name: id
+                  schema:
+                      type: string
+                      format: uuid
+                  required: true
+            responses:
+                "200":
+                    description: Lokace smazána
+
+    # --- Contact Paths ---
+    /contact:
+        get:
+            tags: [Contact]
+            summary: Získat všechny kontakty
+            responses:
+                "200":
+                    description: Seznam kontaktů
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "#/components/schemas/Contact"
+        post:
+            tags: [Contact]
+            summary: Vytvořit nový kontakt
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/ContactCreate"
+            responses:
+                "201":
+                    description: Kontakt vytvořen
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Contact"
+
+    /contact/{id}:
+        get:
+            tags: [Contact]
+            summary: Získat kontakt podle ID
+            parameters:
+                - in: path
+                  name: id
+                  schema:
+                      type: string
+                      format: uuid
+                  required: true
+            responses:
+                "200":
+                    description: Detail kontaktu
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Contact"
+        patch:
+            tags: [Contact]
+            summary: Upravit kontakt
+            parameters:
+                - in: path
+                  name: id
+                  schema:
+                      type: string
+                      format: uuid
+                  required: true
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/ContactUpdate"
+            responses:
+                "200":
+                    description: Kontakt upraven
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Contact"
+        delete:
+            tags: [Contact]
+            summary: Smazat kontakt
+            parameters:
+                - in: path
+                  name: id
+                  schema:
+                      type: string
+                      format: uuid
+                  required: true
+            responses:
+                "200":
+                    description: Kontakt smazán
+
+    # --- Contract Paths ---
+    /contract:
+        get:
+            tags: [Contract]
+            summary: Získat všechny smlouvy
+            responses:
+                "200":
+                    description: Seznam smluv
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "#/components/schemas/Contract"
+        post:
+            tags: [Contract]
+            summary: Vytvořit novou smlouvu
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/ContractCreate"
+            responses:
+                "201":
+                    description: Smlouva vytvořena
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Contract"
+
+    /contract/{id}:
+        get:
+            tags: [Contract]
+            summary: Získat smlouvu podle ID
+            parameters:
+                - in: path
+                  name: id
+                  schema:
+                      type: string
+                      format: uuid
+                  required: true
+            responses:
+                "200":
+                    description: Detail smlouvy
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Contract"
+        patch:
+            tags: [Contract]
+            summary: Upravit smlouvu
+            parameters:
+                - in: path
+                  name: id
+                  schema:
+                      type: string
+                      format: uuid
+                  required: true
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/ContractUpdate"
+            responses:
+                "200":
+                    description: Smlouva upravena
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Contract"
+        delete:
+            tags: [Contract]
+            summary: Smazat smlouvu
+            parameters:
+                - in: path
+                  name: id
+                  schema:
+                      type: string
+                      format: uuid
+                  required: true
+            responses:
+                "200":
+                    description: Smlouva smazána
+
+    # --- Job Paths ---
+    /job:
+        get:
+            tags: [Job]
+            summary: Získat všechny práce (jobs)
+            responses:
+                "200":
+                    description: Seznam prací
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "#/components/schemas/Job"
+        post:
+            tags: [Job]
+            summary: Vytvořit novou práci
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/JobCreate"
+            responses:
+                "201":
+                    description: Práce vytvořena
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Job"
+
+    /job/{id}:
+        get:
+            tags: [Job]
+            summary: Získat práci podle ID
+            parameters:
+                - in: path
+                  name: id
+                  schema:
+                      type: string
+                      format: uuid
+                  required: true
+            responses:
+                "200":
+                    description: Detail práce
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Job"
+        patch:
+            tags: [Job]
+            summary: Upravit práci
+            parameters:
+                - in: path
+                  name: id
+                  schema:
+                      type: string
+                      format: uuid
+                  required: true
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/JobUpdate"
+            responses:
+                "200":
+                    description: Práce upravena
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Job"
+        delete:
+            tags: [Job]
+            summary: Smazat práci
+            parameters:
+                - in: path
+                  name: id
+                  schema:
+                      type: string
+                      format: uuid
+                  required: true
+            responses:
+                "200":
+                    description: Práce smazána
+
+    # --- JobDescription Paths ---
+    /jobDescription:
+        get:
+            tags: [JobDescription]
+            summary: Získat všechny popisy práce
+            responses:
+                "200":
+                    description: Seznam popisů práce
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "#/components/schemas/JobDescription"
+        post:
+            tags: [JobDescription]
+            summary: Vytvořit nový popis práce
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/JobDescriptionCreate"
+            responses:
+                "201":
+                    description: Popis práce vytvořen
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/JobDescription"
+
+    /jobDescription/{id}:
+        get:
+            tags: [JobDescription]
+            summary: Získat popis práce podle ID
+            parameters:
+                - in: path
+                  name: id
+                  schema:
+                      type: string
+                      format: uuid
+                  required: true
+            responses:
+                "200":
+                    description: Detail popisu práce
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/JobDescription"
+        patch:
+            tags: [JobDescription]
+            summary: Upravit popis práce
+            parameters:
+                - in: path
+                  name: id
+                  schema:
+                      type: string
+                      format: uuid
+                  required: true
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/JobDescriptionUpdate"
+            responses:
+                "200":
+                    description: Popis práce upraven
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/JobDescription"
+        delete:
+            tags: [JobDescription]
+            summary: Smazat popis práce
+            parameters:
+                - in: path
+                  name: id
+                  schema:
+                      type: string
+                      format: uuid
+                  required: true
+            responses:
+                "200":
+                    description: Popis práce smazán

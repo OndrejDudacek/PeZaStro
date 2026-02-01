@@ -49,6 +49,7 @@
 - [ ] tahani relaci (mam v child id na rodice ne opacne)
 - [ ] vytvareni novych veci
   - [ ] vyresit jak vytvaret jen neco
-- [ ] api service nebo neco takovyho¨
+- [ ] api service nebo neco takovyho
 - [ ] typy a DTO
 - [ ] responsivita
+- [x] API docs (openApi)

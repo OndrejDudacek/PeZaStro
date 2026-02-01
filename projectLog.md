@@ -41,3 +41,7 @@
 - detaily zakazniku, lokaci, zakazek, praci
 - tabulky zakazniku, lokaci, zakazek, praci
 - zmena number inputu a text inputu na generic input s nastavitelnym typem
+
+# Výstup č.4
+
+- openapi docs, aby se mi hezky delal frontend (api service, typy atd)
