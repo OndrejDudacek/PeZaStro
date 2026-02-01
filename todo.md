@@ -55,6 +55,8 @@
   - [ ] services pro jednotlive zdroje
 - [x] user store on pinia
 - [ ] composable to check login and to redirect to login page
+  - [ ] pri ukladani do local storage tak ulozit i cas ulozeni a pokud se bude od aktualniho casu retrevovani lisit o vic nez vyprchava token tak smazat a delat ze tam zadny nebyl
+  - [ ] retreavovat z local storage v composable pro initialAuthChcek az po checku toho ze tam nic nebylo nebo to je stary viz minuly bud
 - [ ] pri unauthorized erroru logout a redirect na login page (mozna v logoutu rovnou redirect na login page)
 - [x] login page
 - [x] typy a DTO
