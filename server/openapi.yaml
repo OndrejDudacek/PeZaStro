@@ -272,6 +272,7 @@ components:
             required:
                 - totalCost
                 - dateOfSigning
+                - locationId
 
         ContractUpdate:
             type: object
