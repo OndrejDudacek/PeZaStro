@@ -20,8 +20,8 @@ export class JobDescription {
 	@Column()
 	contractId!: string;
 
-	@Column({ type: "integer", nullable: true })
-	cost?: number | null;
+	@Column({ type: "integer" })
+	cost!: number;
 
 	@Column({ type: "enum", enum: Frequency, nullable: true })
 	frequency?: Frequency | null;
@@ -33,7 +33,7 @@ export class JobDescription {
 	private setDefaults() {
 		if (!this.id) this.id = uuidv4();
 		if (!this.createdAt) this.createdAt = new Date();
-		if (this.cost === undefined) this.cost = null;
+		if (this.cost === undefined) this.cost = 0;
 		if (this.frequency === undefined) this.frequency = null;
 		if (this.period === undefined) this.period = null;
 	}
@@ -54,7 +54,7 @@ export class JobDescription {
 		if (cost) {
 			this.cost = cost;
 		} else {
-			this.cost = null;
+			this.cost = 0;
 		}
 		if (frequency) {
 			this.frequency = frequency;

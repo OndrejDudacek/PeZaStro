@@ -15,14 +15,13 @@ export class Job {
 	@Column()
 	contractId!: string;
 
-	@Column({ type: "text", nullable: true })
-	note?: string | null;
+	@Column({ type: "text" })
+	note!: string;
 
 	@BeforeInsert()
 	private setDefaults() {
 		if (!this.id) this.id = uuidv4();
 		if (!this.createdAt) this.createdAt = new Date();
-		if (this.note === undefined) this.note = null;
 	}
 
 	constructor(
@@ -36,14 +35,10 @@ export class Job {
 		if (createdAt) this.createdAt = createdAt;
 		if (date) this.date = date;
 		if (contractId) this.contractId = contractId;
-		if (note) {
-			this.note = note;
-		} else {
-			this.note = null;
-		}
+		if (note) this.note = note;
 	}
 
-	static create(date: Date, contractId: string, note?: string | null): Job {
+	static create(date: Date, contractId: string, note: string): Job {
 		const newId = uuidv4();
 		const newDate = new Date();
 		const newJob = new Job(newId, newDate, date, contractId, note);
