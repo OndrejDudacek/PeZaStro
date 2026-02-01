@@ -50,6 +50,6 @@
 - [ ] vytvareni novych veci
   - [ ] vyresit jak vytvaret jen neco
 - [ ] api service nebo neco takovyho
-- [ ] typy a DTO
+- [x] typy a DTO
 - [ ] responsivita
 - [x] API docs (openApi)

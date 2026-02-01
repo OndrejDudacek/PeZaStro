@@ -45,3 +45,4 @@
 # Výstup č.4
 
 - openapi docs, aby se mi hezky delal frontend (api service, typy atd)
+- typy na odchozí o příchozí data
