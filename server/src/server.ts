@@ -18,7 +18,11 @@ const bootstrap = async () => {
 	const apiPath = "/api/v1/";
 
 	const corsOptions: CorsOptions = {
-		origin: ["https://pezastro.dudacek.eu", "http://localhost:4321"],
+		origin: [
+			"https://pezastro.dudacek.eu",
+			"http://localhost:4321",
+			"http://localhost:5173",
+		],
 		credentials: true,
 	};
 

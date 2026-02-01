@@ -1,100 +1,115 @@
 <template>
-	<header>
-		<h1>PEZASTRO</h1>
-		<p>vydáváš se za: {{ logedInAs }}</p>
-	</header>
-	<div class="wrapper">
-		<aside>
-			<nav>
-				<ul>
-					<li>
-						<RouterLink id="linkDashboard" to="/">Dashboard</RouterLink>
-					</li>
-					<li>
-						<RouterLink id="linkCustomer" to="/customer">Zákazníci</RouterLink>
-					</li>
-					<li>
-						<RouterLink id="linkLocation" to="/location">Lokace</RouterLink>
-					</li>
-					<li>
-						<RouterLink id="linkContract" to="/contract">Zakázky</RouterLink>
-					</li>
-					<li>
-						<RouterLink id="jobContract" to="/job">Práce</RouterLink>
-					</li>
-				</ul>
-			</nav>
-		</aside>
-		<main>
-			<RouterView />
-		</main>
+	<div v-if="isBlankLayout" class="blank-layout">
+		<RouterView />
+	</div>
+
+	<div v-else class="app-layout">
+		<header>
+			<h1>PEZASTRO</h1>
+			<p>vydáváš se za: {{ logedInAs }}</p>
+		</header>
+		<div class="wrapper">
+			<aside>
+				<nav>
+					<ul>
+						<li>
+							<RouterLink id="linkDashboard" to="/">Dashboard</RouterLink>
+						</li>
+						<li>
+							<RouterLink id="linkCustomer" to="/customer">Zákazníci</RouterLink>
+						</li>
+						<li>
+							<RouterLink id="linkLocation" to="/location">Lokace</RouterLink>
+						</li>
+						<li>
+							<RouterLink id="linkContract" to="/contract">Zakázky</RouterLink>
+						</li>
+						<li>
+							<RouterLink id="jobContract" to="/job">Práce</RouterLink>
+						</li>
+					</ul>
+				</nav>
+			</aside>
+			<main>
+				<RouterView />
+			</main>
+		</div>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, computed } from "vue";
+import { useRoute } from "vue-router";
+
+const route = useRoute();
+const isBlankLayout = computed(() => route.meta.layout === "blank");
 
 const logedInAs = ref("unknown");
 </script>
 
 <style scoped lang="scss">
-header {
-	padding: var(--spacing-m);
-	background-color: var(--color-background);
-	display: flex;
-	justify-content: space-between;
+.blank-layout {
 }
 
-.wrapper {
-	display: flex;
-	flex-direction: row;
-	height: calc(100vh - calc(calc(2 * var(--spacing-m)) + 1rem));
-	width: 100%;
-
-	aside {
-		height: 100%;
-		padding: var(--spacing-m) 0;
+.app-layout {
+	header {
+		padding: var(--spacing-m);
 		background-color: var(--color-background);
-		nav > ul {
-			display: flex;
-			flex-direction: column;
-			list-style: none;
+		display: flex;
+		justify-content: space-between;
+	}
 
-			li {
-				a {
-					display: flex;
-					width: 100%;
-					min-width: 8rem;
-					padding: var(--spacing-m);
-					border-left: 0.3rem var(--color-border) solid;
-					background-image: linear-gradient(
-						to right,
-						var(--color-container),
-						var(--color-background)
-					);
-				}
+	.wrapper {
+		display: flex;
+		flex-direction: row;
+		height: calc(100vh - calc(calc(2 * var(--spacing-m)) + 1rem));
+		width: 100%;
 
-				a:hover {
-					text-shadow: 0 0 20px white;
-					background-image: linear-gradient(
-						to right,
-						var(--color-border),
-						var(--color-background)
-					);
-				}
+		aside {
+			height: 100%;
+			padding: var(--spacing-m) 0;
+			background-color: var(--color-background);
+			nav > ul {
+				display: flex;
+				flex-direction: column;
+				list-style: none;
 
-				a.router-link-active {
-					border-left: 0.5rem var(--color-border) solid;
+				li {
+					a {
+						display: flex;
+						width: 100%;
+						min-width: 8rem;
+						padding: var(--spacing-m);
+						border-left: 0.3rem var(--color-border) solid;
+						background-image: linear-gradient(
+							to right,
+							var(--color-container),
+							var(--color-background)
+						);
+					}
+
+					a:hover {
+						text-shadow: 0 0 20px white;
+						background-image: linear-gradient(
+							to right,
+							var(--color-border),
+							var(--color-background)
+						);
+					}
+
+					a.router-link-active {
+						border-left: 0.5rem var(--color-border) solid;
+					}
 				}
 			}
 		}
-	}
 
-	main {
-		padding: var(--spacing-xl);
-		width: 100%;
-		max-width: 100%;
-		overflow-y: auto;
+		main {
+			padding: var(--spacing-xl);
+			width: 100%;
+			max-width: 100%;
+			overflow-y: auto;
+		}
 	}
 }
 </style>

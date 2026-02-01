@@ -46,3 +46,8 @@
 
 - openapi docs, aby se mi hezky delal frontend (api service, typy atd)
 - typy na odchozí o příchozí data
+- pinia pro usery s id, username, token a funkcemi: onlogout, onlogin, retrivieUser a checkLogin
+- apiClient - obal se samotným fetchem, řeší chyby
+- jednotlivé services - řeší logiku a komunikaci přes apiClient pro jednotlivé zdroje
+- (+ user service s login a logout)
+- login page
