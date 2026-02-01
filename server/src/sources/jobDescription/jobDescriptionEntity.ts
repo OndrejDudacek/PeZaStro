@@ -33,7 +33,6 @@ export class JobDescription {
 	private setDefaults() {
 		if (!this.id) this.id = uuidv4();
 		if (!this.createdAt) this.createdAt = new Date();
-		if (this.cost === undefined) this.cost = 0;
 		if (this.frequency === undefined) this.frequency = null;
 		if (this.period === undefined) this.period = null;
 	}
@@ -51,11 +50,7 @@ export class JobDescription {
 		if (createdAt) this.createdAt = createdAt;
 		if (name) this.name = name;
 		if (contractId) this.contractId = contractId;
-		if (cost) {
-			this.cost = cost;
-		} else {
-			this.cost = 0;
-		}
+		if (cost) this.cost = cost;
 		if (frequency) {
 			this.frequency = frequency;
 		} else {
@@ -71,7 +66,7 @@ export class JobDescription {
 	static create(
 		name: string,
 		contractId: string,
-		cost?: number | null,
+		cost: number,
 		frequency?: Frequency | null,
 		period?: number | null,
 	): JobDescription {
