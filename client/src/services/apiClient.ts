@@ -1,5 +1,6 @@
 import { useUserStore } from "@/stores/user";
-import { isMethodDeclaration } from "typescript";
+import { userService } from "./userService";
+import router from "@/router";
 
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:4321/api/v1";
 
@@ -13,7 +14,7 @@ export const request = async <T>(
 ): Promise<T> => {
 	const url = `${apiUrl}${endpoint}`;
 	const userStore = useUserStore();
-	const token = userStore.userToken;
+	const token = userStore.token;
 
 	const headers: Record<string, string> = {
 		"Content-Type": "application/json",
@@ -33,6 +34,11 @@ export const request = async <T>(
 			const errorData = await response.json();
 			if (errorData.message) errorMessage = errorData.message;
 		} catch {}
+
+		if (response.status === 401) {
+			userService.logout();
+			router.push({ name: "login" });
+		}
 
 		alert(errorMessage);
 		throw new Error(errorMessage);

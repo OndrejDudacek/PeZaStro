@@ -1,6 +1,6 @@
 <template>
 	<div v-if="isBlankLayout" class="blank-layout">
-		<RouterView />
+		<Suspense><RouterView /></Suspense>
 	</div>
 
 	<div v-else class="app-layout">
@@ -34,7 +34,7 @@
 				</nav>
 			</aside>
 			<main>
-				<RouterView />
+				<Suspense><RouterView /></Suspense>
 			</main>
 		</div>
 	</div>
@@ -53,16 +53,13 @@ const isBlankLayout = computed(() => route.meta.layout === "blank");
 const router = useRouter();
 
 const userStore = useUserStore();
-const userRetrieved = userService.retrieveUser();
-if (!userRetrieved) {
-	userService.logout();
-	router.push({ name: "login" });
-}
+
+console.log("app.vue");
 
 const logout = () => {
 	const succes = userService.logout();
 	if (!succes) {
-		console.error("Error with logging out");
+		console.error("Error with loging out");
 		return;
 	}
 

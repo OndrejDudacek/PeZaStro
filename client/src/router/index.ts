@@ -5,27 +5,49 @@ import DashboardView from "@/views/DashboardView.vue";
 import LocationView from "@/views/LocationView.vue";
 import LoginView from "@/views/LoginView.vue";
 import JobView from "@/views/JobView.vue";
-import { useUserStore } from "@/stores/user";
+import { userService } from "@/services/userService";
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
 	routes: [
-		{ name: "dashboard", path: "/", component: DashboardView },
-		{ name: "contract", path: "/contract", component: ContractsView },
-		{ name: "customer", path: "/customer", component: CustomersView },
-		{ name: "location", path: "/location", component: LocationView },
-		{ name: "job", path: "/job", component: JobView },
-		{ name: "login", path: "/login", component: LoginView, meta: { layout: "blank" } },
+		{
+			name: "dashboard",
+			path: "/",
+			component: DashboardView,
+			meta: { requiresAuth: false },
+		},
+		{
+			name: "contract",
+			path: "/contract",
+			component: ContractsView,
+			meta: { requiresAuth: false },
+		},
+		{
+			name: "customer",
+			path: "/customer",
+			component: CustomersView,
+			meta: { requiresAuth: false },
+		},
+		{
+			name: "location",
+			path: "/location",
+			component: LocationView,
+			meta: { requiresAuth: false },
+		},
+		{ name: "job", path: "/job", component: JobView, meta: { requiresAuth: false } },
+		{
+			name: "login",
+			path: "/login",
+			component: LoginView,
+			meta: { layout: "blank", requiresAuth: false },
+		},
 	],
 });
 
 router.beforeEach((to, from, next) => {
-	const userStore = useUserStore();
-
-	if (to.name !== "login" && !userStore.userToken) {
-		next({ name: "login" });
-	} else if (to.name === "login" && userStore.userToken) {
-		next({ name: "dashboard" });
+	if (to.meta.requiresAuth && !userService.isAuthenticated()) {
+		userService.logout();
+		router.push({ name: "login" });
 	} else {
 		next();
 	}
