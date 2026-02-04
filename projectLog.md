@@ -51,3 +51,4 @@
 - jednotlivé services - řeší logiku a komunikaci přes apiClient pro jednotlivé zdroje
 - (+ user service s login a logout)
 - login page
+- checkovani, jestli je clovek prihlaseny \texttt{v routeru beforeEach}

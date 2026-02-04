@@ -5,6 +5,7 @@ import DashboardView from "@/views/DashboardView.vue";
 import LocationView from "@/views/LocationView.vue";
 import LoginView from "@/views/LoginView.vue";
 import JobView from "@/views/JobView.vue";
+import { useUserStore } from "@/stores/user";
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,6 +17,18 @@ const router = createRouter({
 		{ name: "job", path: "/job", component: JobView },
 		{ name: "login", path: "/login", component: LoginView, meta: { layout: "blank" } },
 	],
+});
+
+router.beforeEach((to, from, next) => {
+	const userStore = useUserStore();
+
+	if (to.name !== "login" && !userStore.userToken) {
+		next({ name: "login" });
+	} else if (to.name === "login" && userStore.userToken) {
+		next({ name: "dashboard" });
+	} else {
+		next();
+	}
 });
 
 export default router;

@@ -6,7 +6,7 @@
 	<div v-else class="app-layout">
 		<header>
 			<h1>PEZASTRO</h1>
-			<p>vydáváš se za: {{ logedInAs }}</p>
+			<p>vydáváš se za: {{ userStore.username }}</p>
 		</header>
 		<div class="wrapper">
 			<aside>
@@ -39,12 +39,21 @@
 
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
+import { useUserStore } from "./stores/user";
+import { userService } from "./services/userService";
 
 const route = useRoute();
 const isBlankLayout = computed(() => route.meta.layout === "blank");
 
-const logedInAs = ref("unknown");
+const router = useRouter();
+
+const userStore = useUserStore();
+const userRetrieved = userService.retrieveUser();
+if (!userRetrieved) {
+	userService.logout();
+	router.push({ name: "login" });
+}
 </script>
 
 <style scoped lang="scss">
