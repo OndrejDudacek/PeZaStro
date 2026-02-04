@@ -8,7 +8,7 @@ export const useUserStore = defineStore("user", () => {
 	const userToken = ref<string | null>(null);
 
 	const onLogin = (data: UserLoginResponse) => {
-		userId.value = data.id;
+		userId.value = data.userId;
 		username.value = data.username;
 		userToken.value = data.token;
 	};

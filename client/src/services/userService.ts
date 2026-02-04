@@ -7,7 +7,7 @@ const source = "/user";
 export const userService = {
 	async login(data: UserLogin) {
 		try {
-			const { username, token, id } = await apiClient.post<UserLoginResponse>(
+			const { token, userId, username } = await apiClient.post<UserLoginResponse>(
 				`${source}/login`,
 				{
 					username: data.username,
@@ -16,9 +16,9 @@ export const userService = {
 			);
 
 			const userStore = useUserStore();
-			userStore.onLogin({ token, id, username });
+			userStore.onLogin({ token, userId, username });
 
-			localStorage.setItem("id", id);
+			localStorage.setItem("userId", userId);
 			localStorage.setItem("username", username);
 			localStorage.setItem("token", token);
 			localStorage.setItem("lastLogin", String(Date.now()));
@@ -35,7 +35,7 @@ export const userService = {
 			const userStore = useUserStore();
 			userStore.onLogout();
 
-			localStorage.removeItem("id");
+			localStorage.removeItem("userId");
 			localStorage.removeItem("username");
 			localStorage.removeItem("token");
 			localStorage.removeItem("lastLogin");
@@ -56,14 +56,14 @@ export const userService = {
 
 			const lastLoginDifference = Date.now() - Number(lastLogin);
 			if (lastLoginDifference >= 1 * 24 * 60 * 60 * 1000) {
-				localStorage.removeItem("id");
+				localStorage.removeItem("userId");
 				localStorage.removeItem("username");
 				localStorage.removeItem("token");
 				localStorage.removeItem("lastLogin");
 				return false;
 			}
 
-			const retriviedId = localStorage.getItem("id");
+			const retriviedId = localStorage.getItem("userId");
 			const retriviedUsername = localStorage.getItem("username");
 			const retriviedToken = localStorage.getItem("token");
 
@@ -74,11 +74,11 @@ export const userService = {
 			const userStore = useUserStore();
 			userStore.onLogin({
 				token: retriviedToken,
-				id: retriviedId,
+				userId: retriviedId,
 				username: retriviedUsername,
 			});
 
-			localStorage.setItem("id", retriviedUsername);
+			localStorage.setItem("userId", retriviedUsername);
 			localStorage.setItem("username", retriviedUsername);
 			localStorage.setItem("token", retriviedUsername);
 			localStorage.setItem("lastLogin", String(Date.now()));

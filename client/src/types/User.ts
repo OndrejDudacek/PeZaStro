@@ -5,6 +5,6 @@ export interface UserLogin {
 
 export interface UserLoginResponse {
 	token: string;
-	id: string;
+	userId: string;
 	username: string;
 }

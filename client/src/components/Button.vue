@@ -11,7 +11,6 @@ import Icon from "./Icon.vue";
 const props = defineProps({
 	label: {
 		type: String,
-		required: true,
 	},
 	icon: {
 		type: String,

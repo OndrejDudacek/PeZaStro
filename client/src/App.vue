@@ -6,7 +6,10 @@
 	<div v-else class="app-layout">
 		<header>
 			<h1>PEZASTRO</h1>
-			<p>vydáváš se za: {{ userStore.username }}</p>
+			<section>
+				<p>vydáváš se za: {{ userStore.username }}</p>
+				<Button icon="logout" @click="logout" />
+			</section>
 		</header>
 		<div class="wrapper">
 			<aside>
@@ -38,10 +41,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useUserStore } from "./stores/user";
 import { userService } from "./services/userService";
+import Button from "./components/Button.vue";
 
 const route = useRoute();
 const isBlankLayout = computed(() => route.meta.layout === "blank");
@@ -54,18 +58,32 @@ if (!userRetrieved) {
 	userService.logout();
 	router.push({ name: "login" });
 }
+
+const logout = () => {
+	const succes = userService.logout();
+	if (!succes) {
+		console.error("Error with logging out");
+		return;
+	}
+
+	router.push({ name: "login" });
+};
 </script>
 
 <style scoped lang="scss">
-.blank-layout {
-}
-
 .app-layout {
 	header {
 		padding: var(--spacing-m);
 		background-color: var(--color-background);
 		display: flex;
 		justify-content: space-between;
+		align-items: center;
+
+		section {
+			display: flex;
+			gap: var(--spacing-m);
+			align-items: center;
+		}
 	}
 
 	.wrapper {
