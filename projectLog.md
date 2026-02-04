@@ -52,3 +52,5 @@
 - (+ user service s login a logout)
 - login page
 - checkovani, jestli je clovek prihlaseny \texttt{v routeru beforeEach}
+- ukládání a tahání dat uzivatele do pinie z local storage (hlídání času od posledního uložení, at se netahá z local storige starý user s vyprselym tokenem)
+- logout
