@@ -12,7 +12,7 @@
 					<tr
 						v-for="(customer, i) in customers"
 						:key="i"
-						@click="selectCustomer(customer.id)"
+						@click="selectCustomer(customer)"
 					>
 						<td>{{ customer.id }}</td>
 						<td>{{ customer.name }}</td>
@@ -20,31 +20,30 @@
 				</tbody>
 			</table>
 		</article>
-		<DetailCustomer v-if="selectedCustomerId" :customer-id="selectedCustomerId" />
+		<DetailCustomer v-if="selectedCustomer" :customer="selectedCustomer" />
 	</div>
 </template>
 
 <script setup lang="ts">
 import DetailCustomer from "@/components/DetailCustomer.vue";
+import { customerService } from "@/services/customerService";
+import type { Customer } from "@/types/Customer";
 import { ref } from "vue";
 
-const selectedCustomerId = ref<String | null>(null);
-const selectCustomer = (id: string) => {
-	selectedCustomerId.value = id;
+const selectedCustomer = ref<Customer | null>(null);
+const selectCustomer = (customer: Customer) => {
+	selectedCustomer.value = customer;
 };
 
-const customers = [
-	{
-		id: "7bc6f73a-5b6d-471b-b93c-70b5b29aeec1",
-		createdAt: "2026-01-18T13:11:22.187Z",
-		name: "Jiří novák",
-		note: "fuuh tezka prace",
-	},
-];
+const customers = ref<Customer[] | null>([]);
+try {
+	customers.value = await customerService.getAll();
+} catch (error) {
+	console.error(error);
+}
 </script>
 
 <style scoped lang="scss">
 @use "../assets/mixins" as *;
-
 @include tableAndDetail;
 </style>

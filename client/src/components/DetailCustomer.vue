@@ -3,16 +3,30 @@
 		<h3>Detail zákazníka</h3>
 		<ul>
 			<li>
-				<p>Id: {{}}</p>
+				<p>Id: {{ customer.id }}</p>
 			</li>
 			<li>
-				<p>Datum vytvoření: {{}}</p>
+				<p>Datum vytvoření: {{ new Date(customer.createdAt).toLocaleDateString() }}</p>
 			</li>
 			<li>
-				<GenericInput type="text" label="Jméno:" placeholder="Jan Nezdar" />
+				<GenericInput
+					type="text"
+					label="Jméno:"
+					placeholder="Jan Nezdar"
+					v-model="customer.name"
+					@update:model-value="
+						saveCustomerChange(customer.id, { name: customer.name })
+					"
+				/>
 			</li>
 			<li>
-				<TextArea label="Poznámky:" />
+				<TextArea
+					label="Poznámky:"
+					v-model="customer.note"
+					@update:model-value="
+						saveCustomerChange(customer.id, { note: customer.note })
+					"
+				/>
 			</li>
 		</ul>
 		<h4>Kontakty:</h4>
@@ -46,19 +60,37 @@
 				</ul>
 			</li>
 		</ul>
-		<Button label="Přidat kontakt" icon="add" />
-		<Button label="Odeslat změny" icon="upload"></Button>
+		<section class="buttons">
+			<Button label="Přidat kontakt" icon="add" />
+			<Button label="Smazat kontakt" icon="delete" />
+		</section>
+		<section class="buttons">
+			<Button label="Smazat zakázku" icon="delete" />
+		</section>
 	</article>
 </template>
 
 <script setup lang="ts">
+import type { Customer, CustomerUpdate } from "@/types/Customer";
 import Button from "./Button.vue";
 import GenericInput from "./GenericInput.vue";
 import TextArea from "./TextArea.vue";
+import { ref } from "vue";
+import { customerService } from "@/services/customerService";
 
 const props = defineProps<{
-	customerId: String;
+	customer: Customer;
 }>();
+
+const customer = ref(props.customer);
+
+const saveCustomerChange = async (id: string, data: CustomerUpdate) => {
+	try {
+		customer.value = await customerService.update(id, data);
+	} catch (error) {
+		console.error(error);
+	}
+};
 </script>
 
 <style scoped lang="scss">
