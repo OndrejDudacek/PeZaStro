@@ -13,7 +13,7 @@
 			</li>
 			<li>
 				<p>Datum podepsání:</p>
-				<div class="dateInputs">
+				<section class="dateInputs">
 					<GenericInput
 						type="number"
 						label="Den:"
@@ -56,7 +56,7 @@
 							})
 						"
 					/>
-				</div>
+				</section>
 			</li>
 			<li>
 				<TextArea
@@ -64,11 +64,7 @@
 					v-model="contract.note"
 					@update:model-value="
 						saveContractChange(contract.id, {
-							dateOfSigning: convertToDate(
-								signingDay,
-								signingMonth,
-								signingYear,
-							),
+							note: contract.note,
 						})
 					"
 				/>
@@ -128,14 +124,14 @@ import GenericInput from "./GenericInput.vue";
 import TextArea from "./TextArea.vue";
 import SelectInput from "./SelectInput.vue";
 import type { Contract, ContractUpdate } from "@/types/Contract";
-import { ref, watch, type Ref } from "vue";
+import { ref, type Ref } from "vue";
 import { contractService } from "@/services/contractService";
 
 const props = defineProps<{
 	contract: Contract;
 }>();
 
-const contract: Ref<Contract> = ref(props.contract);
+const contract = ref(props.contract);
 const signingDate = new Date(contract.value.dateOfSigning);
 const signingDay = ref(signingDate.getDate());
 const signingMonth = ref(signingDate.getMonth() + 1);
@@ -160,14 +156,4 @@ const jobDescs = ref([]);
 <style scoped lang="scss">
 @use "../assets/mixins" as *;
 @include detailStyling;
-
-.buttons {
-	display: flex;
-	gap: var(--spacing-s);
-	width: 100%;
-
-	Button {
-		flex: 1;
-	}
-}
 </style>

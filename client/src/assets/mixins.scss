@@ -61,8 +61,18 @@
 		padding-left: var(--spacing-m);
 	}
 
-	div.dateInputs {
+	section.dateInputs {
 		display: flex;
 		gap: var(--spacing-m);
+	}
+
+	.buttons {
+		display: flex;
+		gap: var(--spacing-s);
+		width: 100%;
+
+		Button {
+			flex: 1;
+		}
 	}
 }

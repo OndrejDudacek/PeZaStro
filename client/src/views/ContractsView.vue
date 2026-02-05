@@ -47,6 +47,5 @@ try {
 
 <style scoped lang="scss">
 @use "../assets/mixins" as *;
-
 @include tableAndDetail;
 </style>
