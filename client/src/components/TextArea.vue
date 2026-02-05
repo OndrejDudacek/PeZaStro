@@ -15,24 +15,20 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from "vue";
 
-const props = defineProps({
-	inputName: {
-		type: String,
+const props = withDefaults(
+	defineProps<{
+		inputName?: string;
+		placeholder?: string;
+		modelValue?: string | null;
+		label?: string;
+		minRows?: number;
+	}>(),
+	{
+		minRows: 3,
+		placeholder: "",
+		modelValue: null,
 	},
-	placeholder: {
-		type: String,
-	},
-	modelValue: {
-		type: String,
-	},
-	label: {
-		type: String,
-	},
-	minRows: {
-		type: Number,
-		default: 3,
-	},
-});
+);
 
 const emit = defineEmits(["update:modelValue"]);
 

@@ -3,24 +3,75 @@
 		<h3>Detail zakázky</h3>
 		<ul>
 			<li>
-				<p>Id: {{}}</p>
+				<p>Id: {{ contract.id }}</p>
 			</li>
 			<li>
-				<p>Datum vytvoření: {{}}</p>
+				<p>Datum vytvoření: {{ new Date(contract.createdAt).toLocaleDateString() }}</p>
 			</li>
 			<li>
-				<p>Celková cena: {{}}</p>
+				<p>Celková cena: {{ contract.totalCost }} Kč</p>
 			</li>
 			<li>
 				<p>Datum podepsání:</p>
 				<div class="dateInputs">
-					<GenericInput type="number" label="Den:" />
-					<GenericInput type="number" label="Měsíc:" />
-					<GenericInput type="number" label="Rok:" />
+					<GenericInput
+						type="number"
+						label="Den:"
+						v-model="signingDay"
+						@update:model-value="
+							saveContractChange(contract.id, {
+								dateOfSigning: convertToDate(
+									signingDay,
+									signingMonth,
+									signingYear,
+								),
+							})
+						"
+					/>
+					<GenericInput
+						type="number"
+						label="Měsíc:"
+						v-model="signingMonth"
+						@update:model-value="
+							saveContractChange(contract.id, {
+								dateOfSigning: convertToDate(
+									signingDay,
+									signingMonth,
+									signingYear,
+								),
+							})
+						"
+					/>
+					<GenericInput
+						type="number"
+						label="Rok:"
+						v-model="signingYear"
+						@update:model-value="
+							saveContractChange(contract.id, {
+								dateOfSigning: convertToDate(
+									signingDay,
+									signingMonth,
+									signingYear,
+								),
+							})
+						"
+					/>
 				</div>
 			</li>
 			<li>
-				<TextArea label="Poznámky:" />
+				<TextArea
+					label="Poznámky:"
+					v-model="contract.note"
+					@update:model-value="
+						saveContractChange(contract.id, {
+							dateOfSigning: convertToDate(
+								signingDay,
+								signingMonth,
+								signingYear,
+							),
+						})
+					"
+				/>
 			</li>
 		</ul>
 		<h4>Popisy práce:</h4>
@@ -56,30 +107,18 @@
 				</ul>
 			</li>
 		</ul>
-		<Button label="Přidat popis práce" icon="add" />
+		<section class="buttons">
+			<Button label="Smazat zakázku" icon="delete" />
+			<Button label="Přidat popis práce" icon="add" />
+		</section>
 		<h4>Záznamy prací:</h4>
 		<ul>
 			<!-- v-for="(job, i) in jobs" :key="i" -->
-			<li>
-				<ul>
-					<li><p>Id: {{}}</p></li>
-					<li><p>Datum vytvoření: {{}}</p></li>
-					<li>
-						<p>Datum práce:</p>
-						<div class="dateInputs">
-							<GenericInput type="number" label="Den:" />
-							<GenericInput type="number" label="Měsíc:" />
-							<GenericInput type="number" label="Rok:" />
-						</div>
-					</li>
-					<li>
-						<TextArea label="Poznámky:" />
-					</li>
-				</ul>
-			</li>
+			<li></li>
 		</ul>
-		<Button label="Přidat záznam práce" icon="add" />
-		<Button label="Odeslat změny" icon="upload"></Button>
+		<section class="buttons">
+			<Button label="Smazat zakázku" icon="delete" />
+		</section>
 	</article>
 </template>
 
@@ -88,13 +127,47 @@ import Button from "./Button.vue";
 import GenericInput from "./GenericInput.vue";
 import TextArea from "./TextArea.vue";
 import SelectInput from "./SelectInput.vue";
+import type { Contract, ContractUpdate } from "@/types/Contract";
+import { ref, watch, type Ref } from "vue";
+import { contractService } from "@/services/contractService";
 
 const props = defineProps<{
-	contractId: String;
+	contract: Contract;
 }>();
+
+const contract: Ref<Contract> = ref(props.contract);
+const signingDate = new Date(contract.value.dateOfSigning);
+const signingDay = ref(signingDate.getDate());
+const signingMonth = ref(signingDate.getMonth() + 1);
+const signingYear = ref(signingDate.getFullYear());
+
+const convertToDate = (day: number, month: number, year: number) => {
+	const date = new Date(year, month - 1, day);
+	return date;
+};
+
+const saveContractChange = async (id: string, data: ContractUpdate) => {
+	try {
+		contract.value = await contractService.update(id, data);
+	} catch (error) {
+		console.error(error);
+	}
+};
+
+const jobDescs = ref([]);
 </script>
 
 <style scoped lang="scss">
 @use "../assets/mixins" as *;
 @include detailStyling;
+
+.buttons {
+	display: flex;
+	gap: var(--spacing-s);
+	width: 100%;
+
+	Button {
+		flex: 1;
+	}
+}
 </style>
