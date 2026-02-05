@@ -54,3 +54,4 @@
 - checkovani, jestli je clovek prihlaseny \texttt{v routeru beforeEach}
 - logout a smerovani na login pro erroru a checkovani a tahani z localstorage pri startovani pinie
 - pinia-plugin-persistedstate na automaticke ukladani useru do lokal storage a z local sotrage do pinie
+- services pro jednotlive zdroje
