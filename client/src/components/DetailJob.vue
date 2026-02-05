@@ -10,11 +10,11 @@
 			</li>
 			<li>
 				<p>Datum provedení:</p>
-				<div class="dateInputs">
+				<section class="dateInputs">
 					<GenericInput type="number" label="Den:" />
 					<GenericInput type="number" label="Měsíc:" />
 					<GenericInput type="number" label="Rok:" />
-				</div>
+				</section>
 			</li>
 			<li>
 				<p>Id zakázky: {{}}</p>
