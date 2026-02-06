@@ -75,8 +75,12 @@ import type { Customer, CustomerUpdate } from "@/types/Customer";
 import Button from "./Button.vue";
 import GenericInput from "./GenericInput.vue";
 import TextArea from "./TextArea.vue";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { customerService } from "@/services/customerService";
+
+const emit = defineEmits<{
+	"update:customer": [value: Customer];
+}>();
 
 const props = defineProps<{
 	customer: Customer;
@@ -84,9 +88,18 @@ const props = defineProps<{
 
 const customer = ref(props.customer);
 
+watch(
+	() => props.customer,
+	(newCustomer) => {
+		customer.value = newCustomer;
+	},
+);
+
 const saveCustomerChange = async (id: string, data: CustomerUpdate) => {
 	try {
-		customer.value = await customerService.update(id, data);
+		const updatedCustomer = await customerService.update(id, data);
+		customer.value = updatedCustomer;
+		emit("update:customer", updatedCustomer);
 	} catch (error) {
 		console.error(error);
 	}

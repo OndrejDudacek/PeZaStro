@@ -124,11 +124,15 @@ import GenericInput from "./GenericInput.vue";
 import TextArea from "./TextArea.vue";
 import SelectInput from "./SelectInput.vue";
 import type { Contract, ContractUpdate } from "@/types/Contract";
-import { ref, type Ref } from "vue";
+import { ref, watch } from "vue";
 import { contractService } from "@/services/contractService";
 
 const props = defineProps<{
 	contract: Contract;
+}>();
+
+const emit = defineEmits<{
+	"update:contract": [value: Contract];
 }>();
 
 const contract = ref(props.contract);
@@ -142,9 +146,18 @@ const convertToDate = (day: number, month: number, year: number) => {
 	return date;
 };
 
+watch(
+	() => props.contract,
+	(newContract) => {
+		contract.value = newContract;
+	},
+);
+
 const saveContractChange = async (id: string, data: ContractUpdate) => {
 	try {
-		contract.value = await contractService.update(id, data);
+		const updatedContract = await contractService.update(id, data);
+		contract.value = updatedContract;
+		emit;
 	} catch (error) {
 		console.error(error);
 	}

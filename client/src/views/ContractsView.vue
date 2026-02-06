@@ -22,7 +22,11 @@
 				</tbody>
 			</table>
 		</article>
-		<DetailContract v-if="selectedContract" :contract="selectedContract" />
+		<DetailContract
+			v-if="selectedContract"
+			:contract="selectedContract"
+			@update:contract="updatedContract"
+		/>
 	</div>
 </template>
 
@@ -35,6 +39,16 @@ import { ref } from "vue";
 const selectedContract = ref<Contract | null>(null);
 const selectContract = (contract: Contract) => {
 	selectedContract.value = contract;
+};
+
+const updatedContract = (updatedContract: Contract) => {
+	if (contracts.value) {
+		const index = contracts.value.findIndex((c) => c.id === updatedContract.id);
+		if (index !== -1) {
+			contracts.value[index] = updatedContract;
+		}
+	}
+	selectedContract.value = updatedContract;
 };
 
 const contracts = ref<Contract[]>([]);

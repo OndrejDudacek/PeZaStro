@@ -20,7 +20,11 @@
 				</tbody>
 			</table>
 		</article>
-		<DetailCustomer v-if="selectedCustomer" :customer="selectedCustomer" />
+		<DetailCustomer
+			v-if="selectedCustomer"
+			:customer="selectedCustomer"
+			@update:customer="updateCustomer"
+		/>
 	</div>
 </template>
 
@@ -33,6 +37,16 @@ import { ref } from "vue";
 const selectedCustomer = ref<Customer | null>(null);
 const selectCustomer = (customer: Customer) => {
 	selectedCustomer.value = customer;
+};
+
+const updateCustomer = (updatedCustomer: Customer) => {
+	if (customers.value) {
+		const index = customers.value.findIndex((c) => c.id === updatedCustomer.id);
+		if (index !== -1) {
+			customers.value[index] = updatedCustomer;
+		}
+	}
+	selectedCustomer.value = updatedCustomer;
 };
 
 const customers = ref<Customer[] | null>([]);

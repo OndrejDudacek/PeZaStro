@@ -46,13 +46,13 @@
 
 # Výstup č. 4
 
-- [ ] tahani relaci (mam v child id na rodice ne opacne)
+- [ ] tahani relaci (mam v child id na rodice ne opacne) - jobDesc a Contacts
 - [ ] vytvareni novych veci
   - [ ] vyresit jak vytvaret jen neco
-- [ ] api service nebo neco takovyho
+- [x] api service nebo neco takovyho
   - [x] apiClient
   - [x] auth/user service
-  - [ ] services pro jednotlive zdroje + implementace
+- [ ] services pro jednotlive zdroje + implementace
 - [x] user store on pinia
 - [x] pri ukladani do local storage tak ulozit i cas ulozeni a pokud se bude od aktualniho casu retrevovani lisit o vic nez vyprchava token tak smazat a delat ze tam zadny nebyl
 - [x] presunout retrieve user do user service a v loginview a v app.vue volat veci jen z userService
@@ -64,3 +64,4 @@
 - [x] API docs (openApi)
 - [ ] tvorba jednotlivých věcí
 - [ ] automatické ukládání změn místo tlačítka
+  - [ ] přidat debounce
