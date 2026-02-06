@@ -53,15 +53,18 @@
   - [x] apiClient
   - [x] auth/user service
 - [ ] services pro jednotlive zdroje + implementace
+  - [x] implementace u „vnejsich“ zdroju“
+  - [ ] implementace u „vnitřních“ zdroju“
 - [x] user store on pinia
 - [x] pri ukladani do local storage tak ulozit i cas ulozeni a pokud se bude od aktualniho casu retrevovani lisit o vic nez vyprchava token tak smazat a delat ze tam zadny nebyl
 - [x] presunout retrieve user do user service a v loginview a v app.vue volat veci jen z userService
-- [ ] pri unauthorized erroru logout a redirect na login page (mozna v logoutu rovnou redirect na login page)
+- [x] pri unauthorized erroru logout a redirect na login page (mozna v logoutu rovnou redirect na login page)
 - [x] logut
 - [x] login page
 - [x] typy a DTO
 - [ ] responzivita
 - [x] API docs (openApi)
 - [ ] tvorba jednotlivých věcí
-- [ ] automatické ukládání změn místo tlačítka
+- [ ] mazaní jednotlivých věcí
+- [x] automatické ukládání změn místo tlačítka
   - [ ] přidat debounce

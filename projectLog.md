@@ -52,6 +52,7 @@
 - (+ user service s login a logout)
 - login page
 - checkovani, jestli je clovek prihlaseny \texttt{v routeru beforeEach}
-- logout a smerovani na login pro erroru a checkovani a tahani z localstorage pri startovani pinie
+- logout a smerovani na login pro error 401 a checkovani a tahani z localstorage pri startovani pinie (package)
 - pinia-plugin-persistedstate na automaticke ukladani useru do lokal storage a z local sotrage do pinie
 - services pro jednotlive zdroje
+- adress postal code v location na number s poctem charakteru pet ze stringu
