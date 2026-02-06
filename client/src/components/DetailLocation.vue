@@ -36,7 +36,7 @@
 			</li>
 			<li>
 				<GenericInput
-					type="text"
+					type="number"
 					label="PSČ:"
 					placeholder="151 00"
 					v-model="location.address.postalCode"

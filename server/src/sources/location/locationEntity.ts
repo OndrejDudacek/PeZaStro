@@ -4,7 +4,7 @@ import { Entity, PrimaryColumn, Column, BeforeInsert } from "typeorm";
 export interface Address {
 	street: string;
 	houseNumber: number;
-	postalCode: string;
+	postalCode: number;
 	city: string;
 }
 
