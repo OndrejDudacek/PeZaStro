@@ -17,7 +17,7 @@
 					>
 						<td>{{ contract.id }}</td>
 						<td>{{ contract.totalCost }}</td>
-						<td>{{ contract.dateOfSigning }}</td>
+						<td>{{ new Date(contract.dateOfSigning).toLocaleDateString() }}</td>
 					</tr>
 				</tbody>
 			</table>

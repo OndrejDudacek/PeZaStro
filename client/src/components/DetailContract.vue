@@ -157,7 +157,7 @@ const saveContractChange = async (id: string, data: ContractUpdate) => {
 	try {
 		const updatedContract = await contractService.update(id, data);
 		contract.value = updatedContract;
-		emit;
+		emit("update:contract", updatedContract);
 	} catch (error) {
 		console.error(error);
 	}
