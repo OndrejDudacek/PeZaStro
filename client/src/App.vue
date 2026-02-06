@@ -54,8 +54,6 @@ const router = useRouter();
 
 const userStore = useUserStore();
 
-console.log("app.vue");
-
 const logout = () => {
 	const succes = userService.logout();
 	if (!succes) {
