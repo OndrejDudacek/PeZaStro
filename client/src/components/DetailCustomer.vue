@@ -11,11 +11,13 @@
 			<li>
 				<GenericInput
 					type="text"
+					icon="person"
 					label="Jméno:"
 					placeholder="Jan Nezdar"
 					v-model="customer.name"
-					@update:model-value="
-						saveCustomerChange(customer.id, { name: customer.name })
+					:success="successStates.get('name')"
+					@debounced:model-value="
+						saveCustomerChange(customer.id, { name: customer.name }, 'name')
 					"
 				/>
 			</li>
@@ -23,8 +25,9 @@
 				<TextArea
 					label="Poznámky:"
 					v-model="customer.note"
-					@update:model-value="
-						saveCustomerChange(customer.id, { note: customer.note })
+					:success="successStates.get('note')"
+					@debounced:model-value="
+						saveCustomerChange(customer.id, { note: customer.note }, 'note')
 					"
 				/>
 			</li>
@@ -43,16 +46,23 @@
 					<li>
 						<GenericInput
 							type="text"
+							icon="person"
 							label="Jméno:"
 							placeholder="Josefína Nezdarová"
 						/>
 					</li>
 					<li>
-						<GenericInput type="tel" label="Telefon:" placeholder="777666111" />
+						<GenericInput
+							type="tel"
+							icon="phone"
+							label="Telefon:"
+							placeholder="777666111"
+						/>
 					</li>
 					<li>
 						<GenericInput
 							type="email"
+							icon="email"
 							label="Email:"
 							placeholder="josefina.nezdarova@gmail.com"
 						/>
@@ -86,6 +96,7 @@ const props = defineProps<{
 	customer: Customer;
 }>();
 
+const successStates = ref(new Map<string, boolean>());
 const customer = ref(props.customer);
 
 watch(
@@ -95,13 +106,18 @@ watch(
 	},
 );
 
-const saveCustomerChange = async (id: string, data: CustomerUpdate) => {
+const saveCustomerChange = async (id: string, data: CustomerUpdate, fieldName: string) => {
 	try {
 		const updatedCustomer = await customerService.update(id, data);
 		customer.value = updatedCustomer;
 		emit("update:customer", updatedCustomer);
+		successStates.value.set(fieldName, true);
+		setTimeout(() => {
+			successStates.value.set(fieldName, false);
+		}, 2000);
 	} catch (error) {
 		console.error(error);
+		successStates.value.set(fieldName, false);
 	}
 };
 </script>

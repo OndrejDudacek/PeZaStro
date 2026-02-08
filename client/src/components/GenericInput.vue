@@ -20,6 +20,7 @@
 <script setup lang="ts">
 import { computed, ref, useAttrs } from "vue";
 import Icon from "./Icon.vue";
+import { debounce } from "@/utils/debounce";
 
 const props = defineProps<{
 	icon?: string;
@@ -36,6 +37,7 @@ const attrs = useAttrs();
 
 const emit = defineEmits<{
 	"update:modelValue": [value: string | number];
+	"debounced:modelValue": [value: string | number];
 }>();
 
 const inputRef = ref<HTMLInputElement | null>(null);
@@ -44,10 +46,15 @@ const focusInput = () => {
 	inputRef.value?.focus();
 };
 
+const debouncedEmit = debounce((value: string | number) =>
+	emit("debounced:modelValue", value),
+);
+
 const handleInput = (event: Event) => {
 	const target = event.target as HTMLInputElement;
 	const value = props.type === "number" ? Number(target.value) : target.value;
 	emit("update:modelValue", value);
+	debouncedEmit(value);
 };
 
 const iconName = computed(() => {

@@ -56,3 +56,5 @@
 - pinia-plugin-persistedstate na automaticke ukladani useru do lokal storage a z local sotrage do pinie
 - services pro jednotlive zdroje
 - adress postal code v location na number s poctem charakteru pet ze stringu
+- pridani barevnych variant (danger) a varianty (success) - zmena barvy a u success i zmena ikony pokud je, u buttonu, inputů a textearey
+- debounce a implementace zmen barev

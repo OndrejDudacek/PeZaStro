@@ -16,7 +16,7 @@
 					placeholder="Rohová"
 					v-model="location.address.street"
 					:success="successStates.get('street')"
-					@update:model-value="
+					@debounced:model-value="
 						saveLocationChange(
 							location.id,
 							{
@@ -35,7 +35,7 @@
 					placeholder="559"
 					v-model="location.address.houseNumber"
 					:success="successStates.get('houseNumber')"
-					@update:model-value="
+					@debounced:model-value="
 						saveLocationChange(
 							location.id,
 							{
@@ -54,7 +54,7 @@
 					placeholder="151 00"
 					v-model="location.address.postalCode"
 					:success="successStates.get('postalCode')"
-					@update:model-value="
+					@debounced:model-value="
 						saveLocationChange(
 							location.id,
 							{
@@ -73,7 +73,7 @@
 					placeholder="Praha"
 					v-model="location.address.city"
 					:success="successStates.get('city')"
-					@update:model-value="
+					@debounced:model-value="
 						saveLocationChange(
 							location.id,
 							{
@@ -89,7 +89,7 @@
 					label="Poznámky:"
 					v-model="location.note"
 					:success="successStates.get('note')"
-					@update:model-value="
+					@debounced:model-value="
 						saveLocationChange(
 							location.id,
 							{
@@ -123,8 +123,8 @@ const emit = defineEmits<{
 	"update:location": [value: Location];
 }>();
 
-const location = ref(props.location);
 const successStates = ref(new Map<string, boolean>());
+const location = ref(props.location);
 
 watch(
 	() => props.location,

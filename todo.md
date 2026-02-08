@@ -67,7 +67,7 @@
 - [ ] tvorba jednotlivých věcí
 - [ ] mazaní jednotlivých věcí
 - [x] automatické ukládání změn místo tlačítka
-  - [ ] přidat debounce
+  - [x] přidat debounce
 - [ ] centralized error henadling fe
 - [ ] informational popups
 - [x] danger and success variants

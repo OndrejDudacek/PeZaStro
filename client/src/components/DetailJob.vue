@@ -13,26 +13,48 @@
 				<section class="dateInputs">
 					<GenericInput
 						type="number"
+						icon="calendar_view_day"
 						label="Den:"
 						v-model="day"
-						@update:model-value="
-							saveJobChange(job.id, { date: convertToDate(day, month, year) })
+						:success="successStates.get('day')"
+						min="1"
+						max="31"
+						@debounced:model-value="
+							saveJobChange(
+								job.id,
+								{ date: convertToDate(day, month, year) },
+								'day',
+							)
 						"
 					/>
 					<GenericInput
 						type="number"
+						icon="calendar_view_month"
 						label="Měsíc:"
 						v-model="month"
-						@update:model-value="
-							saveJobChange(job.id, { date: convertToDate(day, month, year) })
+						:success="successStates.get('month')"
+						min="1"
+						max="12"
+						@debounced:model-value="
+							saveJobChange(
+								job.id,
+								{ date: convertToDate(day, month, year) },
+								'month',
+							)
 						"
 					/>
 					<GenericInput
 						type="number"
+						icon="calendar_month"
 						label="Rok:"
 						v-model="year"
-						@update:model-value="
-							saveJobChange(job.id, { date: convertToDate(day, month, year) })
+						:success="successStates.get('year')"
+						@debounced:model-value="
+							saveJobChange(
+								job.id,
+								{ date: convertToDate(day, month, year) },
+								'year',
+							)
 						"
 					/>
 				</section>
@@ -44,7 +66,8 @@
 				<TextArea
 					label="Poznámky:"
 					v-model="job.note"
-					@update:model-value="saveJobChange(job.id, { note: job.note })"
+					:success="successStates.get('note')"
+					@debounced:model-value="saveJobChange(job.id, { note: job.note }, 'note')"
 				/>
 			</li>
 		</ul>
@@ -70,7 +93,16 @@ const emit = defineEmits<{
 	"update:job": [value: Job];
 }>();
 
+const successStates = ref(new Map<string, boolean>());
 const job = ref(props.job);
+
+watch(
+	() => props.job,
+	(newJob) => {
+		job.value = newJob;
+	},
+);
+
 const date = new Date(job.value.date);
 const day = ref(date.getDate());
 const month = ref(date.getMonth() + 1);
@@ -81,20 +113,18 @@ const convertToDate = (day: number, month: number, year: number) => {
 	return date;
 };
 
-watch(
-	() => props.job,
-	(newJob) => {
-		job.value = newJob;
-	},
-);
-
-const saveJobChange = async (id: string, data: JobUpdate) => {
+const saveJobChange = async (id: string, data: JobUpdate, fieldName: string) => {
 	try {
 		const updatedJob = await jobService.update(id, data);
 		job.value = updatedJob;
 		emit("update:job", updatedJob);
+		successStates.value.set(fieldName, true);
+		setTimeout(() => {
+			successStates.value.set(fieldName, false);
+		}, 2000);
 	} catch (error) {
 		console.error(error);
+		successStates.value.set(fieldName, false);
 	}
 };
 </script>

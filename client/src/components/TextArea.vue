@@ -8,12 +8,13 @@
 			@input="handleInput"
 			:id="inputName"
 			ref="inputRef"
-			:class="[`textarea-color-${color}`, `textarea-success-${success}`]"
+			:class="[`textarea-success-${success}`]"
 		></textarea>
 	</section>
 </template>
 
 <script setup lang="ts">
+import { debounce } from "@/utils/debounce";
 import { ref, onMounted, watch } from "vue";
 
 const props = withDefaults(
@@ -23,7 +24,6 @@ const props = withDefaults(
 		modelValue?: string | null;
 		label?: string;
 		minRows?: number;
-		color?: "danger";
 		success?: boolean;
 	}>(),
 	{
@@ -33,7 +33,10 @@ const props = withDefaults(
 	},
 );
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits<{
+	"update:modelValue": [value: string];
+	"debounced:modelValue": [value: string | number];
+}>();
 
 const inputRef = ref<HTMLTextAreaElement | null>(null);
 
@@ -44,9 +47,13 @@ const adjustHeight = () => {
 	}
 };
 
+const debouncedEmit = debounce((value: string) => emit("debounced:modelValue", value));
+
 const handleInput = (event: Event) => {
-	emit("update:modelValue", (event.target as HTMLTextAreaElement).value);
+	const value = (event.target as HTMLTextAreaElement).value;
+	emit("update:modelValue", value);
 	adjustHeight();
+	debouncedEmit(value);
 };
 
 const focusInput = () => {
@@ -93,22 +100,7 @@ section {
 			outline: var(--border-width-active) solid var(--color-border);
 		}
 
-		&.textarea-color-danger {
-			color: var(--color-danger);
-			outline: var(--border-width) solid var(--color-danger);
-		}
-
-		&.textarea-color-danger:hover {
-			outline: var(--border-width-hover) solid var(--color-danger);
-		}
-
-		&.textarea-color-danger:active,
-		&.textarea-color-danger:has(input:focus) {
-			outline: var(--border-width-active) solid var(--color-danger);
-		}
-
 		&.textarea-success-true {
-			color: var(--color-success);
 			outline: var(--border-width) solid var(--color-success);
 		}
 

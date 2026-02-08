@@ -18,42 +18,57 @@
 						type="number"
 						label="Den:"
 						v-model="signingDay"
-						@update:model-value="
-							saveContractChange(contract.id, {
-								dateOfSigning: convertToDate(
-									signingDay,
-									signingMonth,
-									signingYear,
-								),
-							})
+						:success="successStates.get('day')"
+						@debounced:model-value="
+							saveContractChange(
+								contract.id,
+								{
+									dateOfSigning: convertToDate(
+										signingDay,
+										signingMonth,
+										signingYear,
+									),
+								},
+								'day',
+							)
 						"
 					/>
 					<GenericInput
 						type="number"
 						label="Měsíc:"
 						v-model="signingMonth"
-						@update:model-value="
-							saveContractChange(contract.id, {
-								dateOfSigning: convertToDate(
-									signingDay,
-									signingMonth,
-									signingYear,
-								),
-							})
+						:success="successStates.get('month')"
+						@debounced:model-value="
+							saveContractChange(
+								contract.id,
+								{
+									dateOfSigning: convertToDate(
+										signingDay,
+										signingMonth,
+										signingYear,
+									),
+								},
+								'month',
+							)
 						"
 					/>
 					<GenericInput
 						type="number"
 						label="Rok:"
 						v-model="signingYear"
-						@update:model-value="
-							saveContractChange(contract.id, {
-								dateOfSigning: convertToDate(
-									signingDay,
-									signingMonth,
-									signingYear,
-								),
-							})
+						:success="successStates.get('year')"
+						@debounced:model-value="
+							saveContractChange(
+								contract.id,
+								{
+									dateOfSigning: convertToDate(
+										signingDay,
+										signingMonth,
+										signingYear,
+									),
+								},
+								'year',
+							)
 						"
 					/>
 				</section>
@@ -62,10 +77,15 @@
 				<TextArea
 					label="Poznámky:"
 					v-model="contract.note"
-					@update:model-value="
-						saveContractChange(contract.id, {
-							note: contract.note,
-						})
+					:success="successStates.get('note')"
+					@debounced:model-value="
+						saveContractChange(
+							contract.id,
+							{
+								note: contract.note,
+							},
+							'note',
+						)
 					"
 				/>
 			</li>
@@ -135,7 +155,16 @@ const emit = defineEmits<{
 	"update:contract": [value: Contract];
 }>();
 
+const successStates = ref(new Map<string, boolean>());
 const contract = ref(props.contract);
+
+watch(
+	() => props.contract,
+	(newContract) => {
+		contract.value = newContract;
+	},
+);
+
 const signingDate = new Date(contract.value.dateOfSigning);
 const signingDay = ref(signingDate.getDate());
 const signingMonth = ref(signingDate.getMonth() + 1);
@@ -146,20 +175,18 @@ const convertToDate = (day: number, month: number, year: number) => {
 	return date;
 };
 
-watch(
-	() => props.contract,
-	(newContract) => {
-		contract.value = newContract;
-	},
-);
-
-const saveContractChange = async (id: string, data: ContractUpdate) => {
+const saveContractChange = async (id: string, data: ContractUpdate, fieldName: string) => {
 	try {
 		const updatedContract = await contractService.update(id, data);
 		contract.value = updatedContract;
 		emit("update:contract", updatedContract);
+		successStates.value.set(fieldName, true);
+		setTimeout(() => {
+			successStates.value.set(fieldName, false);
+		}, 2000);
 	} catch (error) {
 		console.error(error);
+		successStates.value.set(fieldName, false);
 	}
 };
 

@@ -2,15 +2,7 @@
 	<section>
 		<label :for="name">{{ label }}</label>
 		<div @click="focusInput" :class="[`input-color-${color}`, `input-success-${success}`]">
-			<select
-				ref="inputRef"
-				:name="name"
-				:value="modelValue"
-				@change="
-					$event.target &&
-					$emit('update:modelValue', ($event.target as HTMLSelectElement).value)
-				"
-			>
+			<select ref="inputRef" :name="name" :value="modelValue" @change="handleInput">
 				<option value="" disabled>
 					{{ label || "Select" }}
 				</option>
@@ -23,6 +15,7 @@
 </template>
 
 <script setup lang="ts">
+import { debounce } from "@/utils/debounce";
 import { ref } from "vue";
 
 interface Option {
@@ -31,7 +24,7 @@ interface Option {
 }
 
 const props = defineProps<{
-	name: string;
+	name?: string;
 	label?: string;
 	options: Option[];
 	modelValue?: string;
@@ -39,7 +32,18 @@ const props = defineProps<{
 	success?: boolean;
 }>();
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits<{
+	"update:modelValue": [value: string];
+	"debounced:modelValue": [value: string | number];
+}>();
+
+const debouncedEmit = debounce((value: string) => emit("debounced:modelValue", value));
+
+const handleInput = (event: Event) => {
+	const value = (event.target as HTMLSelectElement).value;
+	emit("update:modelValue", value);
+	debouncedEmit(value);
+};
 
 const inputRef = ref<HTMLSelectElement | null>(null);
 
