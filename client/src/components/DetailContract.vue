@@ -95,9 +95,7 @@
 			<li v-for="(jobDesc, i) in jobDescs" :key="i">
 				<ul>
 					<li>
-						<p>
-							Id: <IdDisplayer :id="jobDesc.contractId" name="contract" copy />
-						</p>
+						<p>Id: <IdDisplayer :id="jobDesc.id" name="contract" copy /></p>
 					</li>
 					<li>
 						<p>
@@ -108,19 +106,35 @@
 					<li>
 						<GenericInput
 							type="text"
-							icon="item"
+							icon="assignment"
 							label="Jméno:"
 							placeholder="Sekání trávy"
 							v-model="jobDesc.name"
+							:success="successStates.get(`jobDesc-name-${jobDesc.id}`)"
+							@debounced:model-value="
+								updateJobDesc(
+									jobDesc.id,
+									{ name: jobDesc.name },
+									`jobDesc-name-${jobDesc.id}`,
+								)
+							"
 						/>
 					</li>
 					<li>
 						<GenericInput
 							type="number"
-							icon="money"
+							icon="payments"
 							label="Cena:"
 							placeholder="400"
 							v-model="jobDesc.cost"
+							:success="successStates.get(`jobDesc-cost-${jobDesc.id}`)"
+							@debounced:model-value="
+								updateJobDesc(
+									jobDesc.id,
+									{ cost: jobDesc.cost },
+									`jobDesc-cost-${jobDesc.id}`,
+								)
+							"
 						/>
 					</li>
 					<li>
@@ -132,6 +146,14 @@
 								{ label: 'Ročně', value: Frequency.year },
 							]"
 							v-model="jobDesc.frequency"
+							:success="successStates.get(`jobDesc-frequency-${jobDesc.id}`)"
+							@debounced:model-value="
+								updateJobDesc(
+									jobDesc.id,
+									{ frequency: jobDesc.frequency },
+									`jobDesc-frequency-${jobDesc.id}`,
+								)
+							"
 						/>
 					</li>
 					<li>
@@ -140,13 +162,30 @@
 							label="Perioda:"
 							:model-value="jobDesc.period === null ? 0 : jobDesc.period"
 							@update:model-value="jobDesc.period = Number($event)"
+							:success="successStates.get(`jobDesc-period-${jobDesc.id}`)"
+							@debounced:model-value="
+								updateJobDesc(
+									jobDesc.id,
+									{ period: jobDesc.period },
+									`jobDesc-period-${jobDesc.id}`,
+								)
+							"
 						/>
+					</li>
+					<li>
+						<section class="buttons">
+							<Button
+								label="Smazat popis práce"
+								icon="delete"
+								color="danger"
+								@click="deleteJobDesc(jobDesc)"
+							/>
+						</section>
 					</li>
 				</ul>
 			</li>
 		</ul>
 		<section class="buttons">
-			<Button label="Smazat zakázku" icon="delete" color="danger" />
 			<Button label="Přidat popis práce" icon="add" />
 		</section>
 		<h4>Záznamy prací:</h4>
@@ -173,11 +212,17 @@ import GenericInput from "./GenericInput.vue";
 import TextArea from "./TextArea.vue";
 import SelectInput from "./SelectInput.vue";
 import type { Contract, ContractUpdate } from "@/types/Contract";
-import { ref, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { contractService } from "@/services/contractService";
 import IdDisplayer from "./IdDisplayer.vue";
-import { Frequency, type JobDescription } from "@/types/JobDescription";
+import {
+	Frequency,
+	type JobDescription,
+	type JobDescriptionUpdate,
+} from "@/types/JobDescription";
 import type { Job } from "@/types/Job";
+import { jobDescriptionService } from "@/services/jobDescriptionService";
+import { jobService } from "@/services/jobService";
 
 const props = defineProps<{
 	contract: Contract;
@@ -234,7 +279,54 @@ const deleteContract = async (id: string) => {
 };
 
 const jobDescs = ref<JobDescription[]>([]);
+const fetchJobDescs = async () => {
+	try {
+		jobDescs.value = await jobDescriptionService.getAll(contract.value.id);
+	} catch (error) {
+		console.error(error);
+	}
+};
+
+const updateJobDesc = async (id: string, data: JobDescriptionUpdate, fieldName: string) => {
+	try {
+		const updatedJobDesc = await jobDescriptionService.update(id, data);
+		const index = jobDescs.value.findIndex((jd) => jd.id === id);
+		if (index !== -1) {
+			jobDescs.value[index] = updatedJobDesc;
+		}
+		successStates.value.set(fieldName, true);
+		setTimeout(() => {
+			successStates.value.set(fieldName, false);
+		}, 2000);
+	} catch (error) {
+		console.error(error);
+		successStates.value.set(fieldName, false);
+	}
+};
+
+const deleteJobDesc = async (jobDesc: JobDescription) => {
+	try {
+		const { message } = await jobDescriptionService.delete(jobDesc.id);
+		jobDescs.value = jobDescs.value.filter((jd) => jd.id !== jobDesc.id);
+		alert(message);
+	} catch (error) {
+		console.error(error);
+	}
+};
+
 const jobs = ref<Job[]>([]);
+const fetchJobs = async () => {
+	try {
+		jobs.value = await jobService.getAll(contract.value.id);
+	} catch (error) {
+		console.error(error);
+	}
+};
+
+onMounted(async () => {
+	await fetchJobDescs();
+	await fetchJobs();
+});
 </script>
 
 <style scoped lang="scss">

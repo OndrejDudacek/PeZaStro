@@ -4,8 +4,9 @@ import type { Job, JobCreate, JobUpdate } from "@/types/Job";
 const source = "/job";
 
 export const jobService = {
-	getAll() {
-		return apiClient.get<Job[]>(source);
+	getAll(contractId?: string) {
+		const url = contractId ? `${source}/?contractId=${contractId}` : source;
+		return apiClient.get<Job[]>(url);
 	},
 	getById(id: string) {
 		return apiClient.get<Job>(`${source}/${id}`);

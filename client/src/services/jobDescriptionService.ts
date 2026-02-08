@@ -7,9 +7,10 @@ import type {
 
 const source = "/jobDescription";
 
-export const contactService = {
-	getAll() {
-		return apiClient.get<JobDescription[]>(source);
+export const jobDescriptionService = {
+	getAll(contractId?: string) {
+		const url = contractId ? `${source}/?contractId=${contractId}` : source;
+		return apiClient.get<JobDescription[]>(url);
 	},
 	getById(id: string) {
 		return apiClient.get<JobDescription>(`${source}/${id}`);

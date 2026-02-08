@@ -4,8 +4,9 @@ import type { Contact, ContactCreate, ContactUpdate } from "@/types/Contact";
 const source = "/contact";
 
 export const contactService = {
-	getAll() {
-		return apiClient.get<Contact[]>(source);
+	getAll(customerId?: string) {
+		const url = customerId ? `${source}/?customerId=${customerId}` : source;
+		return apiClient.get<Contact[]>(url);
 	},
 	getById(id: string) {
 		return apiClient.get<Contact>(`${source}/${id}`);
