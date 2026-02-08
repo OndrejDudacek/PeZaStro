@@ -82,7 +82,7 @@ const fetchContracts = async () => {
 };
 
 onMounted(async () => {
-	fetchContracts();
+	await fetchContracts();
 });
 </script>
 

@@ -80,8 +80,8 @@ const fetchJobs = async () => {
 	}
 };
 
-onMounted(() => {
-	fetchJobs();
+onMounted(async () => {
+	await fetchJobs();
 });
 </script>
 
