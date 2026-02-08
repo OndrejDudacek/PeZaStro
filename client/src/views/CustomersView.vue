@@ -23,6 +23,7 @@
 		<DetailCustomer
 			v-if="selectedCustomer"
 			:customer="selectedCustomer"
+			:key="selectedCustomer.id"
 			@update:customer="updatedCustomer"
 			@delete:customer="deletedCustomer"
 		/>
@@ -74,6 +75,10 @@ const customers = ref<Customer[] | null>([]);
 const fetchCustomers = async () => {
 	try {
 		customers.value = await customerService.getAll();
+		if (route.query.id) {
+			selectedCustomer.value =
+				customers.value.find((c) => c.id === route.query.id) || null;
+		}
 	} catch (error) {
 		console.error(error);
 	}

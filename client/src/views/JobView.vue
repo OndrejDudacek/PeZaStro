@@ -23,6 +23,7 @@
 		<DetailJob
 			v-if="selectedJob"
 			:job="selectedJob"
+			:key="selectedJob.id"
 			@update:job="updatedJob"
 			@delete:job="deletedJob"
 		/>
@@ -75,6 +76,9 @@ const jobs = ref<Job[]>([]);
 const fetchJobs = async () => {
 	try {
 		jobs.value = await jobService.getAll();
+		if (route.query.id) {
+			selectedJob.value = jobs.value.find((c) => c.id === route.query.id) || null;
+		}
 	} catch (error) {
 		console.error(error);
 	}

@@ -27,6 +27,7 @@
 		<DetailLocation
 			v-if="selectedLocation"
 			:location="selectedLocation"
+			:key="selectedLocation.id"
 			@update:location="updatedLocation"
 			@delete:location="deletedLocation"
 		/>
@@ -78,6 +79,10 @@ const locations = ref<Location[]>([]);
 const fetchLocations = async () => {
 	try {
 		locations.value = await locationService.getAll();
+		if (route.query.id) {
+			selectedLocation.value =
+				locations.value.find((c) => c.id === route.query.id) || null;
+		}
 	} catch (error) {
 		console.error(error);
 	}

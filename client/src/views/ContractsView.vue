@@ -24,6 +24,7 @@
 		</article>
 		<DetailContract
 			v-if="selectedContract"
+			:key="selectedContract.id"
 			:contract="selectedContract"
 			@update:contract="updatedContract"
 			@delete:contract="deletedContract"
@@ -76,6 +77,10 @@ const contracts = ref<Contract[]>([]);
 const fetchContracts = async () => {
 	try {
 		contracts.value = await contractService.getAll();
+		if (route.query.id) {
+			selectedContract.value =
+				contracts.value.find((c) => c.id === route.query.id) || null;
+		}
 	} catch (error) {
 		console.error(error);
 	}
