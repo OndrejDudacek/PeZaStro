@@ -15,7 +15,7 @@
 						:key="i"
 						@click="selectLocation(location)"
 					>
-						<td>{{ location.id }}</td>
+						<td><IdDisplayer :id="location.id" name="location" shorten /></td>
 						<td>
 							{{ location.address.houseNumber }} {{ location.address.street }}
 						</td>
@@ -40,6 +40,7 @@ import type { Location } from "@/types/Location";
 import { locationService } from "@/services/locationService";
 import { useRoute } from "vue-router";
 import router from "@/router/index";
+import IdDisplayer from "@/components/IdDisplayer.vue";
 
 const selectedLocation = ref<Location | null>(null);
 const selectLocation = (Location: Location) => {

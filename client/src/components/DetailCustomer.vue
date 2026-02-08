@@ -3,7 +3,7 @@
 		<h3>Detail zákazníka</h3>
 		<ul>
 			<li>
-				<p>Id: {{ customer.id }}</p>
+				<p>Id: <IdDisplayer :id="customer.id" name="customer" copy /></p>
 			</li>
 			<li>
 				<p>Datum vytvoření: {{ new Date(customer.createdAt).toLocaleDateString() }}</p>
@@ -38,7 +38,7 @@
 			<li>
 				<ul>
 					<li>
-						<p>Id: {{}}</p>
+						<p>Id: <IdDisplayer :id="''" name="customer" copy /></p>
 					</li>
 					<li>
 						<p>Datum vytvoření: {{}}</p>
@@ -92,6 +92,7 @@ import GenericInput from "./GenericInput.vue";
 import TextArea from "./TextArea.vue";
 import { ref, watch } from "vue";
 import { customerService } from "@/services/customerService";
+import IdDisplayer from "./IdDisplayer.vue";
 
 const emit = defineEmits<{
 	"update:customer": [value: Customer];

@@ -72,5 +72,7 @@
 - [ ] informational popups
 - [x] danger and success variants
 - [x] router na detaily
-- [ ] idcka jako odkazy
-- [ ] zkraceni idecek
+- [x] idcka jako odkazy
+- [x] zkraceni idecek
+- [ ] 404 page
+- [ ] tlacitko zpet v detailu

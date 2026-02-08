@@ -58,3 +58,5 @@
 - adress postal code v location na number s poctem charakteru pet ze stringu
 - pridani barevnych variant (danger) a varianty (success) - zmena barvy a u success i zmena ikony pokud je, u buttonu, inputů a textearey
 - debounce a implementace zmen barev
+- cesty na detaily v paramterech (ne jako cesta kvzuli tomu ze by na to mela byt vlastni stanka a ja to mam jako jen cast stranky)
+- idDisplayer - zkracovani kopirovani na kliknuti a odkazy z idecek

@@ -15,7 +15,7 @@
 						:key="i"
 						@click="selectContract(contract)"
 					>
-						<td>{{ contract.id }}</td>
+						<td><IdDisplayer :id="contract.id" name="contract" shorten /></td>
 						<td>{{ contract.totalCost }}</td>
 						<td>{{ new Date(contract.dateOfSigning).toLocaleDateString() }}</td>
 					</tr>
@@ -38,6 +38,7 @@ import { contractService } from "@/services/contractService";
 import type { Contract } from "@/types/Contract";
 import { onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
+import IdDisplayer from "@/components/IdDisplayer.vue";
 
 const selectedContract = ref<Contract | null>(null);
 const selectContract = (contract: Contract) => {

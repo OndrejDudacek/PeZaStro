@@ -14,7 +14,7 @@
 						:key="i"
 						@click="selectCustomer(customer)"
 					>
-						<td>{{ customer.id }}</td>
+						<td><IdDisplayer :id="customer.id" name="customer" shorten /></td>
 						<td>{{ customer.name }}</td>
 					</tr>
 				</tbody>
@@ -36,6 +36,7 @@ import { customerService } from "@/services/customerService";
 import type { Customer } from "@/types/Customer";
 import { onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
+import IdDisplayer from "@/components/IdDisplayer.vue";
 
 const selectedCustomer = ref<Customer | null>(null);
 const selectCustomer = (customer: Customer) => {

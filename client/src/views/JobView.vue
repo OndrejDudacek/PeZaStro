@@ -11,9 +11,11 @@
 				</thead>
 				<tbody>
 					<tr v-for="(job, i) in jobs" :key="i" @click="selectJob(job)">
-						<td>{{ job.id }}</td>
+						<td><IdDisplayer :id="job.id" name="job" shorten /></td>
 						<td>{{ new Date(job.date).toLocaleDateString() }}</td>
-						<td>{{ job.contractId }}</td>
+						<td>
+							<IdDisplayer :id="job.contractId" name="contract" shorten link />
+						</td>
 					</tr>
 				</tbody>
 			</table>
@@ -34,6 +36,7 @@ import { jobService } from "@/services/jobService";
 import type { Job } from "@/types/Job";
 import { onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
+import IdDisplayer from "@/components/IdDisplayer.vue";
 
 const selectedJob = ref<Job | null>(null);
 const selectJob = (job: Job) => {

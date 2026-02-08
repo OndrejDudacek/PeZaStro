@@ -3,7 +3,7 @@
 		<h3>Detail práce</h3>
 		<ul>
 			<li>
-				<p>Id: {{ job.id }}</p>
+				<p>Id: <IdDisplayer :id="job.id" name="job" copy /></p>
 			</li>
 			<li>
 				<p>Datum vytvoření: {{ new Date(job.createdAt).toLocaleDateString() }}</p>
@@ -60,7 +60,7 @@
 				</section>
 			</li>
 			<li>
-				<p>Id zakázky: {{ job.contractId }}</p>
+				<p>Id zakázky: <IdDisplayer link :id="job.contractId" name="contract" /></p>
 			</li>
 			<li>
 				<TextArea
@@ -89,6 +89,7 @@ import GenericInput from "./GenericInput.vue";
 import TextArea from "./TextArea.vue";
 import { jobService } from "@/services/jobService";
 import { ref, watch } from "vue";
+import IdDisplayer from "./IdDisplayer.vue";
 
 const props = defineProps<{
 	job: Job;

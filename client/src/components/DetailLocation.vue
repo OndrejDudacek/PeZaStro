@@ -3,7 +3,7 @@
 		<h3>Detail lokace</h3>
 		<ul>
 			<li>
-				<p>Id: {{ location.id }}</p>
+				<p>Id: <IdDisplayer :id="location.id" name="location" copy /></p>
 			</li>
 			<li>
 				<p>Datum vytvoření: {{ new Date(location.createdAt).toLocaleDateString() }}</p>
@@ -119,6 +119,7 @@ import GenericInput from "./GenericInput.vue";
 import TextArea from "./TextArea.vue";
 import type { Location, LocationUpdate } from "@/types/Location";
 import { ref, watch } from "vue";
+import IdDisplayer from "./IdDisplayer.vue";
 
 const props = defineProps<{
 	location: Location;

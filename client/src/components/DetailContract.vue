@@ -3,7 +3,7 @@
 		<h3>Detail zakázky</h3>
 		<ul>
 			<li>
-				<p>Id: {{ contract.id }}</p>
+				<p>Id: <IdDisplayer :id="contract.id" name="contract" copy /></p>
 			</li>
 			<li>
 				<p>Datum vytvoření: {{ new Date(contract.createdAt).toLocaleDateString() }}</p>
@@ -96,7 +96,7 @@
 			<li>
 				<ul>
 					<li>
-						<p>Id: {{}}</p>
+						<p>Id: <IdDisplayer :id="''" name="contract" copy /></p>
 					</li>
 					<li>
 						<p>Datum vytvoření: {{}}</p>
@@ -151,6 +151,7 @@ import SelectInput from "./SelectInput.vue";
 import type { Contract, ContractUpdate } from "@/types/Contract";
 import { ref, watch } from "vue";
 import { contractService } from "@/services/contractService";
+import IdDisplayer from "./IdDisplayer.vue";
 
 const props = defineProps<{
 	contract: Contract;
