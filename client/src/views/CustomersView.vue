@@ -31,14 +31,28 @@
 
 <script setup lang="ts">
 import DetailCustomer from "@/components/DetailCustomer.vue";
+import router from "@/router";
 import { customerService } from "@/services/customerService";
 import type { Customer } from "@/types/Customer";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
+import { useRoute } from "vue-router";
 
 const selectedCustomer = ref<Customer | null>(null);
 const selectCustomer = (customer: Customer) => {
-	selectedCustomer.value = customer;
+	router.push({ query: { id: customer.id } });
 };
+
+const route = useRoute();
+watch(
+	() => route.query.id,
+	(newId) => {
+		if (newId && customers.value) {
+			selectedCustomer.value = customers.value.find((c) => c.id === newId) || null;
+		} else {
+			selectedCustomer.value = null;
+		}
+	},
+);
 
 const updatedCustomer = (updatedCustomer: Customer) => {
 	if (customers.value) {
@@ -51,7 +65,7 @@ const updatedCustomer = (updatedCustomer: Customer) => {
 };
 
 const deletedCustomer = async () => {
-	selectedCustomer.value = null;
+	router.push({ query: { id: undefined } });
 	fetchCustomers();
 };
 

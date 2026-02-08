@@ -65,12 +65,12 @@
 - [ ] responzivita
 - [x] API docs (openApi)
 - [ ] tvorba jednotlivých věcí
-- [ ] mazaní jednotlivých věcí
+- [x] mazaní jednotlivých věcí
 - [x] automatické ukládání změn místo tlačítka
   - [x] přidat debounce
 - [ ] centralized error henadling fe
 - [ ] informational popups
 - [x] danger and success variants
-- [ ] router na detaily
+- [x] router na detaily
 - [ ] idcka jako odkazy
 - [ ] zkraceni idecek

@@ -35,14 +35,28 @@
 
 <script setup lang="ts">
 import DetailLocation from "@/components/DetailLocation.vue";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import type { Location } from "@/types/Location";
 import { locationService } from "@/services/locationService";
+import { useRoute } from "vue-router";
+import router from "@/router/index";
 
 const selectedLocation = ref<Location | null>(null);
-const selectLocation = (data: Location) => {
-	selectedLocation.value = data;
+const selectLocation = (Location: Location) => {
+	router.push({ query: { id: Location.id } });
 };
+
+const route = useRoute();
+watch(
+	() => route.query.id,
+	(newId) => {
+		if (newId && locations.value) {
+			selectedLocation.value = locations.value.find((c) => c.id === newId) || null;
+		} else {
+			selectedLocation.value = null;
+		}
+	},
+);
 
 const updatedLocation = (updatedLocation: Location) => {
 	if (locations.value) {
@@ -55,7 +69,7 @@ const updatedLocation = (updatedLocation: Location) => {
 };
 
 const deletedLocation = () => {
-	selectedLocation.value = null;
+	router.push({ query: { id: undefined } });
 	fetchLocations();
 };
 

@@ -33,14 +33,28 @@
 
 <script setup lang="ts">
 import DetailContract from "@/components/DetailContract.vue";
+import router from "@/router";
 import { contractService } from "@/services/contractService";
 import type { Contract } from "@/types/Contract";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
+import { useRoute } from "vue-router";
 
 const selectedContract = ref<Contract | null>(null);
 const selectContract = (contract: Contract) => {
-	selectedContract.value = contract;
+	router.push({ query: { id: contract.id } });
 };
+
+const route = useRoute();
+watch(
+	() => route.query.id,
+	(newId) => {
+		if (newId && contracts.value) {
+			selectedContract.value = contracts.value.find((c) => c.id === newId) || null;
+		} else {
+			selectedContract.value = null;
+		}
+	},
+);
 
 const updatedContract = (updatedContract: Contract) => {
 	if (contracts.value) {
@@ -53,7 +67,7 @@ const updatedContract = (updatedContract: Contract) => {
 };
 
 const deletedContract = () => {
-	selectedContract.value = null;
+	router.push({ query: { id: undefined } });
 	fetchContracts();
 };
 

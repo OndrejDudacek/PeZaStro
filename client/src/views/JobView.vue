@@ -29,14 +29,28 @@
 
 <script setup lang="ts">
 import DetailJob from "@/components/DetailJob.vue";
+import router from "@/router";
 import { jobService } from "@/services/jobService";
 import type { Job } from "@/types/Job";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
+import { useRoute } from "vue-router";
 
 const selectedJob = ref<Job | null>(null);
 const selectJob = (job: Job) => {
-	selectedJob.value = job;
+	router.push({ query: { id: job.id } });
 };
+
+const route = useRoute();
+watch(
+	() => route.query.id,
+	(newId) => {
+		if (newId && jobs.value) {
+			selectedJob.value = jobs.value.find((c) => c.id === newId) || null;
+		} else {
+			selectedJob.value = null;
+		}
+	},
+);
 
 const updatedJob = (updatedJob: Job) => {
 	if (jobs.value) {
@@ -49,7 +63,7 @@ const updatedJob = (updatedJob: Job) => {
 };
 
 const deletedJob = () => {
-	selectedJob.value = null;
+	router.push({ query: { id: undefined } });
 	fetchJobs();
 };
 
