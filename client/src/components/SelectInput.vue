@@ -1,7 +1,7 @@
 <template>
 	<section>
 		<label :for="name">{{ label }}</label>
-		<div @click="focusInput">
+		<div @click="focusInput" :class="[`input-color-${color}`, `input-success-${success}`]">
 			<select
 				ref="inputRef"
 				:name="name"
@@ -35,6 +35,8 @@ const props = defineProps<{
 	label?: string;
 	options: Option[];
 	modelValue?: string;
+	color?: "danger";
+	success?: boolean;
 }>();
 
 const emit = defineEmits(["update:modelValue"]);
@@ -76,14 +78,42 @@ div {
 		width: 100%;
 		cursor: pointer;
 	}
-}
 
-div:hover {
-	outline: var(--border-width-hover) solid var(--color-border);
-}
+	&:hover {
+		outline: var(--border-width-hover) solid var(--color-border);
+	}
 
-div:active,
-div:has(select:focus) {
-	outline: var(--border-width-active) solid var(--color-border);
+	&:active,
+	&:has(select:focus) {
+		outline: var(--border-width-active) solid var(--color-border);
+	}
+
+	&.input-color-danger {
+		color: var(--color-danger);
+		outline: var(--border-width) solid var(--color-danger);
+	}
+
+	&.input-color-danger:hover {
+		outline: var(--border-width-hover) solid var(--color-danger);
+	}
+
+	&.input-color-danger:active,
+	&.input-color-danger:has(input:focus) {
+		outline: var(--border-width-active) solid var(--color-danger);
+	}
+
+	&.input-success-true {
+		color: var(--color-success);
+		outline: var(--border-width) solid var(--color-success);
+	}
+
+	&.input-success-true:hover {
+		outline: var(--border-width-hover) solid var(--color-success);
+	}
+
+	&.input-success-true:active,
+	&.input-success-true:has(input:focus) {
+		outline: var(--border-width-active) solid var(--color-success);
+	}
 }
 </style>

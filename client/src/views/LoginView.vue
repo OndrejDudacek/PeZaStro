@@ -4,14 +4,14 @@
 		<form @submit.prevent="login">
 			<GenericInput
 				type="text"
-				icon-name="person"
+				icon="person"
 				label="Uživatelské jméno"
 				v-model="username"
 				:required="true"
 			/>
 			<GenericInput
 				type="password"
-				icon-name="key"
+				icon="key"
 				label="Heslo"
 				v-model="password"
 				:required="true"

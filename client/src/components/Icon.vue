@@ -14,5 +14,6 @@ const props = defineProps({
 span {
 	font-size: inherit;
 	text-align: center;
+	color: inherit;
 }
 </style>

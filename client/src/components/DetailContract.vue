@@ -104,7 +104,7 @@
 			</li>
 		</ul>
 		<section class="buttons">
-			<Button label="Smazat zakázku" icon="delete" />
+			<Button label="Smazat zakázku" icon="delete" color="danger" />
 			<Button label="Přidat popis práce" icon="add" />
 		</section>
 		<h4>Záznamy prací:</h4>
@@ -113,7 +113,7 @@
 			<li></li>
 		</ul>
 		<section class="buttons">
-			<Button label="Smazat zakázku" icon="delete" />
+			<Button label="Smazat zakázku" icon="delete" color="danger" />
 		</section>
 	</article>
 </template>

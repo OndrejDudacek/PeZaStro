@@ -20,6 +20,12 @@ export class InMemoryLocationRepository implements ILocationRepository {
 	async update(id: string, data: Partial<Location>): Promise<Location | null> {
 		const location = locations.find((c) => c.id === id) ?? null;
 		if (!location) return null;
+
+		if (data.address) {
+			location.address = { ...location.address, ...data.address };
+			delete data.address;
+		}
+
 		Object.assign(location, data);
 		return location;
 	}

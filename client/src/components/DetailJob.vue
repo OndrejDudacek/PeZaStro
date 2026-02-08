@@ -49,7 +49,7 @@
 			</li>
 		</ul>
 		<section class="buttons">
-			<Button label="Smazat práci" icon="delete" />
+			<Button label="Smazat práci" icon="delete" color="danger" />
 		</section>
 	</article>
 </template>

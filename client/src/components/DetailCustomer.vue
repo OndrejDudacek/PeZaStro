@@ -48,11 +48,11 @@
 						/>
 					</li>
 					<li>
-						<GenericInput type="number" label="Telefon:" placeholder="777666111" />
+						<GenericInput type="tel" label="Telefon:" placeholder="777666111" />
 					</li>
 					<li>
 						<GenericInput
-							type="text"
+							type="email"
 							label="Email:"
 							placeholder="josefina.nezdarova@gmail.com"
 						/>
@@ -62,10 +62,10 @@
 		</ul>
 		<section class="buttons">
 			<Button label="Přidat kontakt" icon="add" />
-			<Button label="Smazat kontakt" icon="delete" />
+			<Button label="Smazat kontakt" icon="delete" color="danger" />
 		</section>
 		<section class="buttons">
-			<Button label="Smazat zakázku" icon="delete" />
+			<Button label="Smazat zakázku" icon="delete" color="danger" />
 		</section>
 	</article>
 </template>

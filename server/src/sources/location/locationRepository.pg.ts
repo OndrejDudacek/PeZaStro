@@ -28,6 +28,12 @@ export class PgLocationRepository implements ILocationRepository {
 	async update(id: string, data: Partial<Location>): Promise<Location | null> {
 		const existing = await this.repo.findOneBy({ id });
 		if (!existing) return null;
+
+		if (data.address) {
+			existing.address = { ...existing.address, ...data.address };
+			delete data.address;
+		}
+
 		Object.assign(existing, data);
 		await this.repo.save(existing);
 		return new Location(

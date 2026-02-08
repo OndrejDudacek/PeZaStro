@@ -1,8 +1,8 @@
 <template>
 	<section>
 		<label v-if="label" :for="inputName" @click="focusInput">{{ label }}</label>
-		<div @click="focusInput">
-			<Icon v-if="iconName" :icon-name="iconName"></Icon>
+		<div @click="focusInput" :class="[`input-color-${color}`, `input-success-${success}`]">
+			<Icon v-if="icon" :icon-name="iconName"></Icon>
 			<input
 				ref="inputRef"
 				:type="type || 'text'"
@@ -18,16 +18,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref, useAttrs } from "vue";
+import { computed, ref, useAttrs } from "vue";
 import Icon from "./Icon.vue";
 
 const props = defineProps<{
-	iconName?: string;
+	icon?: string;
 	inputName?: string;
 	placeholder?: string;
 	modelValue?: string | number;
 	label?: string;
 	type?: "text" | "number" | "email" | "password" | "tel" | "url";
+	color?: "danger";
+	success?: boolean;
 }>();
 
 const attrs = useAttrs();
@@ -47,6 +49,10 @@ const handleInput = (event: Event) => {
 	const value = props.type === "number" ? Number(target.value) : target.value;
 	emit("update:modelValue", value);
 };
+
+const iconName = computed(() => {
+	return props.icon ? (props.success ? "check" : props.icon) : "";
+});
 </script>
 
 <style scoped lang="scss">
@@ -78,14 +84,42 @@ div {
 		border: none;
 		width: 100%;
 	}
-}
 
-div:hover {
-	outline: var(--border-width-hover) solid var(--color-border);
-}
+	&:hover {
+		outline: var(--border-width-hover) solid var(--color-border);
+	}
 
-div:active,
-div:has(input:focus) {
-	outline: var(--border-width-active) solid var(--color-border);
+	&:active,
+	&:has(input:focus) {
+		outline: var(--border-width-active) solid var(--color-border);
+	}
+
+	&.input-color-danger {
+		color: var(--color-danger);
+		outline: var(--border-width) solid var(--color-danger);
+	}
+
+	&.input-color-danger:hover {
+		outline: var(--border-width-hover) solid var(--color-danger);
+	}
+
+	&.input-color-danger:active,
+	&.input-color-danger:has(input:focus) {
+		outline: var(--border-width-active) solid var(--color-danger);
+	}
+
+	&.input-success-true {
+		color: var(--color-success);
+		outline: var(--border-width) solid var(--color-success);
+	}
+
+	&.input-success-true:hover {
+		outline: var(--border-width-hover) solid var(--color-success);
+	}
+
+	&.input-success-true:active,
+	&.input-success-true:has(input:focus) {
+		outline: var(--border-width-active) solid var(--color-success);
+	}
 }
 </style>

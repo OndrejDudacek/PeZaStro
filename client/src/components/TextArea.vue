@@ -8,6 +8,7 @@
 			@input="handleInput"
 			:id="inputName"
 			ref="inputRef"
+			:class="[`textarea-color-${color}`, `textarea-success-${success}`]"
 		></textarea>
 	</section>
 </template>
@@ -22,6 +23,8 @@ const props = withDefaults(
 		modelValue?: string | null;
 		label?: string;
 		minRows?: number;
+		color?: "danger";
+		success?: boolean;
 	}>(),
 	{
 		minRows: 3,
@@ -80,15 +83,43 @@ section {
 		background-color: var(--color-background);
 		padding: var(--spacing-s);
 		overflow: hidden;
-		min-height: calc(1.5em * 3); /* 3 lines minimum */
-	}
+		min-height: calc(1.5em * 3);
 
-	textarea:hover {
-		outline: var(--border-width-hover) solid var(--color-border);
-	}
+		&:hover {
+			outline: var(--border-width-hover) solid var(--color-border);
+		}
 
-	textarea:focus {
-		outline: var(--border-width-active) solid var(--color-border);
+		&:focus {
+			outline: var(--border-width-active) solid var(--color-border);
+		}
+
+		&.textarea-color-danger {
+			color: var(--color-danger);
+			outline: var(--border-width) solid var(--color-danger);
+		}
+
+		&.textarea-color-danger:hover {
+			outline: var(--border-width-hover) solid var(--color-danger);
+		}
+
+		&.textarea-color-danger:active,
+		&.textarea-color-danger:has(input:focus) {
+			outline: var(--border-width-active) solid var(--color-danger);
+		}
+
+		&.textarea-success-true {
+			color: var(--color-success);
+			outline: var(--border-width) solid var(--color-success);
+		}
+
+		&.textarea-success-true:hover {
+			outline: var(--border-width-hover) solid var(--color-success);
+		}
+
+		&.textarea-success-true:active,
+		&.textarea-success-true:has(input:focus) {
+			outline: var(--border-width-active) solid var(--color-success);
+		}
 	}
 }
 </style>

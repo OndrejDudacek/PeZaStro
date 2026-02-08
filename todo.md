@@ -68,3 +68,9 @@
 - [ ] mazaní jednotlivých věcí
 - [x] automatické ukládání změn místo tlačítka
   - [ ] přidat debounce
+- [ ] centralized error henadling fe
+- [ ] informational popups
+- [x] danger and success variants
+- [ ] router na detaily
+- [ ] idcka jako odkazy
+- [ ] zkraceni idecek
