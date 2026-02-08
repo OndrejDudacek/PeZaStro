@@ -15,6 +15,16 @@ jobRouter.get(
 	authorize,
 	async (req: express.Request, res: express.Response, next: NextFunction) => {
 		try {
+			const contractId = req.query.contractId as string | undefined;
+
+			if (contractId) {
+				const { error } = idSchema.validate(contractId);
+				if (error) {
+					next(new BadRequestError(error.message));
+					return;
+				}
+			}
+
 			const all = await service.getAll();
 			res.json(all);
 		} catch (error) {

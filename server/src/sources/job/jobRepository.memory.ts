@@ -3,8 +3,11 @@ import { Job } from "./jobEntity";
 import { jobs } from "../../db/inMemoryDB";
 
 export class InMemoryJobRepository implements IJobRepository {
-	async findAll(): Promise<Job[]> {
-		return [...jobs];
+	async findAll(contractId?: string): Promise<Job[]> {
+		if (!contractId) return [...jobs];
+
+		const filtered = jobs.filter((jd) => jd.contractId === contractId);
+		return filtered;
 	}
 
 	async findById(id: string): Promise<Job | null> {

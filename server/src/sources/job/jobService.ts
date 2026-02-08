@@ -4,8 +4,8 @@ import { Job } from "./jobEntity";
 export class JobService {
 	constructor(private repo: IJobRepository) {}
 
-	async getAll() {
-		const all = await this.repo.findAll();
+	async getAll(contractId?: string) {
+		const all = await this.repo.findAll(contractId);
 		return all;
 	}
 
