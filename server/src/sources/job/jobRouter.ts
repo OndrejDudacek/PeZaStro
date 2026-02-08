@@ -25,7 +25,7 @@ jobRouter.get(
 				}
 			}
 
-			const all = await service.getAll();
+			const all = await service.getAll(contractId);
 			res.json(all);
 		} catch (error) {
 			next(error);
