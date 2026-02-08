@@ -84,7 +84,7 @@ const logout = () => {
 	.wrapper {
 		display: flex;
 		flex-direction: row;
-		height: calc(100vh - calc(calc(2 * var(--spacing-m)) + 1rem));
+		height: calc(100vh - calc(calc(2 * var(--spacing-m)) + 2rem));
 		width: 100%;
 
 		aside {
