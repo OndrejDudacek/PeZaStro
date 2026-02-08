@@ -34,7 +34,7 @@
 		</ul>
 		<h4>Kontakty:</h4>
 		<ul>
-			<!-- v-for="(customers, i) in customer" :key="i" -->
+			<!-- v-for="(contacts, i) in contacts" :key="i" -->
 			<li>
 				<ul>
 					<li>

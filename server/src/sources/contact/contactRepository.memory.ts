@@ -3,8 +3,11 @@ import { Contact } from "./contactEntity";
 import { contacts } from "../../db/inMemoryDB";
 
 export class InMemoryContactRepository implements IContactRepository {
-	async findAll(): Promise<Contact[]> {
-		return [...contacts];
+	async findAll(customerId?: string): Promise<Contact[]> {
+		if (!customerId) return [...contacts];
+
+		const filtered = contacts.filter((c) => c.customerId === customerId);
+		return filtered;
 	}
 
 	async findById(id: string): Promise<Contact | null> {

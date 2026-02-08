@@ -5,8 +5,9 @@ import { JobDescriptionData, IJobDescriptionRepository } from "./jobDescriptionR
 export class PgJobDescriptionRepository implements IJobDescriptionRepository {
 	constructor(private repo: Repository<JobDescription>) {}
 
-	async findAll(): Promise<JobDescription[]> {
-		const rows = await this.repo.find();
+	async findAll(contractId?: string): Promise<JobDescription[]> {
+		const where = contractId ? { contractId } : {};
+		const rows = await this.repo.find({ where });
 		return rows.map(
 			(r) =>
 				new JobDescription(

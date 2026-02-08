@@ -5,8 +5,9 @@ import { ContactData, IContactRepository } from "./contactRepository";
 export class PgContactRepository implements IContactRepository {
 	constructor(private repo: Repository<Contact>) {}
 
-	async findAll(): Promise<Contact[]> {
-		const rows = await this.repo.find();
+	async findAll(customerId?: string): Promise<Contact[]> {
+		const where = customerId ? { customerId } : {};
+		const rows = await this.repo.find({ where });
 		return rows.map(
 			(r) => new Contact(r.id, r.createdAt, r.name, r.customerId, r.phone, r.email),
 		);

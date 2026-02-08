@@ -4,8 +4,8 @@ import { Contact } from "./contactEntity";
 export class ContactService {
 	constructor(private repo: IContactRepository) {}
 
-	async getAll() {
-		const all = await this.repo.findAll();
+	async getAll(customerId?: string) {
+		const all = await this.repo.findAll(customerId);
 		return all;
 	}
 

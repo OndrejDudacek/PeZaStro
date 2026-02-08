@@ -15,7 +15,16 @@ contactRouter.get(
 	authorize,
 	async (req: express.Request, res: express.Response, next: NextFunction) => {
 		try {
-			const all = await service.getAll();
+			const customerId = req.query.customerId as string | undefined;
+			if (customerId) {
+				const { error } = idSchema.validate(customerId);
+				if (error) {
+					next(new BadRequestError(error.message));
+					return;
+				}
+			}
+
+			const all = await service.getAll(customerId);
 			res.json(all);
 		} catch (error) {
 			next(error);
