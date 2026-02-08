@@ -3,9 +3,7 @@
 		<label :for="name">{{ label }}</label>
 		<div @click="focusInput" :class="[`input-color-${color}`, `input-success-${success}`]">
 			<select ref="inputRef" :name="name" :value="modelValue" @change="handleInput">
-				<option value="" disabled>
-					{{ label || "Select" }}
-				</option>
+				<option value="">--{{ label || "Vyber" }}--</option>
 				<option v-for="option in options" :key="option.value" :value="option.value">
 					{{ option.label }}
 				</option>
@@ -27,22 +25,23 @@ const props = defineProps<{
 	name?: string;
 	label?: string;
 	options: Option[];
-	modelValue?: string;
+	modelValue?: string | null;
 	color?: "danger";
 	success?: boolean;
 }>();
 
 const emit = defineEmits<{
-	"update:modelValue": [value: string];
-	"debounced:modelValue": [value: string | number];
+	"update:modelValue": [value: string | null];
+	"debounced:modelValue": [value: string | null];
 }>();
 
 const debouncedEmit = debounce((value: string) => emit("debounced:modelValue", value));
 
 const handleInput = (event: Event) => {
 	const value = (event.target as HTMLSelectElement).value;
-	emit("update:modelValue", value);
-	debouncedEmit(value);
+	const parsedValue = value === "" ? null : value;
+	emit("update:modelValue", parsedValue);
+	debouncedEmit(parsedValue);
 };
 
 const inputRef = ref<HTMLSelectElement | null>(null);

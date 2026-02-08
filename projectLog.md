@@ -60,3 +60,4 @@
 - debounce a implementace zmen barev
 - cesty na detaily v paramterech (ne jako cesta kvzuli tomu ze by na to mela byt vlastni stanka a ja to mam jako jen cast stranky)
 - idDisplayer - zkracovani kopirovani na kliknuti a odkazy z idecek
+- update findAll methods to support optional customerId and contractId filtering in contact and job description repositories

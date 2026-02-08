@@ -92,33 +92,55 @@
 		</ul>
 		<h4>Popisy práce:</h4>
 		<ul>
-			<!-- v-for="(jobDesc, i) in jobDescs" :key="i" -->
-			<li>
+			<li v-for="(jobDesc, i) in jobDescs" :key="i">
 				<ul>
 					<li>
-						<p>Id: <IdDisplayer :id="''" name="contract" copy /></p>
+						<p>
+							Id: <IdDisplayer :id="jobDesc.contractId" name="contract" copy />
+						</p>
 					</li>
 					<li>
-						<p>Datum vytvoření: {{}}</p>
+						<p>
+							Datum vytvoření:
+							{{ new Date(jobDesc.createdAt).toLocaleDateString() }}
+						</p>
 					</li>
 					<li>
-						<GenericInput type="text" label="Jméno:" placeholder="Sekání trávy" />
+						<GenericInput
+							type="text"
+							icon="item"
+							label="Jméno:"
+							placeholder="Sekání trávy"
+							v-model="jobDesc.name"
+						/>
 					</li>
 					<li>
-						<p>Cena: {{}}</p>
+						<GenericInput
+							type="number"
+							icon="money"
+							label="Cena:"
+							placeholder="400"
+							v-model="jobDesc.cost"
+						/>
 					</li>
 					<li>
 						<SelectInput
 							name="frequency"
 							label="Frekvence:"
 							:options="[
-								{ label: 'Měsíčně', value: 'month' },
-								{ label: 'Ročně', value: 'year' },
+								{ label: 'Měsíčně', value: Frequency.month },
+								{ label: 'Ročně', value: Frequency.year },
 							]"
+							v-model="jobDesc.frequency"
 						/>
 					</li>
 					<li>
-						<GenericInput type="number" label="Perioda:" />
+						<GenericInput
+							type="number"
+							label="Perioda:"
+							:model-value="jobDesc.period === null ? 0 : jobDesc.period"
+							@update:model-value="jobDesc.period = Number($event)"
+						/>
 					</li>
 				</ul>
 			</li>
@@ -129,8 +151,10 @@
 		</section>
 		<h4>Záznamy prací:</h4>
 		<ul>
-			<!-- v-for="(job, i) in jobs" :key="i" -->
-			<li></li>
+			<li v-for="(job, i) in jobs" :key="i">
+				{{ new Date(job.date).toLocaleDateString() }}
+				<IdDisplayer :id="job.id" name="job" link />
+			</li>
 		</ul>
 		<section class="buttons">
 			<Button
@@ -152,6 +176,8 @@ import type { Contract, ContractUpdate } from "@/types/Contract";
 import { ref, watch } from "vue";
 import { contractService } from "@/services/contractService";
 import IdDisplayer from "./IdDisplayer.vue";
+import { Frequency, type JobDescription } from "@/types/JobDescription";
+import type { Job } from "@/types/Job";
 
 const props = defineProps<{
 	contract: Contract;
@@ -207,7 +233,8 @@ const deleteContract = async (id: string) => {
 	}
 };
 
-const jobDescs = ref([]);
+const jobDescs = ref<JobDescription[]>([]);
+const jobs = ref<Job[]>([]);
 </script>
 
 <style scoped lang="scss">

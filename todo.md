@@ -46,7 +46,7 @@
 
 # Výstup č. 4
 
-- [ ] tahani relaci (mam v child id na rodice ne opacne) - jobDesc a Contacts
+- [x] tahani relaci (mam v child id na rodice ne opacne) - jobDesc a Contacts
 - [ ] vytvareni novych veci
   - [ ] vyresit jak vytvaret jen neco
 - [x] api service nebo neco takovyho
