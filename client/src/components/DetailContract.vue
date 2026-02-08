@@ -133,7 +133,12 @@
 			<li></li>
 		</ul>
 		<section class="buttons">
-			<Button label="Smazat zakázku" icon="delete" color="danger" />
+			<Button
+				label="Smazat zakázku"
+				icon="delete"
+				color="danger"
+				@click="deleteContract(contract.id)"
+			/>
 		</section>
 	</article>
 </template>
@@ -153,10 +158,11 @@ const props = defineProps<{
 
 const emit = defineEmits<{
 	"update:contract": [value: Contract];
+	"delete:contract": [];
 }>();
 
 const successStates = ref(new Map<string, boolean>());
-const contract = ref(props.contract);
+const contract = ref<Contract>(props.contract);
 
 watch(
 	() => props.contract,
@@ -187,6 +193,16 @@ const saveContractChange = async (id: string, data: ContractUpdate, fieldName: s
 	} catch (error) {
 		console.error(error);
 		successStates.value.set(fieldName, false);
+	}
+};
+
+const deleteContract = async (id: string) => {
+	try {
+		const { message } = await contractService.delete(id);
+		emit("delete:contract");
+		alert(message);
+	} catch (error) {
+		console.error(error);
 	}
 };
 

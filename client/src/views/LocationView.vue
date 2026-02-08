@@ -28,13 +28,14 @@
 			v-if="selectedLocation"
 			:location="selectedLocation"
 			@update:location="updatedLocation"
+			@delete:location="deletedLocation"
 		/>
 	</div>
 </template>
 
 <script setup lang="ts">
 import DetailLocation from "@/components/DetailLocation.vue";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import type { Location } from "@/types/Location";
 import { locationService } from "@/services/locationService";
 
@@ -53,12 +54,23 @@ const updatedLocation = (updatedLocation: Location) => {
 	selectedLocation.value = updatedLocation;
 };
 
+const deletedLocation = () => {
+	selectedLocation.value = null;
+	fetchLocations();
+};
+
 const locations = ref<Location[]>([]);
-try {
-	locations.value = await locationService.getAll();
-} catch (error) {
-	console.error(error);
-}
+const fetchLocations = async () => {
+	try {
+		locations.value = await locationService.getAll();
+	} catch (error) {
+		console.error(error);
+	}
+};
+
+onMounted(async () => {
+	await fetchLocations();
+});
 </script>
 
 <style scoped lang="scss">

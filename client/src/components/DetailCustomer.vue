@@ -75,7 +75,12 @@
 			<Button label="Smazat kontakt" icon="delete" color="danger" />
 		</section>
 		<section class="buttons">
-			<Button label="Smazat zakázku" icon="delete" color="danger" />
+			<Button
+				label="Smazat zakázku"
+				icon="delete"
+				color="danger"
+				@click="deleteCustomer(customer.id)"
+			/>
 		</section>
 	</article>
 </template>
@@ -90,6 +95,7 @@ import { customerService } from "@/services/customerService";
 
 const emit = defineEmits<{
 	"update:customer": [value: Customer];
+	"delete:customer": [];
 }>();
 
 const props = defineProps<{
@@ -118,6 +124,16 @@ const saveCustomerChange = async (id: string, data: CustomerUpdate, fieldName: s
 	} catch (error) {
 		console.error(error);
 		successStates.value.set(fieldName, false);
+	}
+};
+
+const deleteCustomer = async (id: string) => {
+	try {
+		const { message } = await customerService.delete(id);
+		emit("delete:customer");
+		alert(message);
+	} catch (error) {
+		console.error(error);
 	}
 };
 </script>

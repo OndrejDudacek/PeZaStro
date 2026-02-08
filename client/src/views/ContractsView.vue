@@ -26,6 +26,7 @@
 			v-if="selectedContract"
 			:contract="selectedContract"
 			@update:contract="updatedContract"
+			@delete:contract="deletedContract"
 		/>
 	</div>
 </template>
@@ -34,7 +35,7 @@
 import DetailContract from "@/components/DetailContract.vue";
 import { contractService } from "@/services/contractService";
 import type { Contract } from "@/types/Contract";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 
 const selectedContract = ref<Contract | null>(null);
 const selectContract = (contract: Contract) => {
@@ -51,12 +52,23 @@ const updatedContract = (updatedContract: Contract) => {
 	selectedContract.value = updatedContract;
 };
 
+const deletedContract = () => {
+	selectedContract.value = null;
+	fetchContracts();
+};
+
 const contracts = ref<Contract[]>([]);
-try {
-	contracts.value = await contractService.getAll();
-} catch (error) {
-	console.error(error);
-}
+const fetchContracts = async () => {
+	try {
+		contracts.value = await contractService.getAll();
+	} catch (error) {
+		console.error(error);
+	}
+};
+
+onMounted(async () => {
+	fetchContracts();
+});
 </script>
 
 <style scoped lang="scss">

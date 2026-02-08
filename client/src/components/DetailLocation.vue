@@ -102,7 +102,12 @@
 			</li>
 		</ul>
 		<section class="buttons">
-			<Button label="Smazat lokaci" icon="delete" color="danger" />
+			<Button
+				label="Smazat lokaci"
+				icon="delete"
+				color="danger"
+				@click="deleteLocation(location.id)"
+			/>
 		</section>
 	</article>
 </template>
@@ -121,6 +126,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
 	"update:location": [value: Location];
+	"delete:location": [];
 }>();
 
 const successStates = ref(new Map<string, boolean>());
@@ -145,6 +151,16 @@ const saveLocationChange = async (id: string, data: LocationUpdate, fieldName: s
 	} catch (error) {
 		console.error(error);
 		successStates.value.set(fieldName, false);
+	}
+};
+
+const deleteLocation = async (id: string) => {
+	try {
+		const { message } = await locationService.delete(id);
+		emit("delete:location");
+		alert(message);
+	} catch (error) {
+		console.error(error);
 	}
 };
 </script>

@@ -72,7 +72,12 @@
 			</li>
 		</ul>
 		<section class="buttons">
-			<Button label="Smazat práci" icon="delete" color="danger" />
+			<Button
+				label="Smazat práci"
+				icon="delete"
+				color="danger"
+				@click="deleteJob(job.id)"
+			/>
 		</section>
 	</article>
 </template>
@@ -91,6 +96,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
 	"update:job": [value: Job];
+	"delete:job": [];
 }>();
 
 const successStates = ref(new Map<string, boolean>());
@@ -125,6 +131,16 @@ const saveJobChange = async (id: string, data: JobUpdate, fieldName: string) => 
 	} catch (error) {
 		console.error(error);
 		successStates.value.set(fieldName, false);
+	}
+};
+
+const deleteJob = async (id: string) => {
+	try {
+		const { message } = await jobService.delete(id);
+		emit("delete:job");
+		alert(message);
+	} catch (error) {
+		console.error(error);
 	}
 };
 </script>

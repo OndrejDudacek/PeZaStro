@@ -18,7 +18,12 @@
 				</tbody>
 			</table>
 		</article>
-		<DetailJob v-if="selectedJob" :job="selectedJob" @update:job="updatedJob" />
+		<DetailJob
+			v-if="selectedJob"
+			:job="selectedJob"
+			@update:job="updatedJob"
+			@delete:job="deletedJob"
+		/>
 	</div>
 </template>
 
@@ -26,7 +31,7 @@
 import DetailJob from "@/components/DetailJob.vue";
 import { jobService } from "@/services/jobService";
 import type { Job } from "@/types/Job";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 
 const selectedJob = ref<Job | null>(null);
 const selectJob = (job: Job) => {
@@ -43,12 +48,24 @@ const updatedJob = (updatedJob: Job) => {
 	selectedJob.value = updatedJob;
 };
 
+const deletedJob = () => {
+	selectedJob.value = null;
+	fetchJobs();
+};
+
 const jobs = ref<Job[]>([]);
-try {
-	jobs.value = await jobService.getAll();
-} catch (error) {
-	console.error(error);
-}
+
+const fetchJobs = async () => {
+	try {
+		jobs.value = await jobService.getAll();
+	} catch (error) {
+		console.error(error);
+	}
+};
+
+onMounted(() => {
+	fetchJobs();
+});
 </script>
 
 <style scoped lang="scss">
