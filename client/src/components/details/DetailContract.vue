@@ -330,6 +330,6 @@ onMounted(async () => {
 </script>
 
 <style scoped lang="scss">
-@use "../assets/mixins" as *;
+@use "../../assets/mixins.scss" as *;
 @include detailStyling;
 </style>

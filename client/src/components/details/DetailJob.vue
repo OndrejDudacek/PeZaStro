@@ -147,6 +147,6 @@ const deleteJob = async (id: string) => {
 </script>
 
 <style scoped lang="scss">
-@use "../assets/mixins" as *;
+@use "../../assets/mixins" as *;
 @include detailStyling;
 </style>
