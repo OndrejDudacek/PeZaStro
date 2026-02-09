@@ -38,6 +38,16 @@
 
 		article {
 			flex: 1;
+			display: flex;
+			flex-direction: column;
+			align-items: stretch;
+			gap: var(--spacing-m);
+
+			section.controls {
+				display: flex;
+				justify-content: end;
+				gap: var(--spacing-s);
+			}
 		}
 
 		@include table;

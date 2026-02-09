@@ -1,6 +1,9 @@
 <template>
 	<div id="tableAndDetailWrapper">
 		<article>
+			<section class="controls">
+				<Button icon="add" />
+			</section>
 			<table>
 				<thead>
 					<tr>

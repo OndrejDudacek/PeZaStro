@@ -1,6 +1,9 @@
 <template>
 	<div id="tableAndDetailWrapper">
 		<article>
+			<section class="controls">
+				<Button icon="add" @click="createNewContract" />
+			</section>
 			<table>
 				<thead>
 					<tr>
@@ -40,6 +43,7 @@ import type { Contract } from "@/types/Contract";
 import { onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import IdDisplayer from "@/components/IdDisplayer.vue";
+import Button from "@/components/Button.vue";
 
 const selectedContract = ref<Contract | null>(null);
 const selectContract = (contract: Contract) => {
@@ -89,6 +93,17 @@ const fetchContracts = async () => {
 onMounted(async () => {
 	await fetchContracts();
 });
+
+const createNewContract = () => {
+	selectedContract.value = {
+		id: "NEW",
+		createdAt: new Date(Date.now()).toLocaleDateString(),
+		totalCost: 0,
+		dateOfSigning: new Date(Date.now()).toLocaleDateString(),
+		locationId: "",
+		note: null,
+	};
+};
 </script>
 
 <style scoped lang="scss">
