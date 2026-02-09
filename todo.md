@@ -52,9 +52,9 @@
 - [x] api service nebo neco takovyho
   - [x] apiClient
   - [x] auth/user service
-- [ ] services pro jednotlive zdroje + implementace
+- [x] services pro jednotlive zdroje + implementace
   - [x] implementace u „vnejsich“ zdroju“
-  - [ ] implementace u „vnitřních“ zdroju“
+  - [x] implementace u „vnitřních“ zdroju“
 - [x] user store on pinia
 - [x] pri ukladani do local storage tak ulozit i cas ulozeni a pokud se bude od aktualniho casu retrevovani lisit o vic nez vyprchava token tak smazat a delat ze tam zadny nebyl
 - [x] presunout retrieve user do user service a v loginview a v app.vue volat veci jen z userService
