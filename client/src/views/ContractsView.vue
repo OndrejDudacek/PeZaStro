@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import DetailContract from "@/components/DetailContract.vue";
+import DetailContract from "@/components/details/DetailContract.vue";
 import router from "@/router";
 import { contractService } from "@/services/contractService";
 import type { Contract } from "@/types/Contract";

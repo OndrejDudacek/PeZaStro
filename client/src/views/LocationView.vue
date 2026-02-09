@@ -38,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-import DetailLocation from "@/components/DetailLocation.vue";
+import DetailLocation from "@/components/details/DetailLocation.vue";
 import { onMounted, ref, watch } from "vue";
 import type { Location } from "@/types/Location";
 import { locationService } from "@/services/locationService";

@@ -126,12 +126,12 @@
 
 <script setup lang="ts">
 import type { Customer, CustomerUpdate } from "@/types/Customer";
-import Button from "./Button.vue";
-import GenericInput from "./GenericInput.vue";
-import TextArea from "./TextArea.vue";
+import Button from "../Button.vue";
+import GenericInput from "../GenericInput.vue";
+import TextArea from "../TextArea.vue";
 import { compile, onMounted, ref, watch } from "vue";
 import { customerService } from "@/services/customerService";
-import IdDisplayer from "./IdDisplayer.vue";
+import IdDisplayer from "../IdDisplayer.vue";
 import type { Contact, ContactUpdate } from "@/types/Contact";
 import { contactService } from "@/services/contactService";
 

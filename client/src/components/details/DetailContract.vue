@@ -207,14 +207,14 @@
 </template>
 
 <script setup lang="ts">
-import Button from "./Button.vue";
-import GenericInput from "./GenericInput.vue";
-import TextArea from "./TextArea.vue";
-import SelectInput from "./SelectInput.vue";
+import Button from "../Button.vue";
+import GenericInput from "../GenericInput.vue";
+import TextArea from "../TextArea.vue";
+import SelectInput from "../SelectInput.vue";
 import type { Contract, ContractUpdate } from "@/types/Contract";
 import { onMounted, ref, watch } from "vue";
 import { contractService } from "@/services/contractService";
-import IdDisplayer from "./IdDisplayer.vue";
+import IdDisplayer from "../IdDisplayer.vue";
 import {
 	Frequency,
 	type JobDescription,

@@ -114,12 +114,12 @@
 
 <script setup lang="ts">
 import { locationService } from "@/services/locationService";
-import Button from "./Button.vue";
-import GenericInput from "./GenericInput.vue";
-import TextArea from "./TextArea.vue";
+import Button from "../Button.vue";
+import GenericInput from "../GenericInput.vue";
+import TextArea from "../TextArea.vue";
 import type { Location, LocationUpdate } from "@/types/Location";
 import { ref, watch } from "vue";
-import IdDisplayer from "./IdDisplayer.vue";
+import IdDisplayer from "../IdDisplayer.vue";
 
 const props = defineProps<{
 	location: Location;

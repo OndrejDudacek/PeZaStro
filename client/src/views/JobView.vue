@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import DetailJob from "@/components/DetailJob.vue";
+import DetailJob from "@/components/details/DetailJob.vue";
 import router from "@/router";
 import { jobService } from "@/services/jobService";
 import type { Job } from "@/types/Job";

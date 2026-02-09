@@ -84,12 +84,12 @@
 
 <script setup lang="ts">
 import type { Job, JobUpdate } from "@/types/Job";
-import Button from "./Button.vue";
-import GenericInput from "./GenericInput.vue";
-import TextArea from "./TextArea.vue";
+import Button from "../Button.vue";
+import GenericInput from "../GenericInput.vue";
+import TextArea from "../TextArea.vue";
 import { jobService } from "@/services/jobService";
 import { ref, watch } from "vue";
-import IdDisplayer from "./IdDisplayer.vue";
+import IdDisplayer from "../IdDisplayer.vue";
 
 const props = defineProps<{
 	job: Job;

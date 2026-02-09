@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import DetailCustomer from "@/components/DetailCustomer.vue";
+import DetailCustomer from "@/components/details/DetailCustomer.vue";
 import router from "@/router";
 import { customerService } from "@/services/customerService";
 import type { Customer } from "@/types/Customer";
