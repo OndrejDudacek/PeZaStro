@@ -6,7 +6,7 @@ export const CreateContractSchema = Joi.object({
 	dateOfSigning: Joi.string().isoDate().required(),
 	locationId: idSchema.required(),
 	// locationId: Joi.string().optional(),
-	note: Joi.string().max(1500).optional(),
+	note: Joi.string().max(1500).allow(null).optional(),
 });
 
 export const UpdateContractSchema = Joi.object({
@@ -14,5 +14,5 @@ export const UpdateContractSchema = Joi.object({
 	dateOfSigning: Joi.string().isoDate().optional(),
 	locationId: idSchema.optional(),
 	// locationId: Joi.string().optional(),
-	note: Joi.string().max(1500).optional(),
+	note: Joi.string().max(1500).allow(null).optional(),
 });

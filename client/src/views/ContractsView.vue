@@ -2,7 +2,7 @@
 	<div id="tableAndDetailWrapper">
 		<article>
 			<section class="controls">
-				<Button icon="add" @click="createNewContract" />
+				<Button icon="add" @click="create" />
 			</section>
 			<table>
 				<thead>
@@ -32,6 +32,7 @@
 			@update:contract="updatedContract"
 			@delete:contract="deletedContract"
 		/>
+		<ContractCreate v-if="creating" @create:contract="createdContract" />
 	</div>
 </template>
 
@@ -41,26 +42,45 @@ import router from "@/router";
 import { contractService } from "@/services/contractService";
 import type { Contract } from "@/types/Contract";
 import { onMounted, onUnmounted, ref, watch } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, type LocationQueryValue } from "vue-router";
 import IdDisplayer from "@/components/IdDisplayer.vue";
 import Button from "@/components/Button.vue";
+import ContractCreate from "@/components/creates/ContractCreate.vue";
 
 const selectedContract = ref<Contract | null>(null);
 const selectContract = (contract: Contract) => {
 	router.push({ query: { id: contract.id } });
+};
+const creating = ref<boolean>(false);
+const create = () => {
+	router.push({ query: { id: "NEW" } });
 };
 
 const route = useRoute();
 watch(
 	() => route.query.id,
 	(newId) => {
-		if (newId && contracts.value) {
-			selectedContract.value = contracts.value.find((c) => c.id === newId) || null;
-		} else {
-			selectedContract.value = null;
-		}
+		handleQueryId(newId);
 	},
 );
+
+const createdContract = async () => {
+	router.push({ query: {} });
+	await fetchContracts();
+};
+
+const handleQueryId = (id: LocationQueryValue | LocationQueryValue[] | undefined) => {
+	if (id === "NEW") {
+		creating.value = true;
+		selectedContract.value = null;
+	} else if (id && contracts.value) {
+		creating.value = false;
+		selectedContract.value = contracts.value.find((c) => c.id === id) || null;
+	} else {
+		creating.value = false;
+		selectedContract.value = null;
+	}
+};
 
 const updatedContract = (updatedContract: Contract) => {
 	if (contracts.value) {
@@ -90,21 +110,6 @@ const fetchContracts = async () => {
 	}
 };
 
-onMounted(async () => {
-	await fetchContracts();
-});
-
-const createNewContract = () => {
-	selectedContract.value = {
-		id: "NEW",
-		createdAt: new Date(Date.now()).toLocaleDateString(),
-		totalCost: 0,
-		dateOfSigning: new Date(Date.now()).toLocaleDateString(),
-		locationId: "",
-		note: null,
-	};
-};
-
 const handleEscape = (event: KeyboardEvent) => {
 	if (event.key === "Escape") {
 		router.push({ query: { id: undefined } });
@@ -113,6 +118,7 @@ const handleEscape = (event: KeyboardEvent) => {
 
 onMounted(async () => {
 	await fetchContracts();
+	handleQueryId(route.query.id);
 	window.addEventListener("keydown", handleEscape);
 });
 

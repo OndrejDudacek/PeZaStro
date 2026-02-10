@@ -9,7 +9,21 @@
 				<p>Datum vytvoření: {{ new Date(contract.createdAt).toLocaleDateString() }}</p>
 			</li>
 			<li>
-				<p>Celková cena: {{ contract.totalCost }} Kč</p>
+				<GenericInput
+					type="number"
+					label="Celková cena:"
+					v-model="contract.totalCost"
+					:success="successStates.get('totalCost')"
+					@debounced:model-value="
+						saveContractChange(
+							contract.id,
+							{
+								totalCost: contract.totalCost,
+							},
+							'totalCost',
+						)
+					"
+				/>
 			</li>
 			<li>
 				<p>Datum podepsání:</p>

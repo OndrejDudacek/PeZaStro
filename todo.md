@@ -77,3 +77,4 @@
 - [ ] 404 page
 - [ ] tlacitko zpet v detailu
 - [x] zpet z deatilu nebo creatu pomcí esc
+- [ ] odkazy v detailech v na sebe ukazujicich zdrojich
