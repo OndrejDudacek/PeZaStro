@@ -16,7 +16,7 @@
 import { debounce } from "@/utils/debounce";
 import { ref } from "vue";
 
-interface Option {
+export interface Option {
 	label: string;
 	value: string;
 }
