@@ -40,7 +40,7 @@ import DetailContract from "@/components/details/DetailContract.vue";
 import router from "@/router";
 import { contractService } from "@/services/contractService";
 import type { Contract } from "@/types/Contract";
-import { onMounted, ref, watch } from "vue";
+import { onMounted, onUnmounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import IdDisplayer from "@/components/IdDisplayer.vue";
 import Button from "@/components/Button.vue";
@@ -104,6 +104,21 @@ const createNewContract = () => {
 		note: null,
 	};
 };
+
+const handleEscape = (event: KeyboardEvent) => {
+	if (event.key === "Escape") {
+		router.push({ query: { id: undefined } });
+	}
+};
+
+onMounted(async () => {
+	await fetchContracts();
+	window.addEventListener("keydown", handleEscape);
+});
+
+onUnmounted(() => {
+	window.removeEventListener("keydown", handleEscape);
+});
 </script>
 
 <style scoped lang="scss">

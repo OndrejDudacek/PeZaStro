@@ -38,7 +38,7 @@ import DetailCustomer from "@/components/details/DetailCustomer.vue";
 import router from "@/router";
 import { customerService } from "@/services/customerService";
 import type { Customer } from "@/types/Customer";
-import { onMounted, ref, watch } from "vue";
+import { onMounted, onUnmounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import IdDisplayer from "@/components/IdDisplayer.vue";
 
@@ -89,6 +89,21 @@ const fetchCustomers = async () => {
 
 onMounted(async () => {
 	await fetchCustomers();
+});
+
+const handleEscape = (event: KeyboardEvent) => {
+	if (event.key === "Escape") {
+		router.push({ query: { id: undefined } });
+	}
+};
+
+onMounted(async () => {
+	await fetchCustomers();
+	window.addEventListener("keydown", handleEscape);
+});
+
+onUnmounted(() => {
+	window.removeEventListener("keydown", handleEscape);
 });
 </script>
 

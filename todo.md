@@ -76,3 +76,4 @@
 - [x] zkraceni idecek
 - [ ] 404 page
 - [ ] tlacitko zpet v detailu
+- [x] zpet z deatilu nebo creatu pomcí esc

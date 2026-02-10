@@ -62,3 +62,4 @@
 - idDisplayer - zkracovani kopirovani na kliknuti a odkazy z idecek
 - update findAll methods to support optional customerId and contractId filtering in contact and job description repositories
 - implementace veci pro vnitrni zdroje
+- dosatvani se z detailu nebo create pomocí esc

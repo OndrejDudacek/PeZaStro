@@ -38,7 +38,7 @@ import DetailJob from "@/components/details/DetailJob.vue";
 import router from "@/router";
 import { jobService } from "@/services/jobService";
 import type { Job } from "@/types/Job";
-import { onMounted, ref, watch } from "vue";
+import { onMounted, onUnmounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import IdDisplayer from "@/components/IdDisplayer.vue";
 
@@ -87,8 +87,19 @@ const fetchJobs = async () => {
 	}
 };
 
+const handleEscape = (event: KeyboardEvent) => {
+	if (event.key === "Escape") {
+		router.push({ query: { id: undefined } });
+	}
+};
+
 onMounted(async () => {
 	await fetchJobs();
+	window.addEventListener("keydown", handleEscape);
+});
+
+onUnmounted(() => {
+	window.removeEventListener("keydown", handleEscape);
 });
 </script>
 
