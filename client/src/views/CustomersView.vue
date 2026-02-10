@@ -2,7 +2,7 @@
 	<div id="tableAndDetailWrapper">
 		<article>
 			<section class="controls">
-				<Button icon="add" />
+				<Button icon="add" @click="create" />
 			</section>
 			<table>
 				<thead>
@@ -30,6 +30,7 @@
 			@update:customer="updatedCustomer"
 			@delete:customer="deletedCustomer"
 		/>
+		<CreateCustomer v-if="creating" @create:customer="createdCustomer" />
 	</div>
 </template>
 
@@ -39,25 +40,45 @@ import router from "@/router";
 import { customerService } from "@/services/customerService";
 import type { Customer } from "@/types/Customer";
 import { onMounted, onUnmounted, ref, watch } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, type LocationQueryValue } from "vue-router";
 import IdDisplayer from "@/components/IdDisplayer.vue";
+import CreateCustomer from "@/components/creates/CreateCustomer.vue";
+import Button from "@/components/Button.vue";
 
 const selectedCustomer = ref<Customer | null>(null);
 const selectCustomer = (customer: Customer) => {
 	router.push({ query: { id: customer.id } });
+};
+const creating = ref<boolean>(false);
+const create = () => {
+	router.push({ query: { id: "NEW" } });
 };
 
 const route = useRoute();
 watch(
 	() => route.query.id,
 	(newId) => {
-		if (newId && customers.value) {
-			selectedCustomer.value = customers.value.find((c) => c.id === newId) || null;
-		} else {
-			selectedCustomer.value = null;
-		}
+		handleQueryId(newId);
 	},
 );
+
+const handleQueryId = (id: LocationQueryValue | LocationQueryValue[] | undefined) => {
+	if (id === "NEW") {
+		creating.value = true;
+		selectedCustomer.value = null;
+	} else if (id && customers.value) {
+		creating.value = false;
+		selectedCustomer.value = customers.value.find((c) => c.id === id) || null;
+	} else {
+		creating.value = false;
+		selectedCustomer.value = null;
+	}
+};
+
+const createdCustomer = async () => {
+	router.push({ query: {} });
+	await fetchCustomers();
+};
 
 const updatedCustomer = (updatedCustomer: Customer) => {
 	if (customers.value) {
@@ -87,10 +108,6 @@ const fetchCustomers = async () => {
 	}
 };
 
-onMounted(async () => {
-	await fetchCustomers();
-});
-
 const handleEscape = (event: KeyboardEvent) => {
 	if (event.key === "Escape") {
 		router.push({ query: { id: undefined } });
@@ -99,6 +116,7 @@ const handleEscape = (event: KeyboardEvent) => {
 
 onMounted(async () => {
 	await fetchCustomers();
+	handleQueryId(route.query.id);
 	window.addEventListener("keydown", handleEscape);
 });
 
