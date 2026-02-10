@@ -9,7 +9,7 @@ export const CreateLocationSchema = Joi.object({
 		city: Joi.string().min(3).max(50).required(),
 	}).required(),
 	customerId: idSchema.required(),
-	note: Joi.string().max(1500).optional(),
+	note: Joi.string().max(1500).allow(null).optional(),
 });
 
 export const UpdateLocationSchema = Joi.object({
