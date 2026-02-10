@@ -61,7 +61,7 @@ import { locationService } from "@/services/locationService";
 import Button from "../Button.vue";
 import GenericInput from "../GenericInput.vue";
 import TextArea from "../TextArea.vue";
-import type { Location, LocationCreate } from "@/types/Location";
+import type { LocationCreate } from "@/types/Location";
 import { computed, onMounted, ref } from "vue";
 import router from "@/router";
 import SelectInput, { type Option } from "../SelectInput.vue";
@@ -69,7 +69,7 @@ import type { Customer } from "@/types/Customer";
 import { customerService } from "@/services/customerService";
 
 const emit = defineEmits<{
-	"create:location": [value: Location];
+	"create:location": [];
 }>();
 
 const location = ref<LocationCreate>({
@@ -80,7 +80,7 @@ const location = ref<LocationCreate>({
 		city: "",
 	},
 	customerId: "",
-	note: "",
+	note: null,
 });
 
 const cancel = () => {
@@ -90,8 +90,8 @@ const cancel = () => {
 const save = async () => {
 	try {
 		if (location.value.note === "") location.value.note = undefined;
-		const response = await locationService.create(location.value);
-		emit("create:location", response);
+		await locationService.create(location.value);
+		emit("create:location");
 		alert("Vytvořeno");
 	} catch (error) {
 		console.error(error);

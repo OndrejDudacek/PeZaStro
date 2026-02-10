@@ -20,5 +20,5 @@ export const UpdateLocationSchema = Joi.object({
 		city: Joi.string().min(3).max(50).optional(),
 	}).optional(),
 	customerId: idSchema.optional(),
-	note: Joi.string().max(1500).optional(),
+	note: Joi.string().max(1500).allow(null).optional(),
 });

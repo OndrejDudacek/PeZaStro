@@ -43,7 +43,7 @@ import DetailLocation from "@/components/details/DetailLocation.vue";
 import { onMounted, onUnmounted, ref, watch } from "vue";
 import type { Location } from "@/types/Location";
 import { locationService } from "@/services/locationService";
-import { useRoute } from "vue-router";
+import { useRoute, type LocationQueryValue } from "vue-router";
 import router from "@/router/index";
 import IdDisplayer from "@/components/IdDisplayer.vue";
 import CreateLocation from "@/components/creates/CreateLocation.vue";
@@ -62,18 +62,22 @@ const route = useRoute();
 watch(
 	() => route.query.id,
 	(newId) => {
-		if (newId === "NEW") {
-			creating.value = true;
-			selectedLocation.value = null;
-		} else if (newId && locations.value) {
-			creating.value = false;
-			selectedLocation.value = locations.value.find((c) => c.id === newId) || null;
-		} else {
-			creating.value = false;
-			selectedLocation.value = null;
-		}
+		handleQueryId(newId);
 	},
 );
+
+const handleQueryId = (id: LocationQueryValue | LocationQueryValue[] | undefined) => {
+	if (id === "NEW") {
+		creating.value = true;
+		selectedLocation.value = null;
+	} else if (id && locations.value) {
+		creating.value = false;
+		selectedLocation.value = locations.value.find((c) => c.id === id) || null;
+	} else {
+		creating.value = false;
+		selectedLocation.value = null;
+	}
+};
 
 const createdLocation = async () => {
 	router.push({ query: {} });
@@ -116,6 +120,7 @@ const handleEscape = (event: KeyboardEvent) => {
 
 onMounted(async () => {
 	await fetchLocations();
+	handleQueryId(route.query.id);
 	window.addEventListener("keydown", handleEscape);
 });
 
