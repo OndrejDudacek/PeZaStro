@@ -27,26 +27,26 @@
 				</tbody>
 			</table>
 		</article>
-		<DetailLocation
+		<LocationDetail
 			v-if="selectedLocation"
 			:location="selectedLocation"
 			:key="selectedLocation.id"
 			@update:location="updatedLocation"
 			@delete:location="deletedLocation"
 		/>
-		<CreateLocation v-if="creating" @create:location="createdLocation" />
+		<LocationCreate v-if="creating" @create:location="createdLocation" />
 	</div>
 </template>
 
 <script setup lang="ts">
-import DetailLocation from "@/components/details/DetailLocation.vue";
+import LocationDetail from "@/components/details/LocationDetail.vue";
 import { onMounted, onUnmounted, ref, watch } from "vue";
 import type { Location } from "@/types/Location";
 import { locationService } from "@/services/locationService";
 import { useRoute, type LocationQueryValue } from "vue-router";
 import router from "@/router/index";
 import IdDisplayer from "@/components/IdDisplayer.vue";
-import CreateLocation from "@/components/creates/CreateLocation.vue";
+import LocationCreate from "@/components/creates/LocationCreate.vue";
 import Button from "@/components/Button.vue";
 
 const selectedLocation = ref<Location | null>(null);

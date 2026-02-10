@@ -23,26 +23,26 @@
 				</tbody>
 			</table>
 		</article>
-		<DetailCustomer
+		<CustomerDetail
 			v-if="selectedCustomer"
 			:customer="selectedCustomer"
 			:key="selectedCustomer.id"
 			@update:customer="updatedCustomer"
 			@delete:customer="deletedCustomer"
 		/>
-		<CreateCustomer v-if="creating" @create:customer="createdCustomer" />
+		<CustomerCreate v-if="creating" @create:customer="createdCustomer" />
 	</div>
 </template>
 
 <script setup lang="ts">
-import DetailCustomer from "@/components/details/DetailCustomer.vue";
+import CustomerDetail from "@/components/details/CustomerDetail.vue";
 import router from "@/router";
 import { customerService } from "@/services/customerService";
 import type { Customer } from "@/types/Customer";
 import { onMounted, onUnmounted, ref, watch } from "vue";
 import { useRoute, type LocationQueryValue } from "vue-router";
 import IdDisplayer from "@/components/IdDisplayer.vue";
-import CreateCustomer from "@/components/creates/CreateCustomer.vue";
+import CustomerCreate from "@/components/creates/CustomerCreate.vue";
 import Button from "@/components/Button.vue";
 
 const selectedCustomer = ref<Customer | null>(null);

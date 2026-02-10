@@ -23,7 +23,7 @@
 				</tbody>
 			</table>
 		</article>
-		<DetailJob
+		<JobDetail
 			v-if="selectedJob"
 			:job="selectedJob"
 			:key="selectedJob.id"
@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import DetailJob from "@/components/details/DetailJob.vue";
+import JobDetail from "@/components/details/JobDetail.vue";
 import router from "@/router";
 import { jobService } from "@/services/jobService";
 import type { Job } from "@/types/Job";
