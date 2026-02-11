@@ -1,51 +1,57 @@
 <template>
 	<article>
-		<ul>
-			<li>
-				<p>Id: Nový popis práce</p>
-			</li>
-			<li>
-				<GenericInput
-					type="text"
-					icon="assignment"
-					label="Jméno:"
-					placeholder="Sekání trávy"
-					v-model="jobDesc.name"
-				/>
-			</li>
-			<li>
-				<GenericInput
-					type="number"
-					icon="payments"
-					label="Cena:"
-					placeholder="400"
-					v-model="jobDesc.cost"
-				/>
-			</li>
-			<li>
-				<SelectInput
-					name="frequency"
-					label="Frekvence:"
-					:options="[
-						{ label: 'Měsíčně', value: Frequency.month },
-						{ label: 'Ročně', value: Frequency.year },
-					]"
-					v-model="jobDesc.frequency"
-				/>
-			</li>
-			<li>
-				<GenericInput
-					type="number"
-					label="Perioda:"
-					:model-value="jobDesc.period === null ? 0 : jobDesc.period"
-					@update:model-value="jobDesc.period = Number($event)"
-				/>
-			</li>
-		</ul>
-		<section class="buttons">
-			<Button label="Vytvořit popis práce" icon="save" @click="save" />
-			<Button label="Zrušit tvorbu" icon="delete" color="danger" @click="cancel" />
-		</section>
+		<form @submit.prevent="save">
+			<ul>
+				<li>
+					<p>Id: Nový popis práce</p>
+				</li>
+				<li>
+					<GenericInput
+						type="text"
+						icon="assignment"
+						label="Jméno:"
+						placeholder="Sekání trávy"
+						v-model="jobDesc.name"
+						required
+					/>
+				</li>
+				<li>
+					<GenericInput
+						type="number"
+						icon="payments"
+						label="Cena:"
+						placeholder="400"
+						v-model="jobDesc.cost"
+						required
+					/>
+				</li>
+				<li>
+					<SelectInput
+						name="frequency"
+						label="Frekvence:"
+						:options="[
+							{ label: 'Měsíčně', value: Frequency.month },
+							{ label: 'Ročně', value: Frequency.year },
+						]"
+						v-model="jobDesc.frequency"
+						optional
+					/>
+				</li>
+				<li>
+					<GenericInput
+						type="number"
+						label="Perioda:"
+						:model-value="jobDesc.period === null ? 0 : jobDesc.period"
+						@update:model-value="jobDesc.period = Number($event)"
+						optional
+					/>
+				</li>
+			</ul>
+			<section class="buttons">
+				<Button label="Vytvořit popis práce" icon="save" type="submit" />
+				<Button label="Zrušit tvorbu" icon="delete" color="danger" @click="cancel" />
+			</section>
+		</form>
 	</article>
 </template>
 
@@ -66,10 +72,10 @@ const props = defineProps<{
 	contractId: string;
 }>();
 
-const jobDesc = ref<JobDescriptionCreate>({
-	name: "",
+const jobDesc = ref<Partial<JobDescriptionCreate>>({
+	name: undefined,
 	contractId: props.contractId,
-	cost: 0,
+	cost: undefined,
 	frequency: undefined,
 	period: undefined,
 });
@@ -80,7 +86,8 @@ const cancel = () => {
 
 const save = async () => {
 	try {
-		await jobDescriptionService.create(jobDesc.value);
+		const payload = jobDesc.value as JobDescriptionCreate;
+		await jobDescriptionService.create(payload);
 		emit("create:jobDescription");
 		alert("Vytvořeno");
 	} catch (error) {

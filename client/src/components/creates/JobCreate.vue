@@ -1,49 +1,57 @@
 <template>
 	<article>
-		<h3>Tvorba práce</h3>
-		<ul>
-			<li>
-				<p>Datum provedení:</p>
-				<section class="dateInputs">
-					<GenericInput
-						type="number"
-						icon="calendar_view_day"
-						label="Den:"
-						v-model="day"
-						min="1"
-						max="31"
+		<form @submit.prevent="save">
+			<h3>Tvorba práce</h3>
+			<ul>
+				<li>
+					<p>Datum provedení:</p>
+					<section class="dateInputs">
+						<GenericInput
+							type="number"
+							icon="calendar_view_day"
+							label="Den:"
+							v-model="day"
+							required
+							min="1"
+							max="31"
+						/>
+						<GenericInput
+							type="number"
+							icon="calendar_view_month"
+							label="Měsíc:"
+							v-model="month"
+							required
+							min="1"
+							max="12"
+						/>
+						<GenericInput
+							type="number"
+							icon="calendar_month"
+							label="Rok:"
+							v-model="year"
+							required
+							min="1990"
+							max="2222"
+						/>
+					</section>
+				</li>
+				<li>
+					<SelectInput
+						label="Zakázka:"
+						v-model="job.contractId"
+						:options="optionsList"
+						required
 					/>
-					<GenericInput
-						type="number"
-						icon="calendar_view_month"
-						label="Měsíc:"
-						v-model="month"
-						min="1"
-						max="12"
-					/>
-					<GenericInput
-						type="number"
-						icon="calendar_month"
-						label="Rok:"
-						v-model="year"
-					/>
-				</section>
-			</li>
-			<li>
-				<SelectInput
-					label="Zakázka:"
-					v-model="job.contractId"
-					:options="optionsList"
-				/>
-			</li>
-			<li>
-				<TextArea label="Poznámky:" v-model="job.note" />
-			</li>
-		</ul>
-		<section class="buttons">
-			<Button label="Vytvořit práci" icon="save" @click="save" />
-			<Button label="Zrušit tvorbu" icon="delete" color="danger" @click="cancel" />
-		</section>
+				</li>
+				<li>
+					<TextArea label="Poznámky:" v-model="job.note" required />
+				</li>
+			</ul>
+			<section class="buttons">
+				<Button label="Vytvořit práci" icon="save" type="submit" />
+				<Button label="Zrušit tvorbu" icon="delete" color="danger" @click="cancel" />
+			</section>
+		</form>
 	</article>
 </template>
 
@@ -64,13 +72,13 @@ const emit = defineEmits<{
 	"create:job": [];
 }>();
 
-const job = ref<JobCreate>({
+const job = ref<Partial<JobCreate>>({
 	date: new Date(Date.now()),
-	contractId: "",
-	note: "",
+	contractId: undefined,
+	note: undefined,
 });
 
-const date = new Date(job.value.date);
+const date = new Date(job.value.date || Date.now());
 const day = ref(date.getDate());
 const month = ref(date.getMonth() + 1);
 const year = ref(date.getFullYear());
@@ -86,8 +94,9 @@ const cancel = () => {
 
 const save = async () => {
 	try {
-		job.value.date = convertToDate(day.value, month.value, year.value);
-		await jobService.create(job.value);
+		const payload = job.value as JobCreate;
+		payload.date = convertToDate(day.value, month.value, year.value);
+		await jobService.create(payload);
 		emit("create:job");
 		alert("Vytvořeno");
 	} catch (error) {

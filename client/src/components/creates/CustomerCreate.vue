@@ -1,24 +1,27 @@
 <template>
 	<article>
-		<h3>Tvorba zákazníka</h3>
-		<ul>
-			<li>
-				<GenericInput
-					type="text"
-					icon="person"
-					label="Jméno:"
-					placeholder="Jan Nezdar"
-					v-model="customer.name"
-				/>
-			</li>
-			<li>
-				<TextArea label="Poznámky:" v-model="customer.note" />
-			</li>
-		</ul>
-		<section class="buttons">
-			<Button label="Vytvořit zákazníka" icon="save" @click="save" />
-			<Button label="Zrušit tvorbu" icon="delete" color="danger" @click="cancel" />
-		</section>
+		<form @submit.prevent="save">
+			<h3>Tvorba zákazníka</h3>
+			<ul>
+				<li>
+					<GenericInput
+						type="text"
+						icon="person"
+						label="Jméno:"
+						placeholder="Jan Nezdar"
+						v-model="customer.name"
+						required
+					/>
+				</li>
+				<li>
+					<TextArea label="Poznámky:" v-model="customer.note" optional />
+				</li>
+			</ul>
+			<section class="buttons">
+				<Button label="Vytvořit zákazníka" icon="save" type="submit" />
+				<Button label="Zrušit tvorbu" icon="delete" color="danger" @click="cancel" />
+			</section>
+		</form>
 	</article>
 </template>
 
@@ -35,9 +38,9 @@ const emit = defineEmits<{
 	"create:customer": [];
 }>();
 
-const customer = ref<CustomerCreate>({
-	name: "",
-	note: null,
+const customer = ref<Partial<CustomerCreate>>({
+	name: undefined,
+	note: undefined,
 });
 
 const cancel = () => {
@@ -46,8 +49,8 @@ const cancel = () => {
 
 const save = async () => {
 	try {
-		if (customer.value.note === "") customer.value.note = undefined;
-		await customerService.create(customer.value);
+		const payload = customer.value as CustomerCreate;
+		await customerService.create(payload);
 		emit("create:customer");
 		alert("Vytvořeno");
 	} catch (error) {

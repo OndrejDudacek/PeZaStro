@@ -1,58 +1,65 @@
 <template>
 	<article>
-		<h3>Tvorba lokace</h3>
-		<ul>
-			<li>
-				<SelectInput
-					label="Zákazník:"
-					v-model="location.customerId"
-					:options="optionsList"
-				/>
-			</li>
-			<li>
-				<GenericInput
-					type="text"
-					label="Ulice:"
-					icon="signpost"
-					placeholder="Rohová"
-					v-model="location.address.street"
-				/>
-			</li>
-			<li>
-				<GenericInput
-					type="number"
-					icon="house"
-					label="Číslo domu:"
-					placeholder="559"
-					v-model="location.address.houseNumber"
-				/>
-			</li>
-			<li>
-				<GenericInput
-					type="number"
-					icon="mail"
-					label="PSČ:"
-					placeholder="151 00"
-					v-model="location.address.postalCode"
-				/>
-			</li>
-			<li>
-				<GenericInput
-					type="text"
-					icon="location_city"
-					label="Město:"
-					placeholder="Praha"
-					v-model="location.address.city"
-				/>
-			</li>
-			<li>
-				<TextArea label="Poznámky:" v-model="location.note" />
-			</li>
-		</ul>
-		<section class="buttons">
-			<Button label="Vytvořit lokaci" icon="save" @click="save" />
-			<Button label="Zrušit tvorbu" icon="delete" color="danger" @click="cancel" />
-		</section>
+		<form @submit.prevent="save">
+			<h3>Tvorba lokace</h3>
+			<ul>
+				<li>
+					<SelectInput
+						label="Zákazník:"
+						v-model="location.customerId"
+						:options="optionsList"
+						required
+					/>
+				</li>
+				<li>
+					<GenericInput
+						type="text"
+						label="Ulice:"
+						icon="signpost"
+						placeholder="Rohová"
+						v-model="location.address.street"
+						required
+					/>
+				</li>
+				<li>
+					<GenericInput
+						type="number"
+						icon="house"
+						label="Číslo domu:"
+						placeholder="559"
+						v-model="location.address.houseNumber"
+						required
+					/>
+				</li>
+				<li>
+					<GenericInput
+						type="number"
+						icon="mail"
+						label="PSČ:"
+						placeholder="151 00"
+						v-model="location.address.postalCode"
+						required
+					/>
+				</li>
+				<li>
+					<GenericInput
+						type="text"
+						icon="location_city"
+						label="Město:"
+						placeholder="Praha"
+						v-model="location.address.city"
+						required
+					/>
+				</li>
+				<li>
+					<TextArea label="Poznámky:" v-model="location.note" optional />
+				</li>
+			</ul>
+			<section class="buttons">
+				<Button label="Vytvořit lokaci" icon="save" type="submit" />
+				<Button label="Zrušit tvorbu" icon="delete" color="danger" @click="cancel" />
+			</section>
+		</form>
 	</article>
 </template>
 
@@ -72,15 +79,19 @@ const emit = defineEmits<{
 	"create:location": [];
 }>();
 
-const location = ref<LocationCreate>({
+const location = ref<
+	Partial<Omit<LocationCreate, "address">> & {
+		address: Partial<LocationCreate["address"]>;
+	}
+>({
 	address: {
-		street: "",
-		houseNumber: 0,
-		postalCode: 11100,
-		city: "",
+		street: undefined,
+		houseNumber: undefined,
+		postalCode: undefined,
+		city: undefined,
 	},
-	customerId: "",
-	note: null,
+	customerId: undefined,
+	note: undefined,
 });
 
 const cancel = () => {
@@ -89,8 +100,8 @@ const cancel = () => {
 
 const save = async () => {
 	try {
-		if (location.value.note === "") location.value.note = undefined;
-		await locationService.create(location.value);
+		const payload = location.value as LocationCreate;
+		await locationService.create(payload);
 		emit("create:location");
 		alert("Vytvořeno");
 	} catch (error) {
