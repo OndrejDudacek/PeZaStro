@@ -80,19 +80,13 @@ const createdCustomer = async () => {
 	await fetchCustomers();
 };
 
-const updatedCustomer = (updatedCustomer: Customer) => {
-	if (customers.value) {
-		const index = customers.value.findIndex((c) => c.id === updatedCustomer.id);
-		if (index !== -1) {
-			customers.value[index] = updatedCustomer;
-		}
-	}
-	selectedCustomer.value = updatedCustomer;
+const updatedCustomer = async () => {
+	await fetchCustomers();
 };
 
 const deletedCustomer = async () => {
-	router.push({ query: { id: undefined } });
-	fetchCustomers();
+	router.push({ query: {} });
+	await fetchCustomers();
 };
 
 const customers = ref<Customer[] | null>([]);

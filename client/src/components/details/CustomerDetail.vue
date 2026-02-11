@@ -35,83 +35,23 @@
 		<h4>Kontakty:</h4>
 		<ul>
 			<li v-for="(contact, i) in contacts" :key="i">
-				<ul>
-					<li>
-						<p>Id: <IdDisplayer :id="contact.id" name="customer" copy /></p>
-					</li>
-					<li>
-						<p>Datum vytvoření: {{ contact.createdAt }}</p>
-					</li>
-					<li>
-						<GenericInput
-							type="text"
-							icon="person"
-							label="Jméno:"
-							placeholder="Josefína Nezdarová"
-							v-model="contact.name"
-							:success="successStates.get(`contact-name-${contact.id}`)"
-							@debounced:model-value="
-								updatedContact(
-									contact.id,
-									{ name: contact.name },
-									`contact-name-${contact.id}`,
-								)
-							"
-						/>
-					</li>
-					<li>
-						<GenericInput
-							type="tel"
-							icon="phone"
-							label="Telefon:"
-							placeholder="777666111"
-							:model-value="contact.phone ?? ''"
-							@update:model-value="contact.phone = $event ? +$event : null"
-							:success="successStates.get(`contact-phone-${contact.id}`)"
-							@debounced:model-value="
-								updatedContact(
-									contact.id,
-									{ phone: contact.phone },
-									`contact-phone-${contact.id}`,
-								)
-							"
-						/>
-					</li>
-					<li>
-						<GenericInput
-							type="email"
-							icon="email"
-							label="Email:"
-							placeholder="josefina.nezdarova@gmail.com"
-							:model-value="contact.email ?? ''"
-							@update:model-value="
-								contact.email = $event ? String($event) : null
-							"
-							:success="successStates.get(`contact-email-${contact.id}`)"
-							@debounced:model-value="
-								updatedContact(
-									contact.id,
-									{ email: contact.email },
-									`contact-email-${contact.id}`,
-								)
-							"
-						/>
-					</li>
-					<li>
-						<section class="buttons">
-							<Button
-								label="Smazat kontakt"
-								icon="delete"
-								color="danger"
-								@click="deleteContact(contact)"
-							/>
-						</section>
-					</li>
-				</ul>
+				<ContactDetail
+					:contact="contact"
+					@delete:contact="deletedContact"
+					@update:contact="updatedContact"
+					:key="contact.id"
+				/>
+			</li>
+			<li v-if="creatingContact">
+				<ContactCreate
+					:customer-id="customer.id"
+					@cancel:contact="canceledContactCreation"
+					@create:contact="cratedContact"
+				/>
 			</li>
 		</ul>
 		<section class="buttons">
-			<Button label="Přidat kontakt" icon="add" />
+			<Button label="Přidat kontakt" icon="add" @click="create" />
 		</section>
 		<section class="buttons">
 			<Button
@@ -129,14 +69,21 @@ import type { Customer, CustomerUpdate } from "@/types/Customer";
 import Button from "../Button.vue";
 import GenericInput from "../GenericInput.vue";
 import TextArea from "../TextArea.vue";
-import { compile, onMounted, ref, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { customerService } from "@/services/customerService";
 import IdDisplayer from "../IdDisplayer.vue";
-import type { Contact, ContactUpdate } from "@/types/Contact";
+import type { Contact } from "@/types/Contact";
 import { contactService } from "@/services/contactService";
+import ContactDetail from "./ContactDetail.vue";
+import ContactCreate from "../creates/ContactCreate.vue";
+
+const creatingContact = ref<boolean>(false);
+const create = () => {
+	creatingContact.value = true;
+};
 
 const emit = defineEmits<{
-	"update:customer": [value: Customer];
+	"update:customer": [];
 	"delete:customer": [];
 }>();
 
@@ -158,7 +105,7 @@ const saveCustomerChange = async (id: string, data: CustomerUpdate, fieldName: s
 	try {
 		const updatedCustomer = await customerService.update(id, data);
 		customer.value = updatedCustomer;
-		emit("update:customer", updatedCustomer);
+		emit("update:customer");
 		successStates.value.set(fieldName, true);
 		setTimeout(() => {
 			successStates.value.set(fieldName, false);
@@ -188,31 +135,21 @@ const fetchContacts = async () => {
 	}
 };
 
-const updatedContact = async (id: string, data: ContactUpdate, fieldName: string) => {
-	try {
-		const updatedContact = await contactService.update(id, data);
-		const index = contacts.value.findIndex((jd) => jd.id === id);
-		if (index !== -1) {
-			contacts.value[index] = updatedContact;
-		}
-		successStates.value.set(fieldName, true);
-		setTimeout(() => {
-			successStates.value.set(fieldName, false);
-		}, 2000);
-	} catch (error) {
-		console.error(error);
-		successStates.value.set(fieldName, false);
-	}
+const cratedContact = async () => {
+	creatingContact.value = false;
+	await fetchContacts();
 };
 
-const deleteContact = async (contact: Contact) => {
-	try {
-		const { message } = await contactService.delete(contact.id);
-		contacts.value = contacts.value.filter((c) => c.id !== contact.id);
-		alert(message);
-	} catch (error) {
-		console.error(error);
-	}
+const canceledContactCreation = async () => {
+	creatingContact.value = false;
+};
+
+const updatedContact = async () => {
+	await fetchContacts();
+};
+
+const deletedContact = async () => {
+	await fetchContacts();
 };
 
 onMounted(async () => {
