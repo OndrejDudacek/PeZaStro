@@ -65,3 +65,4 @@
 - dostavani se z detailu nebo create pomocí esc
 - pridavaní věcí
 - predelani vnitrnich veci na vlastni komponenty (detail a create) ktere se pouzivaji v detailu parenta
+- formulare pro validaci pri vytvareni veci
