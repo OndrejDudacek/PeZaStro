@@ -111,6 +111,7 @@ const saveCustomerChange = async (id: string, data: CustomerUpdate, fieldName: s
 			successStates.value.set(fieldName, false);
 		}, 2000);
 	} catch (error) {
+		alert(error);
 		console.error(error);
 		successStates.value.set(fieldName, false);
 	}
@@ -122,6 +123,7 @@ const deleteCustomer = async (id: string) => {
 		emit("delete:customer");
 		alert(message);
 	} catch (error) {
+		alert(error);
 		console.error(error);
 	}
 };

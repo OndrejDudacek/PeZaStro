@@ -96,6 +96,7 @@ const updateContact = async (id: string, data: ContactUpdate, fieldName: string)
 			successStates.value.set(fieldName, false);
 		}, 2000);
 	} catch (error) {
+		alert(error);
 		console.error(error);
 		successStates.value.set(fieldName, false);
 	}
@@ -107,6 +108,7 @@ const deleteContact = async (contact: Contact) => {
 		emit("delete:contact");
 		alert(message);
 	} catch (error) {
+		alert(error);
 		console.error(error);
 	}
 };

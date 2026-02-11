@@ -150,6 +150,7 @@ const saveLocationChange = async (id: string, data: LocationUpdate, fieldName: s
 			successStates.value.set(fieldName, false);
 		}, 2000);
 	} catch (error) {
+		alert(error);
 		console.error(error);
 		successStates.value.set(fieldName, false);
 	}
@@ -161,6 +162,7 @@ const deleteLocation = async (id: string) => {
 		emit("delete:location");
 		alert(message);
 	} catch (error) {
+		alert(error);
 		console.error(error);
 	}
 };

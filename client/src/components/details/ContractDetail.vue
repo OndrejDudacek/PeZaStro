@@ -202,6 +202,7 @@ const saveContractChange = async (id: string, data: ContractUpdate, fieldName: s
 			successStates.value.set(fieldName, false);
 		}, 2000);
 	} catch (error) {
+		alert(error);
 		console.error(error);
 		successStates.value.set(fieldName, false);
 	}
@@ -213,6 +214,7 @@ const deleteContract = async (id: string) => {
 		emit("delete:contract");
 		alert(message);
 	} catch (error) {
+		alert(error);
 		console.error(error);
 	}
 };

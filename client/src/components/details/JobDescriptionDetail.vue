@@ -116,6 +116,7 @@ const updateJobDesc = async (id: string, data: JobDescriptionUpdate, fieldName: 
 			successStates.value.set(fieldName, false);
 		}, 2000);
 	} catch (error) {
+		alert(error);
 		console.error(error);
 		successStates.value.set(fieldName, false);
 	}
@@ -127,6 +128,7 @@ const deleteJobDesc = async (jobdescription: JobDescription) => {
 		emit("delete:jobDescription");
 		alert(message);
 	} catch (error) {
+		alert(error);
 		console.error(error);
 	}
 };

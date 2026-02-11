@@ -130,6 +130,7 @@ const saveJobChange = async (id: string, data: JobUpdate, fieldName: string) => 
 			successStates.value.set(fieldName, false);
 		}, 2000);
 	} catch (error) {
+		alert(error);
 		console.error(error);
 		successStates.value.set(fieldName, false);
 	}
@@ -141,6 +142,7 @@ const deleteJob = async (id: string) => {
 		emit("delete:job");
 		alert(message);
 	} catch (error) {
+		alert(error);
 		console.error(error);
 	}
 };
