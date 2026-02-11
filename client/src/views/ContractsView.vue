@@ -82,19 +82,13 @@ const handleQueryId = (id: LocationQueryValue | LocationQueryValue[] | undefined
 	}
 };
 
-const updatedContract = (updatedContract: Contract) => {
-	if (contracts.value) {
-		const index = contracts.value.findIndex((c) => c.id === updatedContract.id);
-		if (index !== -1) {
-			contracts.value[index] = updatedContract;
-		}
-	}
-	selectedContract.value = updatedContract;
+const updatedContract = async () => {
+	await fetchContracts();
 };
 
-const deletedContract = () => {
+const deletedContract = async () => {
 	router.push({ query: { id: undefined } });
-	fetchContracts();
+	await fetchContracts();
 };
 
 const contracts = ref<Contract[]>([]);

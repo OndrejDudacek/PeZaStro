@@ -46,7 +46,7 @@
 				<ContactCreate
 					:customer-id="customer.id"
 					@cancel:contact="canceledContactCreation"
-					@create:contact="cratedContact"
+					@create:contact="createdContact"
 				/>
 			</li>
 		</ul>
@@ -135,7 +135,7 @@ const fetchContacts = async () => {
 	}
 };
 
-const cratedContact = async () => {
+const createdContact = async () => {
 	creatingContact.value = false;
 	await fetchContacts();
 };
