@@ -1,8 +1,14 @@
 <template>
 	<section>
-		<label :for="name">{{ label }}</label>
+		<label :for="inputName ?? inputId">{{ label }}</label>
 		<div @click="focusInput" :class="[`input-color-${color}`, `input-success-${success}`]">
-			<select ref="inputRef" :name="name" :value="modelValue" @change="handleInput">
+			<select
+				:id="inputName ?? inputId"
+				ref="inputRef"
+				:name="inputName"
+				:value="modelValue"
+				@change="handleInput"
+			>
 				<option value="">--{{ label || "Vyber" }}--</option>
 				<option v-for="option in options" :key="option.value" :value="option.value">
 					{{ option.label }}
@@ -16,13 +22,15 @@
 import { debounce } from "@/utils/debounce";
 import { ref } from "vue";
 
+const inputId = String(Math.floor(Math.random() * 1000));
+
 export interface Option {
 	label: string;
 	value: string;
 }
 
 const props = defineProps<{
-	name?: string;
+	inputName?: string;
 	label?: string;
 	options: Option[];
 	modelValue?: string | null;

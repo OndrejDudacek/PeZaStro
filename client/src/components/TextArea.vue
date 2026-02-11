@@ -1,12 +1,12 @@
 <template>
 	<section>
-		<label v-if="label" :for="inputName" @click="focusInput">{{ label }}</label>
+		<label v-if="label" :for="inputName ?? inputId" @click="focusInput">{{ label }}</label>
 		<textarea
 			:name="inputName"
 			:placeholder="placeholder"
 			:value="modelValue"
 			@input="handleInput"
-			:id="inputName"
+			:id="inputName ?? inputId"
 			ref="inputRef"
 			:class="[`textarea-success-${success}`]"
 		></textarea>
@@ -16,6 +16,8 @@
 <script setup lang="ts">
 import { debounce } from "@/utils/debounce";
 import { ref, onMounted, watch } from "vue";
+
+const inputId = String(Math.floor(Math.random() * 1000));
 
 const props = withDefaults(
 	defineProps<{

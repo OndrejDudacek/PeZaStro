@@ -1,6 +1,6 @@
 <template>
 	<section>
-		<label v-if="label" :for="inputName" @click="focusInput">{{ label }}</label>
+		<label v-if="label" :for="inputName ?? inputId" @click="focusInput">{{ label }}</label>
 		<div @click="focusInput" :class="[`input-color-${color}`, `input-success-${success}`]">
 			<Icon v-if="icon" :icon-name="iconName"></Icon>
 			<input
@@ -10,7 +10,7 @@
 				:placeholder="placeholder"
 				:value="modelValue"
 				@input="handleInput"
-				:id="inputName"
+				:id="inputName ?? inputId"
 				v-bind="attrs"
 			/>
 		</div>
@@ -21,6 +21,8 @@
 import { computed, ref, useAttrs } from "vue";
 import Icon from "./Icon.vue";
 import { debounce } from "@/utils/debounce";
+
+const inputId = String(Math.floor(Math.random() * 1000));
 
 const props = defineProps<{
 	icon?: string;
