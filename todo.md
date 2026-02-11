@@ -47,8 +47,7 @@
 # Výstup č. 4
 
 - [x] tahani relaci (mam v child id na rodice ne opacne) - jobDesc a Contacts
-- [ ] !!!!!!! vytvareni novych veci
-  - [ ] vyresit jak vytvaret jen neco (https://gemini.google.com/app/4f7e8a5c9dd6684b)
+- [x] !!!!!!! vytvareni novych veci
 - [x] api service nebo neco takovyho
   - [x] apiClient
   - [x] auth/user service
