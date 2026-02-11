@@ -79,3 +79,5 @@
 - [x] zpet z deatilu nebo creatu pomcí esc
 - [ ] odkazy v detailech v na sebe ukazujicich zdrojich
 - [ ] přidat jména - contractům, jobům
+- [ ] obalení ve forms pro validaci
+- [ ] přidani automatických hvězdicek u required inputů
