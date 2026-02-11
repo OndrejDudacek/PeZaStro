@@ -8,6 +8,7 @@
 				:name="inputName"
 				:value="modelValue"
 				@change="handleInput"
+				v-bind="attrs"
 			>
 				<option value="">--{{ label || "Vyber" }}--</option>
 				<option v-for="option in options" :key="option.value" :value="option.value">
@@ -20,7 +21,7 @@
 
 <script setup lang="ts">
 import { debounce } from "@/utils/debounce";
-import { ref } from "vue";
+import { ref, useAttrs } from "vue";
 
 const inputId = String(Math.floor(Math.random() * 1000));
 
@@ -37,6 +38,8 @@ const props = defineProps<{
 	color?: "danger";
 	success?: boolean;
 }>();
+
+const attrs = useAttrs();
 
 const emit = defineEmits<{
 	"update:modelValue": [value: string | null];

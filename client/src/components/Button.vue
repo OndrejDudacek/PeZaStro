@@ -1,12 +1,12 @@
 <template>
 	<button :class="[`button-color-${color}`, `button-success-${success}`]">
-		<Icon v-if="icon" :icon-name="iconName" />
+		<Icon v-if="icon" :icon-name="iconName" v-bind="attrs" />
 		<p>{{ props.label }}</p>
 	</button>
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, useAttrs } from "vue";
 import Icon from "./Icon.vue";
 
 const props = defineProps<{
@@ -15,6 +15,8 @@ const props = defineProps<{
 	color?: "default" | "danger";
 	success?: boolean;
 }>();
+
+const attrs = useAttrs();
 
 const iconName = computed(() => {
 	return props.icon ? (props.success ? "check" : props.icon) : "";
