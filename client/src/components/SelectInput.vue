@@ -23,6 +23,10 @@
 import { debounce } from "@/utils/debounce";
 import { ref, useAttrs } from "vue";
 
+defineOptions({
+	inheritAttrs: false,
+});
+
 const inputId = String(Math.floor(Math.random() * 1000));
 
 export interface Option {

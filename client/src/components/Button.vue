@@ -1,6 +1,6 @@
 <template>
-	<button :class="[`button-color-${color}`, `button-success-${success}`]">
-		<Icon v-if="icon" :icon-name="iconName" v-bind="attrs" />
+	<button :class="[`button-color-${color}`, `button-success-${success}`]" v-bind="attrs">
+		<Icon v-if="icon" :icon-name="iconName" />
 		<p>{{ props.label }}</p>
 	</button>
 </template>
@@ -8,6 +8,10 @@
 <script setup lang="ts">
 import { computed, useAttrs } from "vue";
 import Icon from "./Icon.vue";
+
+defineOptions({
+	inheritAttrs: false,
+});
 
 const props = defineProps<{
 	label?: string;

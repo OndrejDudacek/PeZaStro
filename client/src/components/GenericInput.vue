@@ -2,7 +2,7 @@
 	<section>
 		<label v-if="label" :for="inputName ?? inputId" @click="focusInput">{{ label }}</label>
 		<div @click="focusInput" :class="[`input-color-${color}`, `input-success-${success}`]">
-			<Icon v-if="icon" :icon-name="iconName"></Icon>
+			<Icon v-if="icon" :icon-name="iconName" />
 			<input
 				ref="inputRef"
 				:type="type || 'text'"
@@ -21,6 +21,10 @@
 import { computed, ref, useAttrs } from "vue";
 import Icon from "./Icon.vue";
 import { debounce } from "@/utils/debounce";
+
+defineOptions({
+	inheritAttrs: false,
+});
 
 const inputId = String(Math.floor(Math.random() * 1000));
 
