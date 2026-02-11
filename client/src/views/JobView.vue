@@ -2,7 +2,7 @@
 	<div id="tableAndDetailWrapper">
 		<article>
 			<section class="controls">
-				<Button icon="add" />
+				<Button icon="add" @click="create" />
 			</section>
 			<table>
 				<thead>
@@ -30,6 +30,7 @@
 			@update:job="updatedJob"
 			@delete:job="deletedJob"
 		/>
+		<JobCreate v-if="creating" @create:job="createdJob" />
 	</div>
 </template>
 
@@ -39,25 +40,45 @@ import router from "@/router";
 import { jobService } from "@/services/jobService";
 import type { Job } from "@/types/Job";
 import { onMounted, onUnmounted, ref, watch } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, type LocationQueryValue } from "vue-router";
 import IdDisplayer from "@/components/IdDisplayer.vue";
+import Button from "@/components/Button.vue";
+import JobCreate from "@/components/creates/JobCreate.vue";
 
 const selectedJob = ref<Job | null>(null);
 const selectJob = (job: Job) => {
 	router.push({ query: { id: job.id } });
+};
+const creating = ref<boolean>(false);
+const create = () => {
+	router.push({ query: { id: "NEW" } });
 };
 
 const route = useRoute();
 watch(
 	() => route.query.id,
 	(newId) => {
-		if (newId && jobs.value) {
-			selectedJob.value = jobs.value.find((c) => c.id === newId) || null;
-		} else {
-			selectedJob.value = null;
-		}
+		handleQueryId(newId);
 	},
 );
+
+const handleQueryId = (id: LocationQueryValue | LocationQueryValue[] | undefined) => {
+	if (id === "NEW") {
+		creating.value = true;
+		selectedJob.value = null;
+	} else if (id && jobs.value) {
+		creating.value = false;
+		selectedJob.value = jobs.value.find((c) => c.id === id) || null;
+	} else {
+		creating.value = false;
+		selectedJob.value = null;
+	}
+};
+
+const createdJob = async () => {
+	router.push({ query: {} });
+	await fetchJobs();
+};
 
 const updatedJob = (updatedJob: Job) => {
 	if (jobs.value) {
@@ -95,6 +116,7 @@ const handleEscape = (event: KeyboardEvent) => {
 
 onMounted(async () => {
 	await fetchJobs();
+	handleQueryId(route.query.id);
 	window.addEventListener("keydown", handleEscape);
 });
 

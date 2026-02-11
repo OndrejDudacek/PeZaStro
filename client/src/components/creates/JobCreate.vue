@@ -10,99 +10,65 @@
 						icon="calendar_view_day"
 						label="Den:"
 						v-model="day"
-						:success="successStates.get('day')"
 						min="1"
 						max="31"
-						@debounced:model-value="
-							saveJobChange(
-								job.id,
-								{ date: convertToDate(day, month, year) },
-								'day',
-							)
-						"
 					/>
 					<GenericInput
 						type="number"
 						icon="calendar_view_month"
 						label="Měsíc:"
 						v-model="month"
-						:success="successStates.get('month')"
 						min="1"
 						max="12"
-						@debounced:model-value="
-							saveJobChange(
-								job.id,
-								{ date: convertToDate(day, month, year) },
-								'month',
-							)
-						"
 					/>
 					<GenericInput
 						type="number"
 						icon="calendar_month"
 						label="Rok:"
 						v-model="year"
-						:success="successStates.get('year')"
-						@debounced:model-value="
-							saveJobChange(
-								job.id,
-								{ date: convertToDate(day, month, year) },
-								'year',
-							)
-						"
 					/>
 				</section>
 			</li>
 			<li>
-				<p>Id zakázky: <IdDisplayer link :id="job.contractId" name="contract" /></p>
+				<SelectInput
+					label="Zakázka:"
+					v-model="job.contractId"
+					:options="optionsList"
+				/>
 			</li>
 			<li>
-				<TextArea
-					label="Poznámky:"
-					v-model="job.note"
-					:success="successStates.get('note')"
-					@debounced:model-value="saveJobChange(job.id, { note: job.note }, 'note')"
-				/>
+				<TextArea label="Poznámky:" v-model="job.note" />
 			</li>
 		</ul>
 		<section class="buttons">
-			<Button
-				label="Smazat práci"
-				icon="delete"
-				color="danger"
-				@click="deleteJob(job.id)"
-			/>
+			<Button label="Vytvořit práci" icon="save" @click="save" />
+			<Button label="Zrušit tvorbu" icon="delete" color="danger" @click="cancel" />
 		</section>
 	</article>
 </template>
 
 <script setup lang="ts">
-import type { Job, JobUpdate } from "@/types/Job";
+import type { JobCreate } from "@/types/Job";
 import Button from "../Button.vue";
 import GenericInput from "../GenericInput.vue";
 import TextArea from "../TextArea.vue";
 import { jobService } from "@/services/jobService";
-import { ref, watch } from "vue";
-import IdDisplayer from "../IdDisplayer.vue";
-
-const props = defineProps<{
-	job: Job;
-}>();
+import { computed, onMounted, ref } from "vue";
+import SelectInput from "../SelectInput.vue";
+import router from "@/router";
+import { contractService } from "@/services/contractService";
+import { type Option } from "../SelectInput.vue";
+import type { Contract } from "@/types/Contract";
 
 const emit = defineEmits<{
-	"update:job": [value: Job];
-	"delete:job": [];
+	"create:job": [];
 }>();
 
-const successStates = ref(new Map<string, boolean>());
-const job = ref(props.job);
-
-watch(
-	() => props.job,
-	(newJob) => {
-		job.value = newJob;
-	},
-);
+const job = ref<JobCreate>({
+	date: new Date(Date.now()),
+	contractId: "",
+	note: "",
+});
 
 const date = new Date(job.value.date);
 const day = ref(date.getDate());
@@ -114,30 +80,44 @@ const convertToDate = (day: number, month: number, year: number) => {
 	return date;
 };
 
-const saveJobChange = async (id: string, data: JobUpdate, fieldName: string) => {
+const cancel = () => {
+	router.push({ query: {} });
+};
+
+const save = async () => {
 	try {
-		const updatedJob = await jobService.update(id, data);
-		job.value = updatedJob;
-		emit("update:job", updatedJob);
-		successStates.value.set(fieldName, true);
-		setTimeout(() => {
-			successStates.value.set(fieldName, false);
-		}, 2000);
+		job.value.date = convertToDate(day.value, month.value, year.value);
+		await jobService.create(job.value);
+		emit("create:job");
+		alert("Vytvořeno");
 	} catch (error) {
 		console.error(error);
-		successStates.value.set(fieldName, false);
 	}
 };
 
-const deleteJob = async (id: string) => {
+const contracts = ref<Contract[]>([]);
+const fetchContracts = async () => {
 	try {
-		const { message } = await jobService.delete(id);
-		emit("delete:job");
-		alert(message);
+		contracts.value = await contractService.getAll();
 	} catch (error) {
 		console.error(error);
 	}
 };
+
+const optionsList = computed(() => {
+	const options: Option[] = [];
+	for (const contract of contracts.value) {
+		options.push({
+			label: `${contract.id}`,
+			value: contract.id,
+		});
+	}
+	return options;
+});
+
+onMounted(async () => {
+	await fetchContracts();
+});
 </script>
 
 <style scoped lang="scss">
