@@ -18,7 +18,7 @@
 						:key="i"
 						@click="selectLocation(location)"
 					>
-						<td><IdDisplayer :id="location.id" name="location" shorten /></td>
+						<td><IdDisplayer :id="location.id" shorten /></td>
 						<td>
 							{{ location.address.houseNumber }} {{ location.address.street }}
 						</td>

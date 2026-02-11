@@ -18,7 +18,7 @@
 						:key="i"
 						@click="selectContract(contract)"
 					>
-						<td><IdDisplayer :id="contract.id" name="contract" shorten /></td>
+						<td><IdDisplayer :id="contract.id" shorten /></td>
 						<td>{{ contract.totalCost }}</td>
 						<td>{{ new Date(contract.dateOfSigning).toLocaleDateString() }}</td>
 					</tr>

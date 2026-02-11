@@ -3,7 +3,7 @@
 		<h3>Detail lokace</h3>
 		<ul>
 			<li>
-				<p>Id: <IdDisplayer :id="location.id" name="location" copy /></p>
+				<p>Id: <IdDisplayer :id="location.id" copy /></p>
 			</li>
 			<li>
 				<p>Datum vytvoření: {{ new Date(location.createdAt).toLocaleDateString() }}</p>

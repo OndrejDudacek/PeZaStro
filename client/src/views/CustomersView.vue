@@ -17,7 +17,7 @@
 						:key="i"
 						@click="selectCustomer(customer)"
 					>
-						<td><IdDisplayer :id="customer.id" name="customer" shorten /></td>
+						<td><IdDisplayer :id="customer.id" shorten /></td>
 						<td>{{ customer.name }}</td>
 					</tr>
 				</tbody>

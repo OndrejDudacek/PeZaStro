@@ -3,7 +3,7 @@
 		<h3>Detail zakázky</h3>
 		<ul>
 			<li>
-				<p>Id: <IdDisplayer :id="contract.id" name="contract" copy /></p>
+				<p>Id: <IdDisplayer :id="contract.id" copy /></p>
 			</li>
 			<li>
 				<p>Datum vytvoření: {{ new Date(contract.createdAt).toLocaleDateString() }}</p>
@@ -109,7 +109,7 @@
 			<li v-for="(jobDesc, i) in jobDescs" :key="i">
 				<ul>
 					<li>
-						<p>Id: <IdDisplayer :id="jobDesc.id" name="contract" copy /></p>
+						<p>Id: <IdDisplayer :id="jobDesc.id" copy /></p>
 					</li>
 					<li>
 						<p>

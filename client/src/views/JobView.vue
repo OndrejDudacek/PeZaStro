@@ -14,7 +14,7 @@
 				</thead>
 				<tbody>
 					<tr v-for="(job, i) in jobs" :key="i" @click="selectJob(job)">
-						<td><IdDisplayer :id="job.id" name="job" shorten /></td>
+						<td><IdDisplayer :id="job.id" shorten /></td>
 						<td>{{ new Date(job.date).toLocaleDateString() }}</td>
 						<td>
 							<IdDisplayer :id="job.contractId" name="contract" shorten link />

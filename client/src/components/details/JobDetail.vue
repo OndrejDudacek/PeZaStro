@@ -3,7 +3,7 @@
 		<h3>Detail práce</h3>
 		<ul>
 			<li>
-				<p>Id: <IdDisplayer :id="job.id" name="job" copy /></p>
+				<p>Id: <IdDisplayer :id="job.id" copy /></p>
 			</li>
 			<li>
 				<p>Datum vytvoření: {{ new Date(job.createdAt).toLocaleDateString() }}</p>

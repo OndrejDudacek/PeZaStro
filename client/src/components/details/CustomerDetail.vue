@@ -3,7 +3,7 @@
 		<h3>Detail zákazníka</h3>
 		<ul>
 			<li>
-				<p>Id: <IdDisplayer :id="customer.id" name="customer" copy /></p>
+				<p>Id: <IdDisplayer :id="customer.id" copy /></p>
 			</li>
 			<li>
 				<p>Datum vytvoření: {{ new Date(customer.createdAt).toLocaleDateString() }}</p>
