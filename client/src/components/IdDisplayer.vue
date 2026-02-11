@@ -12,7 +12,7 @@ import Icon from "./Icon.vue";
 
 const props = defineProps<{
 	id: string;
-	name: "customer" | "contract" | "job" | "location";
+	name?: "customer" | "contract" | "job" | "location";
 	shorten?: boolean;
 	copy?: boolean;
 	link?: boolean;
