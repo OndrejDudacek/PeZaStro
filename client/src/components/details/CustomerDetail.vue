@@ -29,6 +29,7 @@
 					@debounced:model-value="
 						saveCustomerChange(customer.id, { note: customer.note }, 'note')
 					"
+					empty-as-null
 				/>
 			</li>
 		</ul>

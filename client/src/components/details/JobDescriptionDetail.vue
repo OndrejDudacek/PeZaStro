@@ -54,12 +54,12 @@
 			<GenericInput
 				type="number"
 				label="Perioda:"
-				:model-value="jobDesc.period === null ? 0 : jobDesc.period"
-				@update:model-value="jobDesc.period = Number($event)"
+				v-model="jobDesc.period"
 				:success="successStates.get(`period`)"
 				@debounced:model-value="
 					updateJobDesc(jobDesc.id, { period: jobDesc.period }, `period`)
 				"
+				empty-as-null
 			/>
 		</li>
 		<li>

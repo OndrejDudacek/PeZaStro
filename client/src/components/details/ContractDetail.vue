@@ -101,6 +101,7 @@
 							'note',
 						)
 					"
+					empty-as-null
 				/>
 			</li>
 		</ul>

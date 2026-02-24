@@ -25,12 +25,12 @@
 				icon="phone"
 				label="Telefon:"
 				placeholder="777666111"
-				:model-value="contact.phone ?? ''"
-				@update:model-value="contact.phone = $event ? +$event : null"
+				v-model="contact.phone"
 				:success="successStates.get(`phone`)"
 				@debounced:model-value="
 					updateContact(contact.id, { phone: contact.phone }, `phone`)
 				"
+				empty-as-null
 			/>
 		</li>
 		<li>
@@ -39,12 +39,12 @@
 				icon="email"
 				label="Email:"
 				placeholder="josefina.nezdarova@gmail.com"
-				:model-value="contact.email ?? ''"
-				@update:model-value="contact.email = $event ? String($event) : null"
+				v-model="contact.email"
 				:success="successStates.get(`email`)"
 				@debounced:model-value="
 					updateContact(contact.id, { email: contact.email }, `email`)
 				"
+				empty-as-null
 			/>
 		</li>
 		<li>
