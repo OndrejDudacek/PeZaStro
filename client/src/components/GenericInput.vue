@@ -32,18 +32,19 @@ const props = defineProps<{
 	icon?: string;
 	inputName?: string;
 	placeholder?: string;
-	modelValue?: string | number;
 	label?: string;
 	type?: "text" | "number" | "email" | "password" | "tel" | "url";
 	color?: "danger";
 	success?: boolean;
+	emptyAsNull?: boolean;
 }>();
+
+const modelValue = defineModel<string | number | null>();
 
 const attrs = useAttrs();
 
 const emit = defineEmits<{
-	"update:modelValue": [value: string | number];
-	"debounced:modelValue": [value: string | number];
+	"debounced:modelValue": [value: string | number | null];
 }>();
 
 const inputRef = ref<HTMLInputElement | null>(null);
@@ -58,9 +59,23 @@ const debouncedEmit = debounce((value: string | number) =>
 
 const handleInput = (event: Event) => {
 	const target = event.target as HTMLInputElement;
-	const value = props.type === "number" ? Number(target.value) : target.value;
-	emit("update:modelValue", value);
-	debouncedEmit(value);
+
+	let finalValue: string | number | null;
+
+	if (props.type === "number") {
+		const numValue = target.valueAsNumber;
+		if (Number.isNaN(numValue)) {
+			finalValue = props.emptyAsNull ? null : "";
+		} else {
+			finalValue = numValue;
+		}
+	} else {
+		const rawValue = target.value;
+		finalValue = rawValue === "" && props.emptyAsNull ? null : rawValue;
+	}
+
+	modelValue.value = finalValue;
+	debouncedEmit(finalValue);
 };
 
 const iconName = computed(() => {

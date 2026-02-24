@@ -23,22 +23,21 @@ const props = withDefaults(
 	defineProps<{
 		inputName?: string;
 		placeholder?: string;
-		modelValue?: string | null;
 		label?: string;
 		minRows?: number;
 		success?: boolean;
+		emptyAsNull?: boolean;
 	}>(),
 	{
 		minRows: 3,
-		placeholder: "",
-		modelValue: null,
 	},
 );
 
 const emit = defineEmits<{
-	"update:modelValue": [value: string];
-	"debounced:modelValue": [value: string | number];
+	"debounced:modelValue": [value: string | null];
 }>();
+
+const modelValue = defineModel<string | null>();
 
 const inputRef = ref<HTMLTextAreaElement | null>(null);
 
@@ -53,9 +52,9 @@ const debouncedEmit = debounce((value: string) => emit("debounced:modelValue", v
 
 const handleInput = (event: Event) => {
 	const value = (event.target as HTMLTextAreaElement).value;
-	emit("update:modelValue", value);
 	adjustHeight();
-	debouncedEmit(value);
+	let finalValue: string | null = value === "" && props.emptyAsNull ? null : value;
+	debouncedEmit(finalValue);
 };
 
 const focusInput = () => {
@@ -67,7 +66,7 @@ onMounted(() => {
 });
 
 watch(
-	() => props.modelValue,
+	() => modelValue.value,
 	() => {
 		adjustHeight();
 	},
