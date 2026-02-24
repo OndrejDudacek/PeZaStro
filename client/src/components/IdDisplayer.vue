@@ -2,12 +2,13 @@
 	<RouterLink v-if="link" :to="{ name, query: { id } }" :title="id">
 		<Icon icon-name="link_2" /> {{ idToDisplay }}
 	</RouterLink>
-	<span v-else :title="id" @click="copyToClipboard" :class="[`copiable-${copy}`]"
+	<span v-else :title="id" @click="copyToClipboard" :class="{ copiable: copy }"
 		><Icon icon-name="content_copy" v-if="copy" /> {{ idToDisplay }}</span
 	>
 </template>
 
 <script setup lang="ts">
+import { computed } from "vue";
 import Icon from "./Icon.vue";
 
 const props = defineProps<{
@@ -18,8 +19,10 @@ const props = defineProps<{
 	link?: boolean;
 }>();
 
-const shortId = `${props.id.substring(0, 4)}...${props.id.substring(props.id.length - 4, props.id.length)}`;
-const idToDisplay = props.shorten ? shortId : props.id;
+const idToDisplay = computed(() => {
+	const shortId = `${props.id.substring(0, 4)}...${props.id.substring(props.id.length - 4, props.id.length)}`;
+	return props.shorten ? shortId : props.id;
+});
 
 const copyToClipboard = async () => {
 	if (props.copy) {
@@ -34,7 +37,7 @@ const copyToClipboard = async () => {
 </script>
 
 <style scoped lang="scss">
-span.copiable-true {
+span.copiable {
 	cursor: pointer;
 }
 </style>
